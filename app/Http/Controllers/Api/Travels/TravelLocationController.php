@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Travels;
 
+use App\Http\Controllers\Controller;
 use App\Models\Travel;
 use App\Models\TravelLocation;
 use App\Traits\ApiTrait;

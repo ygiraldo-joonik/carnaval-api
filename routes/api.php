@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\TravelController;
-use App\Http\Controllers\TravelLocationController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\Travels\TravelController;
+use App\Http\Controllers\Api\Travels\TravelLocationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

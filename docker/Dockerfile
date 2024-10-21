@@ -4,7 +4,7 @@ FROM php:8.1-fpm
 ARG user
 ARG uid
 
-# Install system dependencies
+# Install system dependencies and Node.js
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -14,6 +14,8 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     libmagickwand-dev \
+    && curl -sL https://deb.nodesource.com/setup_lts.x | bash - \
+    && apt-get install -y nodejs \
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install mbstring \
     && docker-php-ext-install exif \
