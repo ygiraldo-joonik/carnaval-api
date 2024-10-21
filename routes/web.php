@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\Travels\TravelsRawDataController;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +18,26 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return response()->redirectTo('/login');
 });
+
+Route::middleware(['auth', 'verified'])->group(function () {
+
+    // Route::get('/dashboard', function () {
+    //     return Inertia::render('Dashboard');
+    // })->name('dashboard');
+
+    Route::prefix('/travels')->group(function () {
+        Route::get('/raw-data', [TravelsRawDataController::class, 'index'])->name('travels.raw-data');
+        // download
+        Route::get('/raw-data/download', [TravelsRawDataController::class, 'download'])->name('travels.raw-data.download');
+    });
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__ . '/auth.php';

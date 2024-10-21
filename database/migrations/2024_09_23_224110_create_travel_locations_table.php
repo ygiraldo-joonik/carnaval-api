@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('travel_locations', function (Blueprint $table) {
             $table->id();
-            $table->float('latitude');
-            $table->float('longitude');
+            $table->float('latitude', 11, 8);
+            $table->float('longitude', 11, 8);
             $table->unsignedBigInteger('travel_id');
             $table->foreign('travel_id')->references('id')->on('travels')->onDelete('cascade');
             $table->timestamps();

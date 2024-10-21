@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Travels;
 
+use App\Http\Controllers\Controller;
 use App\Models\Travel;
 use App\Traits\ApiTrait;
-use Illuminate\Http\Request;
 
 class TravelController extends Controller
 {
@@ -59,6 +59,7 @@ class TravelController extends Controller
             return $this->onError(404, 'Travel not found');
         }
 
+        $travel->finished_at = now();
         $travel->status = 2;
         $travel->save();
 
