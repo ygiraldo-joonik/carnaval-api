@@ -18,9 +18,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     const pageNumbers = [];
 
     // Always include the first page
-    if (totalPages > 1) {
-        pageNumbers.push(1);
-    }
+    pageNumbers.push(1);
 
     // Add ellipsis if necessary
     if (startPage > 2) {
