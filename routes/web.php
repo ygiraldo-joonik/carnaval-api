@@ -1,10 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\Travels\ParticipantsDistanceController;
 use App\Http\Controllers\Admin\Travels\TravelsRawDataController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,9 +27,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // })->name('dashboard');
 
     Route::prefix('/travels')->group(function () {
-        Route::get('/raw-data', [TravelsRawDataController::class, 'index'])->name('travels.raw-data');
-        // download
-        Route::get('/raw-data/download', [TravelsRawDataController::class, 'download'])->name('travels.raw-data.download');
+
+        Route::prefix('/raw-data')->group(function () {
+            Route::get('/', [TravelsRawDataController::class, 'index'])->name('travels.raw-data');
+            Route::get('/download', [TravelsRawDataController::class, 'download'])->name('travels.raw-data.download');
+        });
+
+        Route::prefix('/distance')->group(function () {
+            Route::get('/', [ParticipantsDistanceController::class, 'index'])->name('travels.distance');
+            Route::get('/download', [ParticipantsDistanceController::class, 'download'])->name('travels.distance.download');
+        });
     });
 });
 

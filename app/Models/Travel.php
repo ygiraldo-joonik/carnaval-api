@@ -47,7 +47,15 @@ class Travel extends Model
         inner join users u on t.user_id = u.id 
     ";
 
-    public static function getRawData($date = null)
+    const RAW_DATA_COUNT_QUERY = "
+        select 
+           count(*) as count
+        from travels t 
+        inner join travel_locations tl on tl.travel_id = t.id 
+        inner join users u on t.user_id = u.id 
+    ";
+
+    public static function getRawData($date = null, string $order = 'desc')
     {
         $query = self::RAW_DATA_QUERY;
 
@@ -55,7 +63,7 @@ class Travel extends Model
             $query .= " where date(t.created_at) = '$date'";
         }
 
-        $query .= " order by tl.created_at desc";
+        $query .= " order by tl.created_at $order";
 
         return DB::select($query);
     }
@@ -70,14 +78,14 @@ class Travel extends Model
         // Calculate the offset
         $offset = ($page - 1) * $perPage;
 
-        // Get the total count of items for pagination
-        $totalCount = DB::table('travel_locations')->count();
-
 
         $query = self::RAW_DATA_QUERY;
+        $countQuery = self::RAW_DATA_COUNT_QUERY;
+
 
         if ($date) {
             $query .= " where date(t.created_at) = '$date'";
+            $countQuery .= " where date(t.created_at) = '$date'";
         }
 
         $query .= " order by tl.created_at desc LIMIT ?, ?";
@@ -85,7 +93,9 @@ class Travel extends Model
         // Fetch the paginated results
         $travelsRawData = DB::select($query, [$offset, $perPage]);
 
-
+        // Count ata for pagination
+        $totalCountRawData = DB::select($countQuery);
+        $totalCount = $totalCountRawData[0]->count;
 
         // Create a paginator instance
         $travels = new \Illuminate\Pagination\LengthAwarePaginator(
