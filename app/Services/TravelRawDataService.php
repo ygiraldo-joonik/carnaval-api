@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Travel;
 use League\Csv\Writer;
 
-class TravelService
+class TravelRawDataService
 {
     public function getTravels($date = null)
     {

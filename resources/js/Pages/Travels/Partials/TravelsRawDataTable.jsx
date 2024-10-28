@@ -3,7 +3,7 @@ export default function TravelsRawData({ travels }) {
         <table className="min-w-full divide-y divide-gray-200 table-fixed text-center">
             <thead className="bg-indigo-500">
                 <tr>
-                    <th scope="col" className="w-3/12 text-xs font-semibold tracking-wider text-center text-white uppercase">
+                    <th scope="col" className="2w-3/1 text-xs font-semibold tracking-wider text-center text-white uppercase">
                         Travel ID
                     </th>
                     <th scope="col" className="w-3/12 text-xs font-semibold tracking-wider text-center text-white uppercase">

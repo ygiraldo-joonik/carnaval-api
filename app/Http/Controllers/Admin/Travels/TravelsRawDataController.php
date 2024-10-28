@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Travels;
 
 use App\Http\Controllers\Controller;
-use App\Services\TravelService;
+use App\Services\TravelRawDataService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
 use Inertia\Inertia;
@@ -12,9 +12,9 @@ use Inertia\Response;
 class TravelsRawDataController extends Controller
 {
 
-    private TravelService $travelService;
+    private TravelRawDataService $travelService;
 
-    public function __construct(TravelService $travelService)
+    public function __construct(TravelRawDataService $travelService)
     {
         $this->travelService = $travelService;
     }

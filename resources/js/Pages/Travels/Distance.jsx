@@ -3,18 +3,17 @@ import { useState, useEffect, useRef } from 'react';
 import { Head, router } from '@inertiajs/react';
 import dayjs from 'dayjs';
 import Flatpickr from "react-flatpickr";
-import Pagination from '@/Components/Pagination';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import DownloadIcon from '@/Components/Icons/DownloadIcon';
-import TravelsRawData from './Partials/TravelsRawDataTable';
 import CloseIcon from '@/Components/Icons/CloseIcon';
 import axios from 'axios';
 import download from 'downloadjs';
+import ParticipantsDistanceTable from './Partials/ParticipantsDistanceTable';
 import NoDataFound from '@/Components/NoDataFound';
 
-export default function RawData(props) {
-    const { travels_paginated, date: d = null } = props;
-    const { data: travels, current_page, last_page } = travels_paginated;
+export default function Distance(props) {
+    const { date: d = null, participants_distance } = props;
+    const { data: participants_distance_data, headers: participants_distance_headers } = participants_distance;
 
     const [date, setDate] = useState(undefined);
     const [progress, setProgress] = useState(0);
@@ -22,11 +21,10 @@ export default function RawData(props) {
 
     const pickerRef = useRef(null);
 
-    const onPageChange = (page, d) =>
+    const onPageChange = (d) =>
         router.get(
             route(route().current()),
             {
-                page,
                 ...d && { date: dayjs(d).format('YYYY-MM-DD') }
             },
             {
@@ -38,7 +36,7 @@ export default function RawData(props) {
     const onClearDate = () => {
         setDate(null);
 
-        onPageChange(current_page, null)
+        // onPageChange(current_page, null)
 
         if (pickerRef?.current?.flatpickr)
             pickerRef.current.flatpickr.clear();
@@ -50,7 +48,7 @@ export default function RawData(props) {
 
         axios.get(
             route(
-                'travels.raw-data.download',
+                'travels.distance.download',
                 {
                     ...date && { date: dayjs(date).format('YYYY-MM-DD') }
 
@@ -65,7 +63,7 @@ export default function RawData(props) {
                 },
             }
         ).then(response => {
-            const fileName = date ? `travels-${dayjs(date).format('YYYY-MM-DD')}.csv` : 'travels.csv';
+            const fileName = date ? `participants-distance-${dayjs(date).format('YYYY-MM-DD')}.csv` : 'participants-distance.csv';
 
             download(response.data, fileName, 'text/csv');
         }).finally(() => {
@@ -78,7 +76,7 @@ export default function RawData(props) {
 
     useEffect(() => {
         if (date !== undefined)
-            onPageChange(current_page, date)
+            onPageChange(date)
     }, [date])
 
     useEffect(() => {
@@ -92,9 +90,9 @@ export default function RawData(props) {
         <AuthenticatedLayout
             auth={props.auth}
             errors={props.errors}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Raw Data</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Distance</h2>}
         >
-            <Head title="Raw Data" />
+            <Head title="Distance" />
 
             <div className="py-12">
 
@@ -138,10 +136,11 @@ export default function RawData(props) {
 
                                     <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
                                         {
-                                            travels.length ?
-                                                <TravelsRawData travels={travels} />
+                                            participants_distance_headers.length
+                                                ? <ParticipantsDistanceTable data={participants_distance_data} headers={participants_distance_headers} />
                                                 : <NoDataFound />
                                         }
+
                                     </div>
                                 </div>
                             </div>
@@ -153,7 +152,6 @@ export default function RawData(props) {
             </div>
 
 
-            <Pagination currentPage={current_page} totalPages={last_page} onPageChange={(page) => onPageChange(page, date)} />
         </AuthenticatedLayout>
     );
 }

@@ -31,6 +31,11 @@ export default function Authenticated({ auth, header, children }) {
                                     Raw Data
                                 </NavLink>
                             </div>
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink href={route('travels.distance')} active={route().current('travels.distance')}>
+                                    Distance
+                                </NavLink>
+                            </div>
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ml-6">
@@ -105,6 +110,11 @@ export default function Authenticated({ auth, header, children }) {
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink href={route('travels.raw-data')} active={route().current('travels.raw-data')}>
                             Raw Data
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink href={route('travels.distance')} active={route().current('travels.distance')}>
+                            Distance
                         </ResponsiveNavLink>
                     </div>
 
