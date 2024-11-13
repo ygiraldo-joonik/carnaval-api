@@ -1,3 +1,39 @@
+# Laravel Travel Tracking API & Admin Panel
+
+This project was developed using **Laravel** and consists of two main components:
+1. An **API** to support the mobile app.
+2. An **Admin Panel** to view metrics and data collected, which is protected and accessible only to admin users.
+
+### API Features
+The API provides the following functionality:
+- **Authentication**: User login and registration.
+- **User Information**: Retrieve user details.
+- **Trips**: Fetch the user's trips, active trip, and start/end trips.
+- **Location Tracking**: Record the user's location during trips.
+
+### Admin Panel Features
+The Admin Panel is built with Laravel and includes features related to:
+- **Authentication**: Admin user login, password recovery, and updates powered by Laravel.
+- **Trip and Location Data**: Admins can view all trip and location data collected for each user.
+- **Distance Calculation**: The ability to calculate distances between users at each minute during their trips, based on the collected location data.
+
+### Project Status
+This project is functional but is still in the early stages. The API and Admin Panel serve as a proof of concept and are being developed further.
+
+---
+
+### Technologies Used
+- **Laravel** (Backend)
+- **API Authentication**
+- **Admin Panel with Laravel**
+- **Location Tracking & Distance Calculation**
+
+### Future Improvements
+- Enhancements to the Admin Panel UI/UX
+- Additional functionality for trip analytics and reporting
+- Integration of more advanced location tracking and geofencing features
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
