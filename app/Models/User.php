@@ -4,13 +4,18 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
+
 
     /**
      * The attributes that are mass assignable.
@@ -45,5 +50,30 @@ class User extends Authenticatable
     public function travels()
     {
         return $this->hasMany(Travel::class);
+    }
+
+    public function organizationsOwned()
+    {
+        return $this->hasMany(Organization::class, 'owner_id');
+    }
+
+    public function organizations(): BelongsToMany
+    {
+        $tableNames = config('permission.table_names');
+        return $this->belongsToMany(
+            Organization::class,
+            $tableNames['model_has_roles'],
+            'user_id',
+            'organization_id'
+        )
+            ->using(UserOrganization::class)
+            ->withPivot(['role_id', 'accepted_at'])
+            ->whereNotNull($tableNames['model_has_roles'] . '.accepted_at')
+            ->whereNull($tableNames['model_has_roles'] . '.revoked_at');
+    }
+
+    public function locations()
+    {
+        return $this->hasMany(Location::class);
     }
 }
