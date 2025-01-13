@@ -10,12 +10,23 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
+    use HasApiTokens,
+        HasFactory,
+        Notifiable,
+        HasRoles,
+        SoftDeletes;
 
+    const GUARD_NAME = 'web';
+
+    protected function getDefaultGuardName(): string
+    {
+        return static::GUARD_NAME;
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -70,10 +81,5 @@ class User extends Authenticatable
             ->withPivot(['role_id', 'accepted_at'])
             ->whereNotNull($tableNames['model_has_roles'] . '.accepted_at')
             ->whereNull($tableNames['model_has_roles'] . '.revoked_at');
-    }
-
-    public function locations()
-    {
-        return $this->hasMany(Location::class);
     }
 }

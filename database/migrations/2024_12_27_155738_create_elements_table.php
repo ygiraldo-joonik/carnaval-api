@@ -18,8 +18,7 @@ return new class extends Migration
 
             $table->string('name');
             $table->text('description')->nullable();
-            $table->integer('order')->default(0);
-            $table->float('longitude')->nullable();
+            $table->integer('order')->default(1);
 
             $table->unsignedBigInteger('block_id');
             $table->unsignedBigInteger('element_type_id');
