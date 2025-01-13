@@ -17,12 +17,10 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
 
             // start and end date
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
-            $table->float('average_speed');
+            $table->date('date');
             $table->float('distance');
 
             // foreign keys
@@ -30,10 +28,9 @@ return new class extends Migration
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
 
             // start and end location id
-            $table->unsignedBigInteger('start_location_id');
-            $table->unsignedBigInteger('end_location_id');
-            $table->foreign('start_location_id')->references('id')->on('locations')->onDelete('cascade');
-            $table->foreign('end_location_id')->references('id')->on('locations')->onDelete('cascade');
+            $table->string('start_location');
+            $table->string('end_location');
+
 
             // unique constraint
             $table->unique(['event_id', 'name']);

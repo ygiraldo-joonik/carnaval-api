@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Element extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
         'name',
@@ -16,7 +16,6 @@ class Element extends Model
         'element_type_id',
         'block_id',
         'order',
-        'longitude'
     ];
 
     public function elementType()
@@ -27,5 +26,12 @@ class Element extends Model
     public function block()
     {
         return $this->belongsTo(Block::class);
+    }
+
+    public function usersPassed()
+    {
+        return $this->belongsToMany(User::class, 'element_passed_user', 'element_id', 'user_id')
+            ->withPivot('inferred')
+            ->withTimestamps();
     }
 }

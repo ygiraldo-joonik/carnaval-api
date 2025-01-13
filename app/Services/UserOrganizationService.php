@@ -1,16 +1,22 @@
 <?php
 
-namespace App\Services\User;
+namespace App\Services;
 
 use App\Models\Organization;
 use App\Models\User;
 
 class UserOrganizationService
 {
-    public function getAllByOrganization($organizationId)
+    public function getOrganizationUsers($organizationId)
     {
         $organization = Organization::find($organizationId);
         return $organization->users;
+    }
+
+    public function getUserOrganizations($userId)
+    {
+        $user = User::find($userId);
+        return $user->organizations;
     }
 
     // invite user to organization

@@ -13,24 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('element_passed_user', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('organization_id');
+            $table->unsignedBigInteger('element_id');
             $table->unsignedBigInteger('user_id');
-            $table->string('name');
-            $table->text('description');
-            $table->date('start_date');
-            $table->date('end_date');
 
-            $table->string('logo')->nullable();
-
-            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
+            $table->foreign('element_id')->references('id')->on('elements')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unique(['element_id', 'user_id']);
 
-            $table->unique(['organization_id', 'name']);
-
-            $table->softDeletes();
+            $table->boolean('inferred')->default(false);
 
             $table->timestamps();
         });
@@ -43,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('element_passed_user');
     }
 };

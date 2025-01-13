@@ -1,8 +1,14 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\BlockController;
+use App\Http\Controllers\Api\Admin\ElementTypeController;
+use App\Http\Controllers\Api\Admin\OrganizationController;
+use App\Http\Controllers\Api\Admin\ParadeController;
+use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\Travels\TravelController;
 use App\Http\Controllers\Api\Travels\TravelLocationController;
+use App\Http\Controllers\ElementController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -44,5 +50,47 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('travel-locations')->group(function () {
         Route::post('/', [TravelLocationController::class, 'create']);
         Route::get('/{travel_id}', [TravelLocationController::class, 'list']);
+    });
+
+    Route::prefix('users')->group(function () {
+        Route::get('/', [UserController::class, 'all']);
+    });
+
+    Route::prefix('organizations')->group(function () {
+        Route::get('/', [OrganizationController::class, 'byUser']);
+    });
+
+    // parades
+    Route::prefix('parades')->group(function () {
+        Route::get('/', [ParadeController::class, 'list']);
+        Route::get('/{id}', [ParadeController::class, 'find']);
+        Route::get('/{id}/passed', [ParadeController::class, 'findAndMarkElementsPassed']);
+        Route::post('/', [ParadeController::class, 'create']);
+        Route::put('/{id}', [ParadeController::class, 'update']);
+        Route::delete('/{id}', [ParadeController::class, 'delete']);
+    });
+
+    // block
+    Route::prefix('blocks')->group(function () {
+        Route::post('/', [BlockController::class, 'create']);
+        Route::put('/order', [BlockController::class, 'updateOrder']);
+        Route::put('/{id}', [BlockController::class, 'update']);
+        Route::delete('/{id}', [BlockController::class, 'delete']);
+    });
+
+    Route::prefix('element-types')->group(function () {
+        Route::get('/', [ElementTypeController::class, 'list']);
+        Route::get('/{id}', [ElementTypeController::class, 'find']);
+        Route::post('/', [ElementTypeController::class, 'create']);
+        Route::put('/{id}', [ElementTypeController::class, 'update']);
+        Route::delete('/{id}', [ElementTypeController::class, 'delete']);
+    });
+
+    Route::prefix('elements')->group(function () {
+        Route::post('/', [ElementController::class, 'create']);
+        Route::put('/order', [ElementController::class, 'updateOrder']);
+        Route::put('/passed', [ElementController::class, 'registerElementPassedUser']);
+        Route::put('/{id}', [ElementController::class, 'update']);
+        Route::delete('/{id}', [ElementController::class, 'delete']);
     });
 });

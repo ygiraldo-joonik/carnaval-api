@@ -16,4 +16,9 @@ class Block extends Model
     {
         return $this->belongsTo(Parade::class);
     }
+
+    public function elements()
+    {
+        return $this->hasMany(Element::class);
+    }
 }

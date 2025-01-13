@@ -9,7 +9,14 @@ class ElementType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'color', 'organization_id'];
+    protected $fillable = [
+        'name',
+        'description',
+        'color',
+        'organization_id',
+        'people_count',
+        'length'
+    ];
 
     public function organization()
     {

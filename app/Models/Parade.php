@@ -13,11 +13,11 @@ class Parade extends Model
     protected $fillable = [
         'name',
         'description',
-        'start_date',
-        'end_date',
+        'date',
         'event_id',
-        'start_location_id',
-        'end_location_id'
+        'start_location',
+        'end_location',
+        'distance',
     ];
 
     public function event()
@@ -25,13 +25,8 @@ class Parade extends Model
         return $this->belongsTo(Event::class);
     }
 
-    public function startLocation()
+    public function blocks()
     {
-        return $this->belongsTo(Location::class, 'start_location_id');
-    }
-
-    public function endLocation()
-    {
-        return $this->belongsTo(Location::class, 'end_location_id');
+        return $this->hasMany(Block::class);
     }
 }

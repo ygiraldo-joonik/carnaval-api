@@ -19,7 +19,8 @@ class UserPolicy
     public function viewAll(User $user)
     {
         setPermissionsTeamId(0);
-        return $user->hasPermissionTo('all-users.read', 'web');
+        error_log(json_encode($user->getAllPermissions(), JSON_PRETTY_PRINT));
+        return $user->hasPermissionTo('all-users.read', User::GUARD_NAME);
     }
 
     /**

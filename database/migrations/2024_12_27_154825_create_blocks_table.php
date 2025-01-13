@@ -19,7 +19,7 @@ return new class extends Migration
             // parade_id
             $table->unsignedBigInteger('parade_id');
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->integer('order')->default(0);
 
             $table->foreign('parade_id')->references('id')->on('parades')->onDelete('cascade');

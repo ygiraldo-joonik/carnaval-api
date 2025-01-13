@@ -21,4 +21,14 @@ class Event extends Model
     {
         return $this->belongsTo(Organization::class);
     }
+
+    public function elementTypes()
+    {
+        return $this->hasMany(ElementType::class);
+    }
+
+    public function parades()
+    {
+        return $this->hasMany(Parade::class);
+    }
 }

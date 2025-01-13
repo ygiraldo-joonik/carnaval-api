@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -144,7 +145,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
             if (!$existingPermission) {
                 Permission::create([
-                    "guard_name" => "web",
+                    "guard_name" => User::GUARD_NAME,
                     "name" => $permission,
                 ]);
             }
@@ -155,7 +156,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
             if (!$existingRole) {
                 $existingRole = Role::create([
-                    "guard_name" => "web",
+                    "guard_name" => User::GUARD_NAME,
                     "name" => $role["name"],
                 ]);
             }
