@@ -6,10 +6,11 @@ type ParadesTableProps = {
     parades: Parade[];
     onDelete: (parade: Parade) => void;
     onEdit: (parade: Parade) => void;
+    onManageElements: (id: number) => void;
 };
 
 export default function ParadesTable(props: ParadesTableProps) {
-    const { parades, onDelete, onEdit } = props;
+    const { parades, onDelete, onEdit, onManageElements } = props;
 
     return (
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
@@ -75,7 +76,9 @@ export default function ParadesTable(props: ParadesTableProps) {
                                         <a
                                             role="button"
                                             className="text-blue-500 hover:text-blue-700"
-                                            // onClick={() => onEdit(parade)}
+                                            onClick={() =>
+                                                onManageElements(parade.id!)
+                                            }
                                         >
                                             <MdList />
                                         </a>

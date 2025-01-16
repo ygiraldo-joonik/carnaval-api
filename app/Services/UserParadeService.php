@@ -42,7 +42,8 @@ class UserParadeService
         })
             ->with([
                 'blocks' => fn($q) => $q->orderBy('order'),
-                'blocks.elements' => fn($q) => $q->orderBy('order')
+                'blocks.elements' => fn($q) => $q->orderBy('order'),
+                'blocks.elements.type' =>  fn($q) => $q->withTrashed()
             ])
             ->find($id);
     }
