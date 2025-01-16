@@ -1,3 +1,5 @@
+import { Block } from "./element";
+
 export type Parade = {
     id?: number;
 
@@ -12,6 +14,8 @@ export type Parade = {
     deleted_at?: any;
     created_at?: string;
     updated_at?: string;
+
+    blocks?: Block[];
 };
 
 export type ParadeFormData = Pick<

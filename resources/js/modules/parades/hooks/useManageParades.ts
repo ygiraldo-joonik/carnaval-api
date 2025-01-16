@@ -58,6 +58,9 @@ const useManageParades = (props: ManageParadesViewProps) => {
         setOpenParadeModal(true);
     };
 
+    const onManageParadeElements = (id: number) =>
+        router.get(route("parades.elements", { id }));
+
     const refreshParades = () =>
         router.get(
             route(route().current()),
@@ -99,6 +102,7 @@ const useManageParades = (props: ManageParadesViewProps) => {
         onEditParade,
         onDeleteParade,
         onCreateParade,
+        onManageParadeElements,
         onUpsertSuccess,
         onDeleteSuccess,
         loadingForm,

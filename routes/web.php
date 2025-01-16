@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ElementController;
 use App\Http\Controllers\Admin\ElementTypeController;
 use App\Http\Controllers\Admin\ParadeController;
 use App\Http\Controllers\Admin\ProfileController;
@@ -41,6 +42,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', [ApiParadeController::class, 'store'])->name('parades.store');
         Route::put('/{id}', [ApiParadeController::class, 'update'])->name('parades.update');
         Route::delete('/{id}', [ApiParadeController::class, 'delete'])->name('parades.delete');
+
+        Route::get('/{id}', [ElementController::class, 'index'])->name('parades.elements');
     });
 });
 

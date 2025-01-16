@@ -24,6 +24,7 @@ export default function ManageParadesView(props: ManageParadesViewProps) {
         onEditParade,
         onDeleteParade,
         onCreateParade,
+        onManageParadeElements,
         loadingForm,
         upsertParade,
         loadingDelete,
@@ -77,6 +78,7 @@ export default function ManageParadesView(props: ManageParadesViewProps) {
                     onDelete={(selectedParade) =>
                         onDeleteParade(selectedParade)
                     }
+                    onManageElements={(id) => onManageParadeElements(id)}
                 />
             </div>
         </AuthenticatedLayout>

@@ -20,9 +20,9 @@ class Element extends Model
         'length',
     ];
 
-    public function elementType()
+    public function type()
     {
-        return $this->belongsTo(ElementType::class);
+        return $this->belongsTo(ElementType::class, 'element_type_id');
     }
 
     public function block()
