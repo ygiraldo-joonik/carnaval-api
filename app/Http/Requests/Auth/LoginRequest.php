@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\Organization;
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -49,8 +51,19 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        $defaultOrganization = Organization::where('name', env('DEFAULT_ORGANIZATION_NAME'))->first();
 
-        if (!Auth::user()->is_admin) {
+
+        if (!$defaultOrganization) {
+            throw ValidationException::withMessages([
+                'default_organization' => 'Defaualt organization not found',
+            ]);
+        }
+
+        $user = User::find(Auth::id());
+        setPermissionsTeamId($defaultOrganization->id);
+
+        if (!$user->hasRole('admin')) {
             Auth::logout(); // Log the user out
             RateLimiter::hit($this->throttleKey());
 

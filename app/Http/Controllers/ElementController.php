@@ -101,4 +101,21 @@ class ElementController extends Controller
             return $this->onError(500, $th->getMessage());
         }
     }
+
+    public function updateElementPosition(Request $request)
+    {
+        try {
+            $data = $this->elementService->validateUpdateElementPosition($request->all());
+
+            $element = $this->elementService->updateElementPosition(
+                $data['element_id'],
+                $data['block_id'],
+                $data['order']
+            );
+
+            return $this->onSuccess(200, 'Element position updated sucessfully', $element);
+        } catch (\Throwable $th) {
+            return $this->onError(500, $th->getMessage());
+        }
+    }
 }

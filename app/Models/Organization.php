@@ -23,11 +23,6 @@ class Organization extends Model
         return $this->hasMany(Event::class);
     }
 
-    public function locations()
-    {
-        return $this->hasMany(Location::class);
-    }
-
     public function elementTypes()
     {
         return $this->hasMany(ElementType::class);

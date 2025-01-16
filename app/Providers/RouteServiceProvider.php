@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/travels/raw-data';
+    public const HOME = '/element-types';
     public const LOGIN = '/login';
 
     /**

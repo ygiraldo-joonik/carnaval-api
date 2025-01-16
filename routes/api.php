@@ -65,7 +65,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [ParadeController::class, 'list']);
         Route::get('/{id}', [ParadeController::class, 'find']);
         Route::get('/{id}/passed', [ParadeController::class, 'findAndMarkElementsPassed']);
-        Route::post('/', [ParadeController::class, 'create']);
+        Route::post('/', [ParadeController::class, 'store']);
         Route::put('/{id}', [ParadeController::class, 'update']);
         Route::delete('/{id}', [ParadeController::class, 'delete']);
     });
@@ -81,7 +81,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('element-types')->group(function () {
         Route::get('/', [ElementTypeController::class, 'list']);
         Route::get('/{id}', [ElementTypeController::class, 'find']);
-        Route::post('/', [ElementTypeController::class, 'create']);
+        Route::post('/', [ElementTypeController::class, 'store']);
         Route::put('/{id}', [ElementTypeController::class, 'update']);
         Route::delete('/{id}', [ElementTypeController::class, 'delete']);
     });
@@ -89,6 +89,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('elements')->group(function () {
         Route::post('/', [ElementController::class, 'create']);
         Route::put('/order', [ElementController::class, 'updateOrder']);
+        Route::put('/position', [ElementController::class, 'updateElementPosition']);
         Route::put('/passed', [ElementController::class, 'registerElementPassedUser']);
         Route::put('/{id}', [ElementController::class, 'update']);
         Route::delete('/{id}', [ElementController::class, 'delete']);

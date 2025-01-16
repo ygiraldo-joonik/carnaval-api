@@ -16,6 +16,8 @@ class Element extends Model
         'element_type_id',
         'block_id',
         'order',
+        'people_count',
+        'length',
     ];
 
     public function elementType()
