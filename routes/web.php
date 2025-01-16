@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\ElementTypeController;
+use App\Http\Controllers\Admin\ParadeController;
 use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\Admin\Travels\ParticipantsDistanceController;
-use App\Http\Controllers\Admin\Travels\TravelsRawDataController;
+use App\Http\Controllers\Api\Admin\ElementTypeController as ApiElementTypeController;
+use App\Http\Controllers\Api\Admin\ParadeController as ApiParadeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,19 +26,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Route::get('/dashboard', function () {
     //     return Inertia::render('Dashboard');
-    // })->name('dashboard');
+    // })->name('dashboard');s
 
-    Route::prefix('/travels')->group(function () {
+    Route::prefix('element-types')->group(function () {
+        Route::get('/', [ElementTypeController::class, 'index'])->name('element-types.index');
+        Route::post('/', [ApiElementTypeController::class, 'store'])->name('element-types.store');
+        Route::put('/{id}', [ApiElementTypeController::class, 'update'])->name('element-types.update');
+        Route::delete('/{id}', [ApiElementTypeController::class, 'delete'])->name('element-types.delete');
+    });
 
-        Route::prefix('/raw-data')->group(function () {
-            Route::get('/', [TravelsRawDataController::class, 'index'])->name('travels.raw-data');
-            Route::get('/download', [TravelsRawDataController::class, 'download'])->name('travels.raw-data.download');
-        });
-
-        Route::prefix('/distance')->group(function () {
-            Route::get('/', [ParticipantsDistanceController::class, 'index'])->name('travels.distance');
-            Route::get('/download', [ParticipantsDistanceController::class, 'download'])->name('travels.distance.download');
-        });
+    /// parades
+    Route::prefix('parades')->group(function () {
+        Route::get('/', [ParadeController::class, 'index'])->name('parades.index');
+        Route::post('/', [ApiParadeController::class, 'store'])->name('parades.store');
+        Route::put('/{id}', [ApiParadeController::class, 'update'])->name('parades.update');
+        Route::delete('/{id}', [ApiParadeController::class, 'delete'])->name('parades.delete');
     });
 });
 

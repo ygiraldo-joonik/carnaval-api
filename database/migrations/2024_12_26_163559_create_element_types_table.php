@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
-            $table->string('color');
+            $table->string('color')->default('#abb8c3');
 
             $table->unsignedBigInteger('organization_id');
 

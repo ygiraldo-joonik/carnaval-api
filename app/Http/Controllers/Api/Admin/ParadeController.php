@@ -26,7 +26,7 @@ class ParadeController extends Controller
         $this->userParadeService = $userParadeService;
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         try {
             $data = $this->paradeService->validateData($request->all());

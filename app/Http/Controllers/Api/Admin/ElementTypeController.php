@@ -18,7 +18,7 @@ class ElementTypeController extends Controller
         $this->elementTypeService = $elementTypeService;
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         try {
             $data = $this->elementTypeService->validateData($request->all());

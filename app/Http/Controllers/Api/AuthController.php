@@ -44,7 +44,9 @@ class AuthController extends Controller
             'email' => 'required|string|email',
             'password' => 'required|min:8'
         ]);
+
         $user = User::where('email', $loginUserData['email'])->first();
+
         if (!$user || !Hash::check($loginUserData['password'], $user->password)) {
             return $this->onError(401, 'Invalid Credentials');
         }
