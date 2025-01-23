@@ -1,4 +1,4 @@
-import { ElementType } from "../../../types/element-type";
+import { ElementType } from "@/types/element-type.d";
 import Modal from "@/Components/Modal";
 import ElementTypeForm from "./ElementTypeForm";
 

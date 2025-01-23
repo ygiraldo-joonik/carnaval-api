@@ -1,5 +1,4 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { ElementType } from "../../../types/element-type";
+import { ElementType } from "@/types/element-type.d";
 import Modal from "@/Components/Modal";
 import { Commet } from "react-loading-indicators";
 

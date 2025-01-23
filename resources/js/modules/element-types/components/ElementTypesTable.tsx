@@ -1,4 +1,4 @@
-import { ElementType } from "../../../types/element-type";
+import { ElementType } from "@/types/element-type.d";
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
 
 type ElementTypesTableProps = {

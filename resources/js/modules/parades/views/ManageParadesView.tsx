@@ -1,8 +1,8 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
-import { DefaultPageProps } from "@/types/page";
+import { DefaultPageProps } from "@/types/page.d";
 import SearchHeader from "@/Components/SearchHeader";
-import { Parade } from "@/types/parade";
+import { Parade } from "@/types/parade.d";
 import useManageParades from "../hooks/useManageParades";
 import ParadesTable from "../components/ParadesTable";
 import ParadeFormModal from "../components/ParadeFormModal";
@@ -60,7 +60,7 @@ export default function ManageParadesView(props: ManageParadesViewProps) {
                 deleteParade={deleteParade}
             />
 
-            <div className="py-12">
+            <div className="py-6">
                 <SearchHeader
                     onSearch={filterParades}
                     rightContent={

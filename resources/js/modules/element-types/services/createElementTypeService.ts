@@ -1,5 +1,5 @@
-import { ApiResponse } from "@/types/api-response";
-import { ElementType, ElementTypeFormData } from "@/types/element-type";
+import { ApiResponse } from "@/types/api-response.d";
+import { ElementType, ElementTypeFormData } from "@/types/element-type.d";
 import axios from "axios";
 
 const createElementTypeService = async (data: ElementTypeFormData) => {

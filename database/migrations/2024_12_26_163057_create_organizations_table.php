@@ -23,9 +23,11 @@ return new class extends Migration
             $table->integer('state')->default(1); // 1: active, 0: inactive
 
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unique(['owner_id', 'name']);
 
             $table->softDeletes();
+
+            $table->unique(['owner_id', 'name', 'deleted_at']);
+
             $table->timestamps();
         });
     }

@@ -1,5 +1,5 @@
-import { ApiResponse } from "@/types/api-response";
-import { Parade, ParadeFormData } from "@/types/parade";
+import { ApiResponse } from "@/types/api-response.d";
+import { Parade, ParadeFormData } from "@/types/parade.d";
 import axios from "axios";
 
 const updateParadeService = async (data: ParadeFormData) => {

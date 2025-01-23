@@ -72,7 +72,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // block
     Route::prefix('blocks')->group(function () {
-        Route::post('/', [BlockController::class, 'create']);
+        Route::post('/', [BlockController::class, 'store']);
         Route::put('/order', [BlockController::class, 'updateOrder']);
         Route::put('/{id}', [BlockController::class, 'update']);
         Route::delete('/{id}', [BlockController::class, 'delete']);
@@ -87,7 +87,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('elements')->group(function () {
-        Route::post('/', [ElementController::class, 'create']);
+        Route::post('/', [ElementController::class, 'store']);
         Route::put('/order', [ElementController::class, 'updateOrder']);
         Route::put('/position', [ElementController::class, 'updateElementPosition']);
         Route::put('/passed', [ElementController::class, 'registerElementPassedUser']);

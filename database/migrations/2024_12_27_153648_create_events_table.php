@@ -28,9 +28,10 @@ return new class extends Migration
             $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->unique(['organization_id', 'name']);
 
             $table->softDeletes();
+
+            $table->unique(['organization_id', 'name', 'deleted_at']);
 
             $table->timestamps();
         });

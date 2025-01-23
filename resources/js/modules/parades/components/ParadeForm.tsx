@@ -1,6 +1,5 @@
-import { Parade } from "@/types/parade";
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState, useEffect } from "react";
+import { defaultParade, Parade } from "@/types/parade.d";
+import { useState, useEffect } from "react";
 import { Commet } from "react-loading-indicators";
 
 type ParadeFormProps = {
@@ -14,15 +13,7 @@ export default function ParadeForm({
     onSubmit,
     loading,
 }: ParadeFormProps) {
-    const [formState, setFormState] = useState<Parade>({
-        id: 0,
-        name: "",
-        description: "",
-        date: "",
-        distance: 0,
-        start_location: "",
-        end_location: "",
-    });
+    const [formState, setFormState] = useState<Parade>(defaultParade);
 
     useEffect(() => {
         if (parade) setFormState(parade);

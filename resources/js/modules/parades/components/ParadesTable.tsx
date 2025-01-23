@@ -1,4 +1,4 @@
-import { Parade } from "@/types/parade";
+import { Parade } from "@/types/parade.d";
 import truncateText from "@/utils/transformers/truncateText";
 import { MdOutlineEdit, MdDeleteOutline, MdList } from "react-icons/md";
 

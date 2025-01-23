@@ -27,6 +27,9 @@ return new class extends Migration
             $table->unique(['parade_id', 'name']);
 
             $table->softDeletes();
+
+            $table->unique(['parade_id', 'name', 'deleted_at']);
+
             $table->timestamps();
         });
     }
