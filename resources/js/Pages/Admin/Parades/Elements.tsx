@@ -1,9 +1,12 @@
+import { ManageElementsProvider } from "@/modules/elements/context/ManageElementsContext";
 import ManageElementsView, {
-    ManageElementsViewProps,
+    ManageElementsPageProps,
 } from "@/modules/elements/views/ManageElementsView";
 
-const ManageElementsPage = (props: ManageElementsViewProps) => (
-    <ManageElementsView {...props} />
+const ManageElementsPage = (props: ManageElementsPageProps) => (
+    <ManageElementsProvider {...props}>
+        <ManageElementsView {...props} />
+    </ManageElementsProvider>
 );
 
 export default ManageElementsPage;

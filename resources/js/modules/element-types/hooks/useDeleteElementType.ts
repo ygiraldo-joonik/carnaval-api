@@ -7,35 +7,31 @@ const useDeleteElementType = (onSuccess: () => void) => {
 
     const deleteElementType = (id: number, name: string) => {
         setLoading(true);
-        try {
-            const promise: Promise<null> = deleteElementTypeService(id);
-            toast
-                .promise(
-                    promise,
-                    {
-                        loading: "Eliminando...",
-                        success: () => `Se elimino el tipo de elemento ${name}`,
-                        error: (err: any) => `hubo un error: ${err.toString()}`,
+        const promise = deleteElementTypeService(id);
+
+        toast
+            .promise(
+                promise,
+                {
+                    loading: "Eliminando...",
+                    success: () => `Se elimino el tipo de elemento ${name}`,
+                    error: (err: any) => `hubo un error: ${err.toString()}`,
+                },
+                {
+                    success: {
+                        icon: "🔥",
                     },
-                    {
-                        success: {
-                            icon: "🔥",
-                        },
-                    }
-                )
-                .then(() => {
-                    onSuccess();
-                })
-                .catch((error) => {
-                    console.error({ error });
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        } catch (error) {
-            setLoading(false);
-            console.error({ error });
-        }
+                }
+            )
+            .then(() => {
+                onSuccess();
+            })
+            .catch((error) => {
+                console.error({ error });
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     return { deleteElementType, loading };

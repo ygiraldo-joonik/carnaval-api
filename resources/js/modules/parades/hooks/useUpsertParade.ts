@@ -1,4 +1,4 @@
-import { ParadeFormData, Parade } from "@/types/parade";
+import { ParadeFormData, Parade } from "@/types/parade.d";
 import { useState } from "react";
 import updateParadeService from "../services/updateParadeService";
 import createParadeService from "../services/createParadeService";
@@ -9,44 +9,41 @@ const useUpsertParade = (onSuccess: () => void) => {
 
     const upsertParade = async (parade: ParadeFormData) => {
         setLoading(true);
-        try {
-            let promise: Promise<Parade>;
-            if (parade.id) {
-                promise = updateParadeService(parade);
-            } else {
-                promise = createParadeService(parade);
-            }
 
-            toast
-                .promise(
-                    promise,
-                    {
-                        loading: `${parade.id ? "Editando" : "Creando"}...`,
-                        success: () =>
-                            `Se ${
-                                parade.id ? "edito" : "creo"
-                            } el tipo de elemento ${parade.name}`,
-                        error: (err: any) => `hubo un error: ${err.toString()}`,
-                    },
-                    {
-                        success: {
-                            icon: "🔥",
-                        },
-                    }
-                )
-                .then(() => {
-                    onSuccess();
-                })
-                .catch((error) => {
-                    console.error({ error });
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        } catch (error) {
-            setLoading(false);
-            console.error({ error });
+        let promise: Promise<Parade>;
+
+        if (parade.id) {
+            promise = updateParadeService(parade);
+        } else {
+            promise = createParadeService(parade);
         }
+
+        toast
+            .promise(
+                promise,
+                {
+                    loading: `${parade.id ? "Editando" : "Creando"}...`,
+                    success: () =>
+                        `Se ${parade.id ? "edito" : "creo"} el desfile ${
+                            parade.name
+                        }`,
+                    error: (err: any) => `hubo un error: ${err.toString()}`,
+                },
+                {
+                    success: {
+                        icon: "🔥",
+                    },
+                }
+            )
+            .then(() => {
+                onSuccess();
+            })
+            .catch((error) => {
+                console.error({ error });
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     return { upsertParade, loading };

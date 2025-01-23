@@ -34,7 +34,7 @@ class ElementService
         return $validator->validate();
     }
 
-    public function create($data)
+    public function store($data)
     {
         $blockElementsCount = Element::where("block_id", $data['block_id'])->count();
 

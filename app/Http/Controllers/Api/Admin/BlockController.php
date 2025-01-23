@@ -18,12 +18,12 @@ class BlockController extends Controller
         $this->blockService = $blockService;
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         try {
             $data = $this->blockService->validateData($request->all());
 
-            $block = $this->blockService->create($data);
+            $block = $this->blockService->store($data);
 
             return $this->onSuccess(201, 'Block created sucessfully', $block);
         } catch (\Throwable $th) {

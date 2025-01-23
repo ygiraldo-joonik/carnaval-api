@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ElementType, ElementTypeFormData } from "@/types/element-type";
+import { ElementType, ElementTypeFormData } from "@/types/element-type.d";
 import { TwitterPicker } from "react-color";
 import { Commet } from "react-loading-indicators";
 

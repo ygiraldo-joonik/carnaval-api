@@ -1,4 +1,4 @@
-import { Parade } from "../../../types/parade";
+import { Parade } from "../../../types/parade.d";
 import Modal from "@/Components/Modal";
 import { Commet } from "react-loading-indicators";
 

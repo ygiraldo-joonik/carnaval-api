@@ -36,6 +36,9 @@ return new class extends Migration
             $table->unique(['event_id', 'name']);
 
             $table->softDeletes();
+
+            $table->unique(['event_id', 'name', 'deleted_at']);
+
             $table->timestamps();
         });
     }

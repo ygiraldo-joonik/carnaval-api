@@ -7,35 +7,32 @@ const useDeleteParade = (onSuccess: () => void) => {
 
     const deleteParade = (id: number, name: string) => {
         setLoading(true);
-        try {
-            const promise: Promise<null> = deleteParadeService(id);
-            toast
-                .promise(
-                    promise,
-                    {
-                        loading: "Eliminando...",
-                        success: () => `Se elimino el desfile ${name}`,
-                        error: (err: any) => `hubo un error: ${err.toString()}`,
+
+        const promise: Promise<null> = deleteParadeService(id);
+
+        toast
+            .promise(
+                promise,
+                {
+                    loading: "Eliminando...",
+                    success: () => `Se elimino el desfile ${name}`,
+                    error: (err: any) => `hubo un error: ${err.toString()}`,
+                },
+                {
+                    success: {
+                        icon: "🔥",
                     },
-                    {
-                        success: {
-                            icon: "🔥",
-                        },
-                    }
-                )
-                .then(() => {
-                    onSuccess();
-                })
-                .catch((error) => {
-                    console.error({ error });
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        } catch (error) {
-            setLoading(false);
-            console.error({ error });
-        }
+                }
+            )
+            .then(() => {
+                onSuccess();
+            })
+            .catch((error) => {
+                console.error({ error });
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     return { deleteParade, loading };

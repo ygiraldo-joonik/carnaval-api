@@ -22,7 +22,7 @@ class BlockService
         return $validator->validate();
     }
 
-    public function create($data)
+    public function store($data)
     {
         $paradeBlocksCount = Block::where('parade_id', $data['parade_id'])->count();
 

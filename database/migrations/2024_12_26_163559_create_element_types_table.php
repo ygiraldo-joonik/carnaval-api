@@ -22,9 +22,11 @@ return new class extends Migration
             $table->unsignedBigInteger('organization_id');
 
             $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
-            $table->unique(['organization_id', 'name']);
 
             $table->softDeletes();
+
+            $table->unique(['organization_id', 'name', 'deleted_at']);
+
             $table->timestamps();
         });
     }

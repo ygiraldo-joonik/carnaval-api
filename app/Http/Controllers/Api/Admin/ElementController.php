@@ -26,12 +26,12 @@ class ElementController extends Controller
         $this->userParadeService = $userParadeService;
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         try {
             $data = $this->elementService->validateData($request->all());
 
-            $element = $this->elementService->create($data);
+            $element = $this->elementService->store($data);
 
             return $this->onSuccess(201, 'Element created sucessfully', $element);
         } catch (\Throwable $th) {

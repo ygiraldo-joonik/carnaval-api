@@ -26,6 +26,10 @@ return new class extends Migration
             $table->foreign('block_id')->references('id')->on('blocks')->onDelete('cascade');
             $table->foreign('element_type_id')->references('id')->on('element_types')->onDelete('cascade');
 
+            $table->softDeletes();
+
+            $table->unique(['block_id', 'name', 'deleted_at']);
+
             $table->timestamps();
         });
     }

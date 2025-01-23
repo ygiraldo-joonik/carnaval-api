@@ -1,7 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
-import { ElementType } from "@/types/element-type";
-import { DefaultPageProps } from "@/types/page";
+import { ElementType } from "@/types/element-type.d";
+import { DefaultPageProps } from "@/types/page.d";
 import SearchHeader from "@/Components/SearchHeader";
 import ElementTypesTable from "../components/ElementTypesTable";
 import useManageElementTypes from "../hooks/useManageElementTypes";
@@ -61,7 +61,7 @@ export default function ManageElementTypesView(
                 deleteElementType={deleteElementType}
             />
 
-            <div className="py-12">
+            <div className="py-6">
                 <SearchHeader
                     onSearch={filterElementTypes}
                     rightContent={
