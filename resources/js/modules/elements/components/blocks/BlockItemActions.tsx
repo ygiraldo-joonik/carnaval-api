@@ -34,6 +34,7 @@ const BlockItemActions = ({
     return (
         <div className="flex items-center">
             <button
+                title="Crear elemento"
                 className="flex justify-between items-center p-1 rounded-lg  mr-2"
                 onClick={() => onCreateElement(block)}
             >
@@ -41,23 +42,26 @@ const BlockItemActions = ({
             </button>
 
             <button
+                title="Eliminar bloque"
                 onClick={() => onDeleteBlock(block)}
                 className="flex justify-between items-center p-1 rounded-lg  mr-2 ml-4"
             >
                 <MdDeleteOutline className="w-5 h-5 text-gray-500" />
             </button>
             <button
+                title="Editar bloque"
                 onClick={() => onEditBlock(block)}
                 className="flex justify-between items-center p-1 rounded-lg  mr-2"
             >
                 <MdOutlineEdit className="w-5 h-5 text-gray-500" />
             </button>
             <button
+                title="Mover bloque hacia abajo"
+                onClick={() => onUpdateBlockOrder(block, "down")}
                 className="flex justify-between items-center p-1 rounded-lg mr-2 ml-4"
                 disabled={index == length - 1 || loadingUpdateBlocksOrder}
             >
                 <MdArrowDownward
-                    onClick={() => onUpdateBlockOrder(block, "down")}
                     className={`w-5 h-5  ${
                         index == length - 1 || loadingUpdateBlocksOrder
                             ? "text-gray-300"
@@ -66,6 +70,7 @@ const BlockItemActions = ({
                 />
             </button>
             <button
+                title="Mover bloque hacia arriba"
                 onClick={() => onUpdateBlockOrder(block, "up")}
                 className="flex justify-between items-center p-1 rounded-lg  mr-2"
                 disabled={index == 0 || loadingUpdateBlocksOrder}
@@ -78,7 +83,10 @@ const BlockItemActions = ({
                     }`}
                 />
             </button>
-            <Disclosure.Button className="flex justify-between items-center p-1 rounded-lg  ml-4">
+            <Disclosure.Button
+                className="flex justify-between items-center p-1 rounded-lg  ml-4"
+                title={open ? "Cerrar" : "Abrir"}
+            >
                 {open ? (
                     <FaChevronUp
                         className={`${

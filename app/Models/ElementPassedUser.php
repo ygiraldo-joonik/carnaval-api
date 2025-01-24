@@ -11,7 +11,7 @@ class ElementPassedUser extends Model
 
     protected $table = "element_passed_user";
 
-    protected $fillable = ['element_id', 'user_id', 'inferred'];
+    protected $fillable = ['element_id', 'user_id', 'inferred', 'created_at'];
 
     public function element()
     {

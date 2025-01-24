@@ -98,11 +98,15 @@ class UserParadeService
     {
         return validator($data, [
             'element_id' => 'required|exists:elements,id',
+            'date' => 'required|date_format:Y-m-d H:i:s',
         ])->validate();
     }
 
-    public function registerElementPassedUser($userId, $elementId)
+    public function registerElementPassedUser($userId, $elementId, $date = null)
     {
+
+        if (is_null($date))
+            $date = now();
 
         $element = Element::with('block.parade')->find($elementId);
 
@@ -142,11 +146,12 @@ class UserParadeService
         $elementsPassedUser = [];
 
         // create elements passed as inferred
-        $elementsToMarkPassedAsInferred->each(function ($element) use ($userId) {
+        $elementsToMarkPassedAsInferred->each(function ($element) use ($userId, $date) {
             $elementsPassedUser[] =   ElementPassedUser::create([
                 'element_id' => $element->id,
                 'user_id' => $userId,
-                'inferred' => true
+                'inferred' => true,
+                'created_at' => $date,
             ]);
         });
 
@@ -154,7 +159,8 @@ class UserParadeService
         array_push($elementsPassedUser, ElementPassedUser::create([
             'element_id' => $elementId,
             'user_id' => $userId,
-            'inferred' => false
+            'inferred' => false,
+            'created_at' => $date
         ]));
 
         return $elementsPassedUser;

@@ -58,8 +58,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('elements')->group(function () {
         Route::post('/', [ApiElementController::class, 'store'])->name('elements.store');
         Route::put('/order', [ApiElementController::class, 'updateOrder'])->name('elements.updateOrder');
-        Route::put('/{id}', [ApiElementController::class, 'update'])->name('elements.update');
         Route::put('/position', [ApiElementController::class, 'updateElementPosition'])->name('elements.updatePosition');
+        Route::put('/{id}', [ApiElementController::class, 'update'])->name('elements.update');
         Route::delete('/{id}', [ApiElementController::class, 'delete'])->name('elements.delete');
     });
 });

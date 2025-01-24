@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 const useDeleteElement = (onSuccess: () => void) => {
     const [loading, setLoading] = useState<boolean>(false);
 
-    const deleteElement = async (id: number, name: string) => {
+    const deleteElement = (id: number, name: string) => {
         setLoading(true);
 
         const promise = deleteElementService(id);
