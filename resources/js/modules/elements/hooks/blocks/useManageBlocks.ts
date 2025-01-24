@@ -9,6 +9,7 @@ import { ReorderType } from "../../context/ManageElementsContext";
 
 export const defaultUseManageBlocks = {
     blocks: [],
+    clearBlock: () => {},
     block: defaultBlock,
     onUpsertElement: (block: Block) => {},
     openBlockModal: false,
@@ -127,6 +128,10 @@ const useManageBlocks = (parade: Parade) => {
         refreshBlocks();
     };
 
+    const clearBlock = () => {
+        setBlock(defaultBlock);
+    };
+
     const onUpdateOrderSuccess = () => {
         refreshBlocks();
     };
@@ -165,7 +170,6 @@ const useManageBlocks = (parade: Parade) => {
 
             return blocks;
         }, [] as Block[]);
-        console.log({ blocks });
 
         updateBlocksOrder(blocks);
     };
@@ -194,6 +198,7 @@ const useManageBlocks = (parade: Parade) => {
         loadingUpdateBlocksOrder,
         onUpdateOrderSuccess,
         refreshBlocks,
+        clearBlock,
     };
 };
 

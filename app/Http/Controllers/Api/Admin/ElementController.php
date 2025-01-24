@@ -94,7 +94,8 @@ class ElementController extends Controller
 
             $element = $this->userParadeService->registerElementPassedUser(
                 $request->user()->id,
-                $request->element_id
+                $request->element_id,
+                $request->date,
             );
 
             return $this->onSuccess(200, 'Element passed user registered sucessfully', $element);

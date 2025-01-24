@@ -4,6 +4,7 @@ import {
     MdArrowUpward,
     MdDeleteOutline,
     MdOutlineEdit,
+    MdDriveFileMoveOutline,
 } from "react-icons/md";
 import { useManageElementsContext } from "../../context/ManageElementsContext";
 
@@ -24,23 +25,34 @@ const ElementItemActions = ({
         onEditElement,
         onDeleteElement,
         onUpdateElementOrder,
+        onUpdateElementPosition,
         loadingUpdateElementsOrder,
     } = useManageElementsContext();
     return (
         <div className="flex items-center">
             <button
+                title="Mover elemento"
                 className="flex justify-between items-center p-1 rounded-lg  mr-2"
+                onClick={() => onUpdateElementPosition(element, block)}
+            >
+                <MdDriveFileMoveOutline className="w-6 h-6 text-gray-500" />
+            </button>
+            <button
+                title="Eliminar elemento"
+                className="flex justify-between items-center p-1 rounded-lg  mr-2 ml-4"
                 onClick={() => onDeleteElement(element)}
             >
                 <MdDeleteOutline className="w-5 h-5 text-gray-500" />
             </button>
             <button
+                title="Editar elemento"
                 onClick={() => onEditElement(element)}
                 className="flex justify-between items-center p-1 rounded-lg  mr-2"
             >
                 <MdOutlineEdit className="w-5 h-5 text-gray-500" />
             </button>
             <button
+                title="Mover elemento hacia abajo"
                 className="flex justify-between items-center p-1 rounded-lg  mr-2 ml-4"
                 disabled={index == length - 1 || loadingUpdateElementsOrder}
                 onClick={() => onUpdateElementOrder(element, block, "down")}
@@ -54,6 +66,7 @@ const ElementItemActions = ({
                 />
             </button>
             <button
+                title="Mover elemento hacia arriba"
                 className="flex justify-between items-center p-1 rounded-lg "
                 disabled={index == 0 || loadingUpdateElementsOrder}
                 style={{

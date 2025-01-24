@@ -3,6 +3,7 @@ import BlockFormModal from "./blocks/BlockFormModal";
 import DeleteBlockDialog from "./blocks/DeleteBlockDialog";
 import DeleteElementDialog from "./elements/DeleteElementDialog";
 import ElementFormModal from "./elements/ElementFormModal";
+import UpdateElementPositionFormModal from "./elements/UpdateElementPositionFormModal";
 
 const ManageElementsActionsDialog = () => {
     const {
@@ -16,6 +17,8 @@ const ManageElementsActionsDialog = () => {
         handleDeleteElementModalClose,
         deleteElement,
         loadingElementDelete,
+        openUpdateElementPositionModal,
+        handleUpdateElementPositionModalClose,
 
         elementTypes,
 
@@ -49,6 +52,11 @@ const ManageElementsActionsDialog = () => {
                 onClose={handleDeleteElementModalClose}
                 deleteElement={deleteElement}
                 loading={loadingElementDelete}
+            />
+
+            <UpdateElementPositionFormModal
+                show={openUpdateElementPositionModal}
+                onClose={handleUpdateElementPositionModalClose}
             />
 
             {/* Block Dialogs */}
