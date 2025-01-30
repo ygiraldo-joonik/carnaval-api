@@ -9,6 +9,10 @@ export type Parade = {
     distance: number;
     start_location: string;
     end_location: string;
+    duration: number;
+    street_width: number;
+
+    duration_object?: Duration;
 
     event_id?: number;
     deleted_at?: any;
@@ -25,6 +29,8 @@ export type ParadeFormData = Pick<
     | "description"
     | "date"
     | "distance"
+    | "duration"
+    | "street_width"
     | "start_location"
     | "end_location"
 >;
@@ -33,7 +39,12 @@ export const defaultParade: Parade = {
     name: "",
     description: "",
     date: "",
-    distance: 1,
-    start_location: "",
-    end_location: "",
+    distance: 1000,
+    start_location: "---",
+    end_location: "---",
+    duration: 0,
+    street_width: 8,
+    durationObject: { hours: 0, minutes: 0 },
 };
+
+export type Duration = { hours: number; minutes: number };

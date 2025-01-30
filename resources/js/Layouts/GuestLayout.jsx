@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast';
 
 export default function Guest({ children }) {
     return (
-        <div className="min-h-screen flex flex-col sm:justify-center items-center bg-gray-100">
+        <div className="min-h-screen flex flex-col sm:justify-center items-center bg-primary-radial">
             <div>
                 <Link href="/">
                     <ApplicationLogo className="fill-current text-gray-500" />

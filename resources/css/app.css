@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --primary-color: #45136A;
+    --primary-ligth-color: #5f248d;
+    --primary-radial: radial-gradient(#6B187D 6%, #2A0F5C);
+
+    --accent-color: #FFD302;
+    --accent2-color: #DF1D59;
+
+}
+
 
 .bottom-0 {
     position: absolute;
@@ -27,4 +37,38 @@
     .corner-illustration.right {
         right: -3em;
     }
+}
+
+.gap-2 {
+    gap: 0.5rem;
+}
+
+.bg-primary {
+    background-color: var(--primary-color);
+}
+
+.bg-primary-radial {
+    background: var(--primary-radial);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    --tw-bg-opacity: 1;
+    background-color: var(--primary-ligth-color);
+}
+
+.bg-accent {
+    background-color: var(--accent-color);
+}
+
+.bg-accent2 {
+    background-color: var(--accent2-color);
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem;
 }

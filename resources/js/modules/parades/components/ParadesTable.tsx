@@ -1,3 +1,4 @@
+import TableIconButton from "@/modules/elements/components/TableIconButton";
 import { Parade } from "@/types/parade.d";
 import truncateText from "@/utils/transformers/truncateText";
 import { MdOutlineEdit, MdDeleteOutline, MdList } from "react-icons/md";
@@ -17,7 +18,7 @@ export default function ParadesTable(props: ParadesTableProps) {
             <div className="text-gray-900 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div className="overflow-x-auto sm:rounded-lg">
                     <table className="min-w-full bg-white sm:rounded-lg">
-                        <thead className="bg-gray-100">
+                        <thead className="bg-accent">
                             <tr>
                                 <th className="px-4 py-2 text-left font-medium text-gray-700">
                                     Nombre
@@ -29,7 +30,7 @@ export default function ParadesTable(props: ParadesTableProps) {
                                     Fecha
                                 </th>
                                 <th className="px-4 py-2 text-left font-medium text-gray-700">
-                                    Distancia (KM)
+                                    Distancia (MTS)
                                 </th>
                                 <th className="px-4 py-2 text-left font-medium text-gray-700">
                                     Lugar de inicio
@@ -72,30 +73,26 @@ export default function ParadesTable(props: ParadesTableProps) {
                                     <td className="px-4 py-2">
                                         {parade.end_location}
                                     </td>
-                                    <td className="px-4 py-2 flex">
-                                        <a
-                                            role="button"
-                                            className="text-blue-500 hover:text-blue-700"
+                                    <td className="px-4 py-2 flex items-center gap-6">
+                                        <TableIconButton
+                                            title="Elementos"
                                             onClick={() =>
                                                 onManageElements(parade.id!)
                                             }
-                                        >
-                                            <MdList />
-                                        </a>
-                                        <a
-                                            role="button"
-                                            className="text-blue-500 hover:text-blue-700 ml-2"
+                                            Icon={MdList}
+                                        />
+
+                                        <TableIconButton
+                                            title="Editar desfile"
                                             onClick={() => onEdit(parade)}
-                                        >
-                                            <MdOutlineEdit />
-                                        </a>
-                                        <a
-                                            role="button"
-                                            className="text-blue-500 hover:text-blue-700 ml-2"
+                                            Icon={MdOutlineEdit}
+                                        />
+
+                                        <TableIconButton
+                                            title="Eliminar desfile"
                                             onClick={() => onDelete(parade)}
-                                        >
-                                            <MdDeleteOutline />
-                                        </a>
+                                            Icon={MdDeleteOutline}
+                                        />
                                     </td>
                                 </tr>
                             ))}

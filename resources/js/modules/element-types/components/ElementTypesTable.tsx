@@ -1,4 +1,6 @@
+import TableIconButton from "@/modules/elements/components/TableIconButton";
 import { ElementType } from "@/types/element-type.d";
+import truncateText from "@/utils/transformers/truncateText";
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
 
 type ElementTypesTableProps = {
@@ -15,7 +17,7 @@ export default function ElementTypesTable(props: ElementTypesTableProps) {
             <div className=" text-gray-900 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div className="overflow-x-auto sm:rounded-lg">
                     <table className="min-w-full bg-white sm:rounded-lg ">
-                        <thead className="bg-gray-100">
+                        <thead className="bg-accent">
                             <tr>
                                 <th className="px-4 py-2 text-left font-medium text-gray-700"></th>
                                 <th className="px-4  py-2 text-left font-medium text-gray-700">
@@ -59,28 +61,24 @@ export default function ElementTypesTable(props: ElementTypesTableProps) {
                                     <td className="px-4 py-2">{item.name}</td>
 
                                     <td className="px-4 py-2">
-                                        {item.description}
+                                        {truncateText(item.description)}
                                     </td>
                                     <td className="px-4 py-2">
                                         {item.people_count}
                                     </td>
                                     <td className="px-4 py-2">{item.length}</td>
 
-                                    <td className="px-4 py-2 flex">
-                                        <a
-                                            role="button"
-                                            className="text-blue-500 hover:text-blue-700"
+                                    <td className="px-4 py-2 flex items-center gap-6">
+                                        <TableIconButton
+                                            title="Editar tipo de elemento"
                                             onClick={() => onEdit(item)}
-                                        >
-                                            <MdOutlineEdit />
-                                        </a>
-                                        <a
-                                            role="button"
-                                            className="text-blue-500 hover:text-blue-700 ml-2"
+                                            Icon={MdOutlineEdit}
+                                        />
+                                        <TableIconButton
+                                            title="Eliminar tipo de elemento"
                                             onClick={() => onDelete(item)}
-                                        >
-                                            <MdDeleteOutline />
-                                        </a>
+                                            Icon={MdDeleteOutline}
+                                        />
                                     </td>
                                 </tr>
                             ))}

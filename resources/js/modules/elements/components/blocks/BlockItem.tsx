@@ -3,6 +3,11 @@ import truncateText from "@/utils/transformers/truncateText";
 import { Disclosure } from "@headlessui/react";
 import BlockItemActions from "./BlockItemActions";
 import ElementItem from "../elements/ElementItem";
+import { countBlockPeople } from "../../transformers/countPeople";
+import { calcBlockLength } from "../../transformers/calcLength";
+import { AiOutlineColumnWidth } from "react-icons/ai";
+import { MdOutlinePerson } from "react-icons/md";
+import IndicatorLabel from "../IndicatorLabel";
 
 type BlockItemProps = {
     block: Block;
@@ -14,22 +19,33 @@ const BlockItem = ({ block, length, index }: BlockItemProps) => {
     return (
         <Disclosure defaultOpen={true}>
             {({ open }) => (
-                <>
+                <div className="bg-white rounded mb-4 overflow-hidden shadow">
                     <div
-                        className={`flex w-full justify-between items-center px-4 py-2 text-left text-lg font-medium text-gray-900 bg-gray-100  hover:bg-gray-300 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75 ${
+                        className={`flex w-full justify-between items-center px-4 text-left text-lg font-medium text-gray-900 ${
                             index < length - 1 && "border-b-2"
-                        }`}
+                        } ${open ? "bg-accent" : "bg-gray-200"}`}
                     >
-                        <span>
+                        <span className="inline-block py-4">
                             <strong>Bloque {block.order}:</strong> {block.name}
                         </span>
 
-                        <BlockItemActions
-                            block={block}
-                            length={length}
-                            index={index}
-                            open={open}
-                        />
+                        <div className="flex items-center gap-6">
+                            <IndicatorLabel
+                                value={countBlockPeople(block)}
+                                Icon={MdOutlinePerson}
+                            />
+                            <IndicatorLabel
+                                value={`${calcBlockLength(block)}m`}
+                                Icon={AiOutlineColumnWidth}
+                            />
+
+                            <BlockItemActions
+                                block={block}
+                                length={length}
+                                index={index}
+                                open={open}
+                            />
+                        </div>
                     </div>
 
                     <Disclosure.Panel className="px-4 py-2 text-sm text-gray-500">
@@ -47,7 +63,7 @@ const BlockItem = ({ block, length, index }: BlockItemProps) => {
                             ))}
                         </div>
                     </Disclosure.Panel>
-                </>
+                </div>
             )}
         </Disclosure>
     );

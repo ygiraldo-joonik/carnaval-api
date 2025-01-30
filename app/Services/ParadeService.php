@@ -28,6 +28,8 @@ class ParadeService
             'start_location' => 'required|string',
             'end_location' => 'required|string',
             'distance' => 'required|numeric',
+            'duration' => 'nullable|numeric',
+            'street_width' => 'nullable|numeric',
         ]);
 
         return $validator->validate();

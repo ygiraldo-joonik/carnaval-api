@@ -7,6 +7,7 @@ import {
     MdDriveFileMoveOutline,
 } from "react-icons/md";
 import { useManageElementsContext } from "../../context/ManageElementsContext";
+import TableIconButton from "../TableIconButton";
 
 type ElementItemActionsProps = {
     element: Element;
@@ -29,29 +30,59 @@ const ElementItemActions = ({
         loadingUpdateElementsOrder,
     } = useManageElementsContext();
     return (
-        <div className="flex items-center">
-            <button
+        <>
+            <TableIconButton
                 title="Mover elemento"
+                onClick={() => onUpdateElementPosition(element, block)}
+                Icon={MdDriveFileMoveOutline}
+                size={6}
+            />
+
+            <TableIconButton
+                title="Eliminar elemento"
+                onClick={() => onDeleteElement(element)}
+                Icon={MdDeleteOutline}
+            />
+
+            <TableIconButton
+                title="Editar elemento"
+                onClick={() => onEditElement(element)}
+                Icon={MdOutlineEdit}
+            />
+            <TableIconButton
+                title="Mover elemento hacia abajo"
+                onClick={() => onUpdateElementOrder(element, block, "down")}
+                Icon={MdArrowDownward}
+                disabled={index == length - 1 || loadingUpdateElementsOrder}
+            />
+
+            <TableIconButton
+                title="Mover elemento hacia arriba"
+                onClick={() => onUpdateElementOrder(element, block, "up")}
+                Icon={MdArrowUpward}
+                disabled={index == 0 || loadingUpdateElementsOrder}
+            />
+            {/* <button
                 className="flex justify-between items-center p-1 rounded-lg  mr-2"
                 onClick={() => onUpdateElementPosition(element, block)}
             >
                 <MdDriveFileMoveOutline className="w-6 h-6 text-gray-500" />
-            </button>
-            <button
+            </button> */}
+            {/* <button
                 title="Eliminar elemento"
                 className="flex justify-between items-center p-1 rounded-lg  mr-2 ml-4"
                 onClick={() => onDeleteElement(element)}
             >
                 <MdDeleteOutline className="w-5 h-5 text-gray-500" />
-            </button>
-            <button
+            </button> */}
+            {/* <button
                 title="Editar elemento"
                 onClick={() => onEditElement(element)}
                 className="flex justify-between items-center p-1 rounded-lg  mr-2"
             >
                 <MdOutlineEdit className="w-5 h-5 text-gray-500" />
-            </button>
-            <button
+            </button> */}
+            {/* <button
                 title="Mover elemento hacia abajo"
                 className="flex justify-between items-center p-1 rounded-lg  mr-2 ml-4"
                 disabled={index == length - 1 || loadingUpdateElementsOrder}
@@ -64,8 +95,8 @@ const ElementItemActions = ({
                             : "text-gray-500"
                     }`}
                 />
-            </button>
-            <button
+            </button> */}
+            {/* <button
                 title="Mover elemento hacia arriba"
                 className="flex justify-between items-center p-1 rounded-lg "
                 disabled={index == 0 || loadingUpdateElementsOrder}
@@ -81,8 +112,8 @@ const ElementItemActions = ({
                             : "text-gray-500"
                     }`}
                 />
-            </button>
-        </div>
+            </button> */}
+        </>
     );
 };
 

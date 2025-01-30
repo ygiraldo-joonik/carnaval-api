@@ -67,7 +67,7 @@ export default function ManageElementTypesView(
                     rightContent={
                         <button
                             onClick={() => onCreateElementType()}
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            className="btn-primary font-bold py-2 px-4 rounded"
                         >
                             Crear tipo de elemento
                         </button>

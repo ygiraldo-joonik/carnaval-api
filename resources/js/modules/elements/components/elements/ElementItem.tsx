@@ -1,6 +1,9 @@
 import { Block, Element } from "@/types/element.d";
 import truncateText from "@/utils/transformers/truncateText";
 import ElementItemActions from "./ElementItemActions";
+import IndicatorLabel from "../IndicatorLabel";
+import { MdOutlinePerson } from "react-icons/md";
+import { AiOutlineColumnWidth } from "react-icons/ai";
 
 type ElementItemProps = {
     element: Element;
@@ -20,28 +23,37 @@ const ElementItem = ({ element, block, length, index }: ElementItemProps) => {
             <div className="flex items-center justify-between">
                 <div className="flex items-center">
                     <div
-                        className="mr-2  h-4 w-4 rounded-full"
+                        className="ml-4 mr-2  h-4 w-4 rounded-full"
                         style={{
                             backgroundColor: element?.type?.color ?? "#fff",
                         }}
                     />
-                    <span className="text-gray-800 text-base font-semibold">
-                        {element.name}
-                    </span>
+                    <div className="ml-4">
+                        <span className="block text-gray-800 text-base font-semibold">
+                            {element.name}
+                        </span>
+                        <span className="block text-gray-500 text-sm">
+                            {truncateText(element.description, 50)}
+                        </span>
+                    </div>
                 </div>
 
-                <ElementItemActions
-                    block={block}
-                    element={element}
-                    length={length}
-                    index={index}
-                />
-            </div>
-            <div className="flex items-center">
-                <div className="mr-2 w-2.5 h-2.5 h-4 w-4  mr-3 " />
-                <span className="text-gray-500 text-sm">
-                    {truncateText(element.description, 50)}
-                </span>
+                <div className="flex items-center gap-6 pr-4">
+                    <IndicatorLabel
+                        value={element.people_count}
+                        Icon={MdOutlinePerson}
+                    />
+                    <IndicatorLabel
+                        value={`${element.length}m`}
+                        Icon={AiOutlineColumnWidth}
+                    />
+                    <ElementItemActions
+                        block={block}
+                        element={element}
+                        length={length}
+                        index={index}
+                    />
+                </div>
             </div>
         </div>
     );
