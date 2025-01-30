@@ -23,6 +23,9 @@
 }
 
 
+.fixed {
+    position: fixed;
+}
 
 @media (max-width: 640px) {
     .corner-illustration {
