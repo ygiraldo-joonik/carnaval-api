@@ -9,6 +9,7 @@ import {
     MdOutlineEdit,
 } from "react-icons/md";
 import { useManageElementsContext } from "../../context/ManageElementsContext";
+import TableIconButton from "../TableIconButton";
 
 type BlockItemActionsProps = {
     block: Block;
@@ -32,57 +33,40 @@ const BlockItemActions = ({
     } = useManageElementsContext();
 
     return (
-        <div className="flex items-center">
-            <button
+        <>
+            <TableIconButton
                 title="Crear elemento"
-                className="flex justify-between items-center p-1 rounded-lg  mr-2"
                 onClick={() => onCreateElement(block)}
-            >
-                <PiRowsPlusBottom className="w-6 h-6 text-gray-500" />
-            </button>
+                Icon={PiRowsPlusBottom}
+                size={6}
+            />
 
-            <button
+            <TableIconButton
                 title="Eliminar bloque"
                 onClick={() => onDeleteBlock(block)}
-                className="flex justify-between items-center p-1 rounded-lg  mr-2 ml-4"
-            >
-                <MdDeleteOutline className="w-5 h-5 text-gray-500" />
-            </button>
-            <button
+                Icon={MdDeleteOutline}
+            />
+
+            <TableIconButton
                 title="Editar bloque"
                 onClick={() => onEditBlock(block)}
-                className="flex justify-between items-center p-1 rounded-lg  mr-2"
-            >
-                <MdOutlineEdit className="w-5 h-5 text-gray-500" />
-            </button>
-            <button
+                Icon={MdOutlineEdit}
+            />
+
+            <TableIconButton
                 title="Mover bloque hacia abajo"
                 onClick={() => onUpdateBlockOrder(block, "down")}
-                className="flex justify-between items-center p-1 rounded-lg mr-2 ml-4"
+                Icon={MdArrowDownward}
                 disabled={index == length - 1 || loadingUpdateBlocksOrder}
-            >
-                <MdArrowDownward
-                    className={`w-5 h-5  ${
-                        index == length - 1 || loadingUpdateBlocksOrder
-                            ? "text-gray-300"
-                            : "text-gray-500"
-                    }`}
-                />
-            </button>
-            <button
+            />
+
+            <TableIconButton
                 title="Mover bloque hacia arriba"
                 onClick={() => onUpdateBlockOrder(block, "up")}
-                className="flex justify-between items-center p-1 rounded-lg  mr-2"
+                Icon={MdArrowUpward}
                 disabled={index == 0 || loadingUpdateBlocksOrder}
-            >
-                <MdArrowUpward
-                    className={`w-5 h-5 ${
-                        index == 0 || loadingUpdateBlocksOrder
-                            ? "text-gray-300"
-                            : "text-gray-500"
-                    }`}
-                />
-            </button>
+            />
+
             <Disclosure.Button
                 className="flex justify-between items-center p-1 rounded-lg  ml-4"
                 title={open ? "Cerrar" : "Abrir"}
@@ -101,7 +85,7 @@ const BlockItemActions = ({
                     />
                 )}
             </Disclosure.Button>
-        </div>
+        </>
     );
 };
 

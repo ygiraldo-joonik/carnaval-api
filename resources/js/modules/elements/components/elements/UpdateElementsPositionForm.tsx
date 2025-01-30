@@ -82,7 +82,7 @@ const UpdateElementPositionForm = () => {
                     type="submit"
                     className={`inline-flex justify-center rounded-md border border-transparent  px-4 py-2 text-sm font-medium  shadow-sm  focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                         !loading && positionChanged
-                            ? " hover:bg-blue-600 bg-blue-500 focus:ring-blue-500 text-white"
+                            ? "btn-primary"
                             : "bg-gray-300"
                     }`}
                 >

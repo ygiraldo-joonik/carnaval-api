@@ -21,7 +21,7 @@ return new class extends Migration
 
             // start and end date
             $table->date('date');
-            $table->float('distance');
+            $table->float('distance'); // distance in metters
 
             // foreign keys
             $table->unsignedBigInteger('event_id');

@@ -148,7 +148,7 @@ export default function ElementForm({
                 <button
                     disabled={loading}
                     type="submit"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    className="inline-flex justify-center rounded-md border border-transparent  px-4 py-2 text-sm font-medium shadow-sm focus:outline-none btn-primary"
                 >
                     {formState.id ? "Editar" : "Crear"}
                     {loading && (

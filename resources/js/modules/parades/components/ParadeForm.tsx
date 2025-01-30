@@ -1,4 +1,5 @@
-import { defaultParade, Parade } from "@/types/parade.d";
+import DurationPicker from "@/Components/DurationPicker";
+import { defaultParade, Duration, Parade } from "@/types/parade.d";
 import { useState, useEffect } from "react";
 import { Commet } from "react-loading-indicators";
 
@@ -16,7 +17,14 @@ export default function ParadeForm({
     const [formState, setFormState] = useState<Parade>(defaultParade);
 
     useEffect(() => {
-        if (parade) setFormState(parade);
+        if (parade)
+            setFormState({
+                ...parade,
+                duration_object: {
+                    hours: Math.floor(parade.duration / 60),
+                    minutes: parade.duration % 60,
+                },
+            });
     }, [parade]);
 
     const handleChange = (
@@ -24,6 +32,14 @@ export default function ParadeForm({
     ) => {
         const { name, value } = e.target;
         setFormState({ ...formState, [name]: value });
+    };
+
+    const handleDurationChange = (duration: Duration) => {
+        setFormState({
+            ...formState,
+            duration: duration.hours * 60 + duration.minutes,
+            duration_object: duration,
+        });
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -96,13 +112,41 @@ export default function ParadeForm({
                         className="block text-sm font-medium text-gray-700"
                         htmlFor="distance"
                     >
-                        Distancia (KM)
+                        Distancia (MTS)
                     </label>
                     <input
                         type="number"
                         id="distance"
                         name="distance"
                         value={formState.distance}
+                        onChange={handleChange}
+                        required
+                        className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Duración
+                    </label>
+                    <DurationPicker
+                        onChange={handleDurationChange}
+                        defaultValue={formState.duration_object}
+                    />
+                </div>
+
+                <div>
+                    <label
+                        className="block text-sm font-medium text-gray-700"
+                        htmlFor="street_width"
+                    >
+                        Ancho de la calle (MTS)
+                    </label>
+                    <input
+                        type="number"
+                        id="street_width"
+                        name="street_width"
+                        value={formState.street_width}
                         onChange={handleChange}
                         required
                         className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
@@ -150,7 +194,7 @@ export default function ParadeForm({
                 <button
                     disabled={loading}
                     type="submit"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    className="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium shadow-sm focus:outline-none btn-primary"
                 >
                     {parade.id ? "Editar" : "Crear"}
 

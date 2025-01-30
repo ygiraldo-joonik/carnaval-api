@@ -57,7 +57,7 @@ export default function BlockForm({
                         value={formState.name}
                         onChange={handleChange}
                         required
-                        className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        className="mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
                     />
                 </div>
 
@@ -74,7 +74,7 @@ export default function BlockForm({
                         value={formState.description}
                         onChange={handleChange}
                         required
-                        className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        className="mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
                         rows={4}
                     />
                 </div>
@@ -84,7 +84,7 @@ export default function BlockForm({
                 <button
                     disabled={loading}
                     type="submit"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    className="inline-flex justify-center rounded-md border border-transparent focus:outline-none focus:ring-2 btn-primary"
                 >
                     {formState.id ? "Editar" : "Crear"}
                     {loading && (
