@@ -20,6 +20,11 @@ class Parade extends Model
         'distance',
         'duration',
         'street_width',
+
+        'people_count',
+        'elements_length',
+        'total_duration',
+        'speed'
     ];
 
     public function event()

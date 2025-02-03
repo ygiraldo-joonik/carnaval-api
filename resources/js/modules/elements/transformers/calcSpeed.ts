@@ -1,6 +1,7 @@
 import { Parade } from "@/types/parade";
 import { calcParadeLength } from "./calcLength";
 
+// [DEPRECATED] This function is not used in the project
 export const calcParadeSpeed = (
     parade: Parade,
     fixDecimals: boolean = false
@@ -12,3 +13,6 @@ export const calcParadeSpeed = (
     if (fixDecimals) return speed.toFixed(1);
     return speed;
 };
+
+export const metterPerMinuteToKilometerPerHour = (speed: number): number =>
+    (speed * 60) / 1000;
