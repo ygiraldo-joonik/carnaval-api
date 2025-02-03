@@ -16,7 +16,9 @@ const Tooltip: FC<PropsWithChildren<TooltipProps>> = ({
     return (
         <>
             <a data-tooltip-id={tooltipId}>{children}</a>
-            <TooltipComponent id={tooltipId}>{content}</TooltipComponent>
+            <TooltipComponent className="z-10" id={tooltipId}>
+                {content}
+            </TooltipComponent>
         </>
     );
 };

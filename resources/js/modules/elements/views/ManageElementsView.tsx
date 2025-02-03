@@ -57,6 +57,7 @@ export default function ManageElementsView(props: ManageElementsPageProps) {
                             Icon={LuTimer}
                             background="accent2"
                             color="white"
+                            fixedWidth={false}
                         />
                     </div>
                 </div>
