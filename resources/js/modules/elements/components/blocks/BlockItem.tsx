@@ -8,6 +8,7 @@ import { calcBlockLength } from "../../transformers/calcLength";
 import { AiOutlineColumnWidth } from "react-icons/ai";
 import { MdOutlinePerson } from "react-icons/md";
 import IndicatorLabel from "../IndicatorLabel";
+import { useEffect, useRef, useState } from "react";
 
 type BlockItemProps = {
     block: Block;
@@ -16,35 +17,88 @@ type BlockItemProps = {
 };
 
 const BlockItem = ({ block, length, index }: BlockItemProps) => {
+    const panelRef = useRef<HTMLDivElement>(null);
+    const [isSticky, setIsSticky] = useState(false);
+    const [headerWidth, setHeaderWidth] = useState<null | number>(null);
+
+    useEffect(() => {
+        window.scrollTo(0, 0); // Scroll to the top when the component is mounted
+
+        const { top, width } = panelRef.current?.getBoundingClientRect() || {};
+
+        // Set the header width when the component is mounted
+        if (width) setHeaderWidth(width);
+
+        // Handle the scroll event
+        const handleScroll = (initialTop: number) => () => {
+            if (panelRef.current) {
+                const { scrollY } = window;
+                // Set the sticky state when the scroll position is greater than the top position
+                setIsSticky(initialTop <= scrollY);
+            }
+        };
+
+        const handleResize = () => {
+            const { width } = panelRef.current?.getBoundingClientRect() || {};
+            // Set the header width when the window is resized
+            if (width) setHeaderWidth(width);
+        };
+
+        if (top != null) {
+            const handleScrollFunction = handleScroll(top);
+
+            window.addEventListener("scroll", handleScrollFunction);
+            window.addEventListener("resize", handleResize);
+            return () => {
+                window.removeEventListener("scroll", handleScrollFunction);
+                window.removeEventListener("resize", handleResize);
+            };
+        }
+    }, []);
+
     return (
         <Disclosure defaultOpen={true}>
             {({ open }) => (
-                <div className="bg-white rounded mb-4 overflow-hidden shadow">
-                    <div
-                        className={`flex w-full justify-between items-center px-4 text-left text-lg font-medium text-gray-900 ${
-                            index < length - 1 && "border-b-2"
-                        } ${open ? "bg-accent" : "bg-gray-200"}`}
-                    >
-                        <span className="inline-block py-4">
-                            <strong>Bloque {block.order}:</strong> {block.name}
-                        </span>
+                <div
+                    ref={panelRef}
+                    className="bg-white rounded overflow-hidden shadow w-full"
+                >
+                    <div className="h-16">
+                        <div
+                            className={`flex w-full justify-between items-center px-4 text-left text-lg font-medium text-gray-900 ${
+                                index < length - 1 && "border-b-2"
+                            } ${open ? "bg-accent" : "bg-gray-200"}`}
+                            style={{
+                                position: isSticky ? "fixed" : "relative",
+                                top: isSticky ? "0" : "auto",
+                                ...(isSticky && headerWidth
+                                    ? { width: headerWidth }
+                                    : {}),
+                                boxSizing: "border-box",
+                            }}
+                        >
+                            <span className="inline-block py-4">
+                                <strong>Bloque {block.order}:</strong>{" "}
+                                {block.name}
+                            </span>
 
-                        <div className="flex items-center gap-6">
-                            <IndicatorLabel
-                                value={countBlockPeople(block)}
-                                Icon={MdOutlinePerson}
-                            />
-                            <IndicatorLabel
-                                value={`${calcBlockLength(block)}m`}
-                                Icon={AiOutlineColumnWidth}
-                            />
+                            <div className="flex items-center gap-6">
+                                <IndicatorLabel
+                                    value={countBlockPeople(block)}
+                                    Icon={MdOutlinePerson}
+                                />
+                                <IndicatorLabel
+                                    value={`${calcBlockLength(block)}m`}
+                                    Icon={AiOutlineColumnWidth}
+                                />
 
-                            <BlockItemActions
-                                block={block}
-                                length={length}
-                                index={index}
-                                open={open}
-                            />
+                                <BlockItemActions
+                                    block={block}
+                                    length={length}
+                                    index={index}
+                                    open={open}
+                                />
+                            </div>
                         </div>
                     </div>
 

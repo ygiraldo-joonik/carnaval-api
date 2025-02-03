@@ -8,6 +8,7 @@ type TableIconButtonType = {
     onClick?: () => void;
     title: string | ReactNode | null;
     size?: number;
+    hidden?: boolean;
 };
 
 const TableIconButton = ({
@@ -16,13 +17,16 @@ const TableIconButton = ({
     onClick = () => {},
     title = null,
     size = 5,
+    hidden = false,
 }: TableIconButtonType) => {
     const sz = `h-${size} w-${size}`;
     const btn = (
         <button
             title="Mover elemento hacia abajo"
-            className="flex justify-between items-center p-1 rounded-lg"
-            disabled={disabled}
+            className={`flex justify-between items-center p-1 rounded-lg ${
+                hidden && "opacity-0"
+            }`}
+            disabled={disabled || hidden}
             onClick={onClick}
         >
             <Icon
@@ -33,7 +37,13 @@ const TableIconButton = ({
         </button>
     );
     return (
-        <>{title == null ? btn : <Tooltip content={title}>{btn}</Tooltip>}</>
+        <>
+            {title == null || hidden ? (
+                btn
+            ) : (
+                <Tooltip content={title}>{btn}</Tooltip>
+            )}
+        </>
     );
 };
 

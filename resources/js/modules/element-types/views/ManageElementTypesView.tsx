@@ -61,7 +61,7 @@ export default function ManageElementTypesView(
                 deleteElementType={deleteElementType}
             />
 
-            <div className="py-6">
+            <div className="mt-6">
                 <SearchHeader
                     onSearch={filterElementTypes}
                     rightContent={

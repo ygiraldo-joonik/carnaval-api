@@ -39,18 +39,21 @@ const BlockItemActions = ({
                 onClick={() => onCreateElement(block)}
                 Icon={PiRowsPlusBottom}
                 size={6}
+                hidden={!open}
             />
 
             <TableIconButton
                 title="Eliminar bloque"
                 onClick={() => onDeleteBlock(block)}
                 Icon={MdDeleteOutline}
+                hidden={!open}
             />
 
             <TableIconButton
                 title="Editar bloque"
                 onClick={() => onEditBlock(block)}
                 Icon={MdOutlineEdit}
+                hidden={!open}
             />
 
             <TableIconButton
@@ -58,6 +61,7 @@ const BlockItemActions = ({
                 onClick={() => onUpdateBlockOrder(block, "down")}
                 Icon={MdArrowDownward}
                 disabled={index == length - 1 || loadingUpdateBlocksOrder}
+                hidden={!open}
             />
 
             <TableIconButton
@@ -65,6 +69,7 @@ const BlockItemActions = ({
                 onClick={() => onUpdateBlockOrder(block, "up")}
                 Icon={MdArrowUpward}
                 disabled={index == 0 || loadingUpdateBlocksOrder}
+                hidden={!open}
             />
 
             <Disclosure.Button

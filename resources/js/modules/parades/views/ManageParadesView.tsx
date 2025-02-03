@@ -60,7 +60,7 @@ export default function ManageParadesView(props: ManageParadesViewProps) {
                 deleteParade={deleteParade}
             />
 
-            <div className="py-6">
+            <div className="mt-6">
                 <SearchHeader
                     onSearch={filterParades}
                     rightContent={
