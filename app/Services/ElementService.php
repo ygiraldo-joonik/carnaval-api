@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Validator;
 class ElementService
 {
 
+    protected CalculateParadeValuesService $calculateParadeValuesService;
+
+    public function __construct(CalculateParadeValuesService $calculateParadeValuesService)
+    {
+        $this->calculateParadeValuesService = $calculateParadeValuesService;
+    }
+
     public function getAll($blockId)
     {
         return Element::where('block_id', $blockId)->with('elementType', 'block')->get();
@@ -34,16 +41,20 @@ class ElementService
         return $validator->validate();
     }
 
-    public function store($data)
+    public function store($data): Element
     {
         $blockElementsCount = Element::where("block_id", $data['block_id'])->count();
 
         $data['order'] = $blockElementsCount + 1;
 
-        return Element::create($data);
+        $element = Element::create($data);
+
+        $this->calculateParadeValuesService->updateParadeComputedValues($element->block->parade_id);
+
+        return $element;
     }
 
-    public function update($data, $id)
+    public function update($data, $id): ?Element
     {
         $element = Element::find($id);
 
@@ -52,6 +63,8 @@ class ElementService
         }
 
         $element->update($data);
+
+        $this->calculateParadeValuesService->updateParadeComputedValues($element->block->parade_id);
 
         return $element;
     }
@@ -130,6 +143,8 @@ class ElementService
 
         $element->update(['block_id' => $blockId, 'order' => $order]);
 
+        $this->calculateParadeValuesService->updateParadeComputedValues($element->block->parade_id);
+
         return $element;
     }
 
@@ -142,7 +157,11 @@ class ElementService
             return null;
         }
 
+        $paradeId = $element->block->parade_id;
+
         $element->delete();
+
+        $this->calculateParadeValuesService->updateParadeComputedValues($paradeId);
 
         return $element;
     }
