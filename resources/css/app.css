@@ -102,3 +102,12 @@
         /* 64px */
     ;
 }
+
+.inset-y-0 {
+    top: 0;
+    bottom: 0;
+}
+
+.pr-2 {
+    padding-right: 0.5rem;
+}

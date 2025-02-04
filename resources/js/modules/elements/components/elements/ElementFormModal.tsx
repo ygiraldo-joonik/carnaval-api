@@ -11,6 +11,7 @@ export type ElementFormModalProps = {
     elementTypes: ElementType[];
     loading: boolean;
     upsertElement: (element: Element) => void;
+    onDelete:(e:Element)=> void;
 };
 
 export default function ElementFormModal({
@@ -21,6 +22,7 @@ export default function ElementFormModal({
     elementTypes,
     loading,
     upsertElement,
+    onDelete
 }: ElementFormModalProps) {
     return (
         <Modal show={show} onClose={onClose}>
@@ -30,6 +32,7 @@ export default function ElementFormModal({
                 element={element}
                 loading={loading}
                 onSubmit={upsertElement}
+                onDelete={onDelete}
             />
         </Modal>
     );

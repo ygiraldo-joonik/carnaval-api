@@ -107,6 +107,7 @@ const useManageElements = ({
     const onDeleteSuccess = () => {
         handleDeleteElementModalClose();
         refreshBlocks();
+        handleUpsertElementModalClose();
     };
 
     const onUpdateElementPosition = (element: Element, block: Block) => {

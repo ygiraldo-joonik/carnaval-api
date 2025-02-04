@@ -19,6 +19,7 @@ const ManageElementsActionsDialog = () => {
         loadingElementDelete,
         openUpdateElementPositionModal,
         handleUpdateElementPositionModalClose,
+        onDeleteElement,
 
         elementTypes,
 
@@ -33,6 +34,7 @@ const ManageElementsActionsDialog = () => {
         deleteBlock,
         loadingBlockDelete,
     } = useManageElementsContext();
+
     return (
         <>
             {/* Element Dialogs */}
@@ -42,8 +44,9 @@ const ManageElementsActionsDialog = () => {
                 block={block}
                 loading={loadingElementForm}
                 upsertElement={upsertElement}
-                show={openElementModal}
+                show={openElementModal && !openDeleteElementModal}
                 onClose={handleUpsertElementModalClose}
+                onDelete={onDeleteElement}
             />
 
             <DeleteElementDialog

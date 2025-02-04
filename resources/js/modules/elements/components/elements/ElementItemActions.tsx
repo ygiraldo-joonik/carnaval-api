@@ -38,11 +38,11 @@ const ElementItemActions = ({
                 size={6}
             />
 
-            <TableIconButton
+            {/* <TableIconButton
                 title="Eliminar elemento"
                 onClick={() => onDeleteElement(element)}
                 Icon={MdDeleteOutline}
-            />
+            /> */}
 
             <TableIconButton
                 title="Editar elemento"

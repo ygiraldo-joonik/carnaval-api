@@ -1,3 +1,4 @@
+import ComboboxCarnaval from "@/Components/Combobox";
 import { ElementType } from "@/types/element-type.d";
 import { Block, defaultElement, Element } from "@/types/element.d";
 import { useState, useEffect } from "react";
@@ -9,6 +10,7 @@ type ElementFormProps = {
     elementTypes: ElementType[];
     onSubmit: (data: Element) => void;
     loading: boolean;
+    onDelete:(e:Element)=> void;
 };
 
 export default function ElementForm({
@@ -17,6 +19,7 @@ export default function ElementForm({
     elementTypes,
     onSubmit,
     loading,
+    onDelete,
 }: ElementFormProps) {
     const [formState, setFormState] = useState<Element>(defaultElement);
     useEffect(() => {
@@ -108,6 +111,9 @@ export default function ElementForm({
                     </select>
                 </div>
                 <div className="sm:col-span-1">
+                    <ComboboxCarnaval options={elementTypes.map( item => ({ id: item.id || -1, name: item.name }))} />
+                </div>
+                <div className="sm:col-span-1">
                     <label
                         className="block text-sm font-medium text-gray-700"
                         htmlFor="people_count"
@@ -144,7 +150,8 @@ export default function ElementForm({
                 </div>
             </div>
 
-            <div className="mt-6 flex justify-end">
+            <div className="mt-6 flex justify-between">
+                <button type="button" className="rounded-md px-4 py-2 text-sm btn-error" onClick={()=>onDelete(element)}>Eliminar</button>
                 <button
                     disabled={loading}
                     type="submit"
