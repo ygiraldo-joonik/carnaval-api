@@ -72,7 +72,7 @@ const useManageElements = ({
 
     const handleDeleteElementModalClose = () => {
         setOpenDeleteElementModal(false);
-        setTimeout(() => setElement(defaultElement), 500);
+        // setTimeout(() => setElement(defaultElement), 500);
     };
 
     const handleUpdateElementPositionModalClose = () => {
