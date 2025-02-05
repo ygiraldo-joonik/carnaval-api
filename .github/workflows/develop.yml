@@ -1,0 +1,37 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run.
+on:
+  # Triggers the workflow on push or pull request events but only for the develop branch
+  push:
+    branches: ["develop"]
+  #pull_request:
+  #types: [ closed ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "update"
+  update:
+    #if: github.event.pull_request.merged == true
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.DEVELOP_SSH_KEY }}
+          known_hosts: ${{ secrets.DEVELOP_KNOWN_HOSTS }}
+
+      # Runs a set of commands using the runners shell
+      - name: Update
+        run: |
+          echo Deploying...
+          ssh ubuntu@ec2-52-200-47-243.compute-1.amazonaws.com "cd /var/www/carnaval-api && git pull origin develop && composer install && php artisan migrate --seed && php artisan optimize:clear"
+          echo Done!
