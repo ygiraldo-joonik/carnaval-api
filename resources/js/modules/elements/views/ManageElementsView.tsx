@@ -61,12 +61,16 @@ export default function ManageElementsView(props: ManageElementsPageProps) {
                             </h2>
 
                             <div className="flex gap-4 items-center my-3 text-primary">
-                                <HiOutlineLocationMarker/> <strong>Inicio: </strong> {parade.start_location} &nbsp;&nbsp;&nbsp;&nbsp;
-                                <HiLocationMarker /> <strong>Final: </strong> {parade.end_location}
+                                <div className="flex items-center gap-1">
+                                    <HiOutlineLocationMarker className="mr-1"/> <strong>Inicio: </strong> {parade.start_location} &nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    <HiLocationMarker className="mr-1"/> <strong>Final: </strong> {parade.end_location}
+                                </div>
                             </div>
                             
                             <div className="text-primary description">
-                                <strong>Description</strong>
+                                <strong>Descripción</strong>
                                 <p className="line-clamp-1">{parade.description}</p>
                             </div>
                         </section>
