@@ -1,5 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
+import { FaChevronDown } from "react-icons/fa6";
+import { HiOutlineLocationMarker,HiLocationMarker  } from "react-icons/hi";
 import { DefaultPageProps } from "@/types/page.d";
 import { Parade } from "@/types/parade.d";
 import BlocksSection from "../components/blocks/BlocksSection";
@@ -7,9 +9,6 @@ import { useManageElementsContext } from "../context/ManageElementsContext";
 import SearchHeader from "@/Components/SearchHeader";
 import ManageElementsActionsDialog from "../components/ManageElementsActionsDialog";
 import { ElementType } from "@/types/element-type.d";
-import { countParadePeople } from "../transformers/countPeople";
-import { calcParadeLength } from "../transformers/calcLength";
-import { calcParadeSpeed } from "../transformers/calcSpeed";
 import IndicatorLabel from "../components/IndicatorLabel";
 import { MdOutlinePerson } from "react-icons/md";
 import { AiOutlineColumnWidth } from "react-icons/ai";
@@ -26,18 +25,51 @@ export type ManageElementsPageProps = ManageElementsViewProps &
 
 export default function ManageElementsView(props: ManageElementsPageProps) {
     const { parade, filterBlocks, onCreateBlock } = useManageElementsContext();
+
+    const handleToggleDescription = () => {
+        const description = document.querySelector(".description p") as HTMLElement;
+        const chevron = document.querySelector(".chevron") as HTMLElement;
+        if (description.classList.contains("line-clamp-1")) {
+            description.classList.remove("line-clamp-1");
+            chevron.style.transform = "rotate(180deg)";
+        } else {
+            description.classList.add("line-clamp-1");
+            chevron.style.transform = "rotate(0deg)";
+        }
+    }
     return (
         <AuthenticatedLayout
             auth={props.auth}
             header={
-                <div className="flex justify-between items-center">
-                    <div>
-                        <h3 className="font-semibold text-l text-gray-800 leading-tight">
-                            Administrar elementos
-                        </h3>
-                        <h2 className="font-semibold text-xl text-gray-500 leading-tight">
-                            {parade.name}
-                        </h2>
+                <div className="flex justify-between items-start">
+                    <div style={{ display:"grid", gap:30, gridTemplateColumns: "max-content 1fr",transition: "all 0.3s" }}>
+                        <div
+                            onClick={handleToggleDescription} 
+                            className="rounded-full bg-white hover:bg-gray-200 text-black cursor-pointer flex items-center justify-center"
+                            style={{width: 30, height: 30}}>
+                            <FaChevronDown
+                                className="chevron"
+                               
+                            />
+                        </div>
+                        <section>
+                            <h3 className="select-none font-semibold text-l text-primary leading-tight">
+                                Administrar elementos
+                            </h3>
+                            <h2 className="select-none font-semibold text-xl text-primary leading-tight">
+                                {parade.name}
+                            </h2>
+
+                            <div className="flex gap-4 items-center my-3 text-primary">
+                                <HiOutlineLocationMarker/> <strong>Inicio: </strong> {parade.start_location} &nbsp;&nbsp;&nbsp;&nbsp;
+                                <HiLocationMarker /> <strong>Final: </strong> {parade.end_location}
+                            </div>
+                            
+                            <div className="text-primary description">
+                                <strong>Description</strong>
+                                <p className="line-clamp-1">{parade.description}</p>
+                            </div>
+                        </section>
                     </div>
                     <div className="flex gap-6">
                         <IndicatorLabel

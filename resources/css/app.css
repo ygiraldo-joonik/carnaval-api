@@ -10,6 +10,8 @@
     --accent-color: #FFD302;
     --accent2-color: #DF1D59;
 
+    --text-color-primary:#37474F;
+
 }
 
 
@@ -115,4 +117,20 @@
 .btn-outline {
     color: var(--primary-color);
     border: 1px solid var(--primary-color);
+}
+
+.line-clamp-1 {
+    display: -webkit-box;
+    line-clamp: 1;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+}
+
+.text-primary {
+    color: var(--text-color-primary);
+}
+
+.chevron {
+    transition: all ease-in-out 200ms;
 }
