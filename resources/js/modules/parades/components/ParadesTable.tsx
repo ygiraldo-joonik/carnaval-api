@@ -30,7 +30,7 @@ export default function ParadesTable(props: ParadesTableProps) {
                                     Fecha
                                 </th>
                                 <th className="px-4 py-2 text-left font-medium text-gray-700">
-                                    Distancia (MTS)
+                                    Distancia (m)
                                 </th>
                                 <th className="px-4 py-2 text-left font-medium text-gray-700">
                                     Lugar de inicio
