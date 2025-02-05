@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Load SSH key
         env:
-          PRIVATE_KEY: ${{ secrets.DEVELOP_SSH_KEY }}
+          DEVELOP_SSH_KEY: ${{ secrets.DEVELOP_SSH_KEY }}
 
         run: |
           echo "$DEVELOP_SSH_KEY" > key.pem && chmod 600 key.pem
