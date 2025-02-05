@@ -11,6 +11,9 @@ export type Parade = {
     end_location: string;
     duration: number;
     street_width: number;
+    total_duration:number;
+    people_count: number;
+    elements_length: number;
 
     duration_object?: Duration;
 

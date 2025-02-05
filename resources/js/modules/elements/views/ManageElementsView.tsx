@@ -14,6 +14,7 @@ import IndicatorLabel from "../components/IndicatorLabel";
 import { MdOutlinePerson } from "react-icons/md";
 import { AiOutlineColumnWidth } from "react-icons/ai";
 import { LuTimer } from "react-icons/lu";
+import { fromMinutesToHours } from "@/utils/transformers/fromMinutesToHours";
 
 export type ManageElementsViewProps = {
     parade: Parade;
@@ -40,20 +41,21 @@ export default function ManageElementsView(props: ManageElementsPageProps) {
                     </div>
                     <div className="flex gap-6">
                         <IndicatorLabel
-                            value={countParadePeople(parade)}
+                            value={parade.people_count}
                             Icon={MdOutlinePerson}
                         />
                         <IndicatorLabel
-                            value={`${calcParadeLength(parade)}m`}
+                            value={`${parade.elements_length}m`}
                             Icon={AiOutlineColumnWidth}
                         />
 
                         <IndicatorLabel
-                            value={`${parade.distance}m - ${calcParadeSpeed(
-                                parade,
-                                true
-                            )}
-                            km/h`}
+                            // value={`${parade.distance}m - ${calcParadeSpeed(
+                            //     parade,
+                            //     true
+                            // )}
+                            // km/h`}
+                            value={fromMinutesToHours(parade.total_duration)}
                             Icon={LuTimer}
                             background="accent2"
                             color="white"

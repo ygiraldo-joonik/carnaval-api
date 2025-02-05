@@ -12,6 +12,8 @@ export interface Block {
     created_at?: string;
     updated_at?: string;
     elements?: Element[];
+    people_count: number;
+    length: number;
 }
 
 export type BlockFormData = Pick<
