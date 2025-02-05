@@ -38,7 +38,9 @@ class ElementTypeService
             throw new Exception('Default organization not found');
         }
 
-        return ElementType::where('organization_id', $defaultOrganization->id)->get();
+        return ElementType::where('organization_id', $defaultOrganization->id)
+            ->orderBy('name')
+            ->get();
     }
 
     public function getElementTypeById($id)
