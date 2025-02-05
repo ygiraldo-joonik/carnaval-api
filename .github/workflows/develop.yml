@@ -29,6 +29,8 @@ jobs:
           name: id_ed25519
           key: ${{ secrets.DEVELOP_SSH_KEY }}
           known_hosts: ${{ secrets.DEVELOP_KNOWN_HOSTS }}
+          config: |
+            IdentityFile ~/.ssh/id_ed25519
 
       # Runs a set of commands using the runners shell
       - name: Update
