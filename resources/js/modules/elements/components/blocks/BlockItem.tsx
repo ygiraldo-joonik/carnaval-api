@@ -3,8 +3,8 @@ import truncateText from "@/utils/transformers/truncateText";
 import { Disclosure } from "@headlessui/react";
 import BlockItemActions from "./BlockItemActions";
 import ElementItem from "../elements/ElementItem";
-import { countBlockPeople } from "../../transformers/countPeople";
-import { calcBlockLength } from "../../transformers/calcLength";
+// import { countBlockPeople } from "../../transformers/countPeople";
+// import { calcBlockLength } from "../../transformers/calcLength";
 import { AiOutlineColumnWidth } from "react-icons/ai";
 import { MdOutlinePerson } from "react-icons/md";
 import IndicatorLabel from "../IndicatorLabel";
@@ -84,11 +84,11 @@ const BlockItem = ({ block, length, index }: BlockItemProps) => {
 
                             <div className="flex items-center gap-6">
                                 <IndicatorLabel
-                                    value={countBlockPeople(block)}
+                                    value={block.people_count}
                                     Icon={MdOutlinePerson}
                                 />
                                 <IndicatorLabel
-                                    value={`${calcBlockLength(block)}m`}
+                                    value={`${block.length}m`}
                                     Icon={AiOutlineColumnWidth}
                                 />
 
