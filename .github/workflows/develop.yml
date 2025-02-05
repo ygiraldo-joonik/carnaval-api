@@ -31,10 +31,10 @@ jobs:
 
         run: |
           echo "$DEVELOP_SSH_KEY" > key.pem && chmod 600 key.pem
+          echo Deploying...
+          ssh -o StrictHostKeyChecking=no -i "key.pem" ubuntu@ec2-52-200-47-243.compute-1.amazonaws.com "cd /var/www/carnaval-api && git pull origin develop && composer install && php artisan migrate --seed && php artisan optimize:clear"
+          echo Done!
 
       # Runs a set of commands using the runners shell
       - name: Update
         run: |
-          echo Deploying...
-          ssh -o StrictHostKeyChecking=no -i "key.pem" ubuntu@ec2-52-200-47-243.compute-1.amazonaws.com "cd /var/www/carnaval-api && git pull origin develop && composer install && php artisan migrate --seed && php artisan optimize:clear"
-          echo Done!
