@@ -92,7 +92,16 @@ export default function ElementForm({
                     >
                         Tipo de Elemento
                     </label>
-                    <select
+                    <ComboboxCarnaval
+                        option={function(){
+                            const element = elementTypes.find( item => item.id === formState.element_type_id)
+                            if(element) return { id: (element.id || 0 ), name: element.name}
+                            return {id:0, name:''};
+                        }()} 
+                        options={elementTypes.map( item => ({ id: item.id || -1, name: item.name }))}
+                        onChange={(id)=>setFormState((prev)=> ({...prev,"element_type_id":id}))}
+                    />
+                    {/* <select
                         id="element_type_id"
                         name="element_type_id"
                         value={formState.element_type_id || ""}
@@ -108,10 +117,7 @@ export default function ElementForm({
                                 {type.name}
                             </option>
                         ))}
-                    </select>
-                </div>
-                <div className="sm:col-span-1">
-                    <ComboboxCarnaval options={elementTypes.map( item => ({ id: item.id || -1, name: item.name }))} />
+                    </select> */}
                 </div>
                 <div className="sm:col-span-1">
                     <label
