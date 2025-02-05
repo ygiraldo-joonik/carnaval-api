@@ -26,11 +26,8 @@ jobs:
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
-          name: id_ed25519
           key: ${{ secrets.DEVELOP_SSH_KEY }}
           known_hosts: ${{ secrets.DEVELOP_KNOWN_HOSTS }}
-          config: |
-            IdentityFile ~/.ssh/id_ed25519
 
       # Runs a set of commands using the runners shell
       - name: Update
@@ -38,3 +35,6 @@ jobs:
           echo Deploying...
           ssh ubuntu@ec2-52-200-47-243.compute-1.amazonaws.com "cd /var/www/carnaval-api && git pull origin develop && composer install && php artisan migrate --seed && php artisan optimize:clear"
           echo Done!
+
+
+          ssh-keygen -t rsa -b 4096 -C "ygiraldo@joonik.com"
