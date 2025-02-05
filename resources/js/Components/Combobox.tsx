@@ -2,12 +2,19 @@ import { Fragment, useState } from 'react'
 import { Combobox, Transition } from '@headlessui/react';
 import { IoCheckmarkOutline as CheckIcon,  } from "react-icons/io5";
 import { LuChevronsUpDown as ChevronUpDownIcon } from "react-icons/lu";
+// import React from 'react';
+
+type Option = {id:number; name:string;}
 
 export default function ComboboxCarnaval({
     options = [],
-}:{ options: {id:number; name:string;}[] }) {
-  const [selected, setSelected] = useState({id:0, name:''})
+    onChange,
+    option
+}:{ options: Option[],onChange:(id:number)=>void, option?:Option }) {
+  // const [selected, setSelected] = useState(option)
   const [query, setQuery] = useState('')
+
+  const selected = option;
 
   const filteredOption =
     query === ''
@@ -18,15 +25,19 @@ export default function ComboboxCarnaval({
             .replace(/\s+/g, '')
             .includes(query.toLowerCase().replace(/\s+/g, ''))
         )
-
+  // React.useEffect(() => {},[])
   return (
     <div className="">
-      <Combobox value={selected} onChange={setSelected}>
+      <Combobox 
+        value={selected}
+        onChange={(value)=>{ onChange(value.id); }}
+        by={(a,b)=>a.id === b.id}
+      >
         <div className="relative mt-1">
           <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
             <Combobox.Input
               className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-              displayValue={(item:typeof options[number]) => item.name}
+              displayValue={(item:Option) => item.name}
               onChange={(event) => setQuery(event.target.value)}
             />
             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
