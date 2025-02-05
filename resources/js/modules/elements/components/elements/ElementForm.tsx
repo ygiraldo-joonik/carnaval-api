@@ -157,7 +157,7 @@ export default function ElementForm({
             </div>
 
             <div className="mt-6 flex justify-between">
-                <button type="button" className="rounded-md px-4 py-2 text-sm btn-error" onClick={()=>onDelete(element)}>Eliminar</button>
+                <button type="button" className="rounded-md px-4 py-2 text-sm bg-accent2 text-white" onClick={()=>onDelete(element)}>Eliminar</button>
                 <button
                     disabled={loading}
                     type="submit"
