@@ -47,8 +47,8 @@ const BlockItem = ({ block, length, index }: BlockItemProps) => {
         if (top != null) {
             const handleScrollFunction = handleScroll(top);
 
-            window.addEventListener("scroll", handleScrollFunction);
-            window.addEventListener("resize", handleResize);
+            // window.addEventListener("scroll", handleScrollFunction);
+            // window.addEventListener("resize", handleResize);
             return () => {
                 window.removeEventListener("scroll", handleScrollFunction);
                 window.removeEventListener("resize", handleResize);
@@ -61,9 +61,9 @@ const BlockItem = ({ block, length, index }: BlockItemProps) => {
             {({ open }) => (
                 <div
                     ref={panelRef}
-                    className="bg-white rounded overflow-hidden shadow w-full"
+                    className="bg-white rounded shadow w-full"
                 >
-                    <div className="h-16">
+                    <div className="h-16 sticky top-0">
                         <div
                             className={`flex w-full justify-between items-center px-4 text-left text-lg font-medium text-gray-900 ${
                                 index < length - 1 && "border-b-2"

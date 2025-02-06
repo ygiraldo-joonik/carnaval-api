@@ -12,7 +12,7 @@ export default function Authenticated({ auth, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
-        <div id='main' className="min-h-screen overflow-y-auto relative bg-gray-100">
+        <div id='main' className="min-h-screen relative">
             <CornerIllustrations />
 
 
