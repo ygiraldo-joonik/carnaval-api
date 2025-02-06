@@ -18,6 +18,7 @@ class Element extends Model
         'order',
         'people_count',
         'length',
+        'duration',
     ];
 
     public function type()
