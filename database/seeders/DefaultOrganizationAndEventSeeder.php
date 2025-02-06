@@ -81,7 +81,7 @@ class DefaultOrganizationAndEventSeeder extends Seeder
                 ], [
                     'role_id' => $adminRole->id,
                     'accepted_at' => now(),
-                    'model_type' => 'App\Models\User',
+                    'model_type' => User::class,
                 ]);
             }
 

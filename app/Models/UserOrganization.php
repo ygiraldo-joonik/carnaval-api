@@ -10,6 +10,7 @@ class UserOrganization extends Pivot
     use HasFactory;
 
     protected $table;
+    public $timestamps = false;
 
     public function __construct()
     {
