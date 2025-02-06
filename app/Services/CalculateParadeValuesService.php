@@ -38,6 +38,7 @@ class CalculateParadeValuesService
 
                 // set element duration in seconds
                 $element->duration = ($element->length / $parade->speed) * 60;
+                $element->save();
             }
 
             $blockDuration = $blockLength / $parade->speed;
