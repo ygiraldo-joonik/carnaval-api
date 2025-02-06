@@ -35,6 +35,9 @@ class CalculateParadeValuesService
             foreach ($block->elements as $element) {
                 $blockPeopleCount += $element->people_count;
                 $blockLength += $element->length;
+
+                // set element duration in seconds
+                $element->duration = ($element->length / $parade->speed) * 60;
             }
 
             $blockDuration = $blockLength / $parade->speed;
