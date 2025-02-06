@@ -14,8 +14,8 @@ export default function ElementTypesTable(props: ElementTypesTableProps) {
 
     return (
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
-            <div className=" text-gray-900 bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div className="sticky-header-table-container overflow-x-auto overflow-y-auto relative sm:rounded-lg">
+            <div className=" text-gray-900 bg-white shadow-sm sm:rounded-lg">
+                <div className="sticky-header-table-container relative sm:rounded-lg">
                     <table className="min-w-full bg-white sm:rounded-lg ">
                         <thead className="bg-accent">
                             <tr>
@@ -84,6 +84,7 @@ export default function ElementTypesTable(props: ElementTypesTableProps) {
                             ))}
                         </tbody>
                     </table>
+                    <div className="h-16"></div>
                 </div>
             </div>
         </div>
