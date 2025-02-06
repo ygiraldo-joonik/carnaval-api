@@ -46,7 +46,7 @@ export default function ParadesTable(props: ParadesTableProps) {
                                 <tr>
                                     <td
                                         colSpan={7}
-                                        className="px-4 py-2 text-center"
+                                        className="px-4 py-4 text-center"
                                     >
                                         No results found
                                     </td>
@@ -54,26 +54,26 @@ export default function ParadesTable(props: ParadesTableProps) {
                             )}
                             {parades.map((parade) => (
                                 <tr className="border-t" key={parade.id}>
-                                    <td className="px-4 py-2">{parade.name}</td>
-                                    <td className="px-4 py-2">
+                                    <td className="px-4 py-4">{parade.name}</td>
+                                    <td className="px-4 py-4">
                                         {truncateText(
                                             parade.description ?? "",
                                             30
                                         )}
                                     </td>
-                                    <td className="px-4 py-2 ">
+                                    <td className="px-4 py-4 ">
                                         {parade.date}
                                     </td>
-                                    <td className="px-4 py-2 text-center">
+                                    <td className="px-4 py-4 text-center">
                                         {parade.distance}
                                     </td>
-                                    <td className="px-4 py-2">
+                                    <td className="px-4 py-4">
                                         {parade.start_location}
                                     </td>
-                                    <td className="px-4 py-2">
+                                    <td className="px-4 py-4">
                                         {parade.end_location}
                                     </td>
-                                    <td className="px-4 py-2 flex items-center gap-6">
+                                    <td className="px-4 py-4 flex items-center gap-6">
                                         <TableIconButton
                                             title="Elementos"
                                             onClick={() =>
@@ -88,11 +88,11 @@ export default function ParadesTable(props: ParadesTableProps) {
                                             Icon={MdOutlineEdit}
                                         />
 
-                                        <TableIconButton
+                                        {/* <TableIconButton
                                             title="Eliminar desfile"
                                             onClick={() => onDelete(parade)}
                                             Icon={MdDeleteOutline}
-                                        />
+                                        /> */}
                                     </td>
                                 </tr>
                             ))}

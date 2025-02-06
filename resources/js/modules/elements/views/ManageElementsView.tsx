@@ -49,7 +49,6 @@ export default function ManageElementsView(props: ManageElementsPageProps) {
                             style={{width: 30, height: 30}}>
                             <FaChevronDown
                                 className="chevron"
-                               
                             />
                         </div>
                         <section>

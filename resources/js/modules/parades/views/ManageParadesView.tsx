@@ -35,7 +35,7 @@ export default function ManageParadesView(props: ManageParadesViewProps) {
         <AuthenticatedLayout
             auth={props.auth}
             header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+                <h2 className="font-bold text-xl text-primary leading-tight">
                     Desfiles
                 </h2>
             }
