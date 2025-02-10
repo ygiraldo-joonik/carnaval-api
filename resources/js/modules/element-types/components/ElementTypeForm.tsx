@@ -49,7 +49,7 @@ const ElementTypeForm: React.FC<ElementTypeFormProps> = ({
     return (
         <form onSubmit={handleSubmit}>
             <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                {elementType.id ? "Editar" : "Crear"} tipo de elemento
+                {elementType.id ? "Guardar" : "Crear"} tipo de elemento
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
@@ -169,7 +169,7 @@ const ElementTypeForm: React.FC<ElementTypeFormProps> = ({
                     type="submit"
                     className="inline-flex justify-center rounded-md border border-transparent btn-primary px-4 py-2 text-sm font-medium "
                 >
-                    {elementType.id ? "Editar" : "Crear"}
+                    {elementType.id ? "Guardar" : "Crear"}
 
                     {loading && (
                         <>

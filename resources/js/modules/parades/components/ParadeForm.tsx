@@ -52,7 +52,7 @@ export default function ParadeForm({
     return (
         <form onSubmit={handleSubmit}>
             <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                {parade.id ? "Editar" : "Crear"} desfile
+                {parade.id ? "Guardar" : "Crear"} desfile
             </h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
@@ -203,7 +203,7 @@ export default function ParadeForm({
                     type="submit"
                     className="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium shadow-sm focus:outline-none btn-primary"
                 >
-                    {parade.id ? "Editar" : "Crear"}
+                    {parade.id ? "Guardar" : "Crear"}
 
                     {loading && (
                         <>

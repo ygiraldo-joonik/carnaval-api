@@ -39,7 +39,7 @@ export default function BlockForm({
     return (
         <form onSubmit={handleSubmit}>
             <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                {formState.id ? "Editar" : "Crear"} bloque{" "}
+                {formState.id ? "Guardar" : "Crear"} bloque{" "}
                 {block.id && `${block.name}`}
             </h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -86,7 +86,7 @@ export default function BlockForm({
                     type="submit"
                     className="inline-flex justify-center rounded-md border border-transparent focus:outline-none focus:ring-2 py-2 px-4 btn-primary"
                 >
-                    {formState.id ? "Editar" : "Crear"}
+                    {formState.id ? "Guardar" : "Crear"}
                     {loading && (
                         <>
                             &nbsp;
