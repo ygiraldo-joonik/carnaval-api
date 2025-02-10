@@ -195,7 +195,7 @@ export default function ParadeForm({
 
             <div className="mt-6 flex justify-between">
                 {parade.id != undefined ?
-                    <button type="button" className="rounded-md px-4 py-2 text-sm bg-accent2 text-white" onClick={()=>onDelete(parade)}>Eliminar</button> : <span></span>
+                    <button type="button" className="rounded-md px-4 py-2 text-sm border border-accent2 text-accent2" onClick={() => onDelete(parade)}>Eliminar</button>: <span></span>
                 }                
                 
                 <button

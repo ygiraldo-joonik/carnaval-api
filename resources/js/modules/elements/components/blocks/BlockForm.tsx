@@ -84,7 +84,7 @@ export default function BlockForm({
                 <button
                     disabled={loading}
                     type="submit"
-                    className="inline-flex justify-center rounded-md border border-transparent focus:outline-none focus:ring-2 btn-primary"
+                    className="inline-flex justify-center rounded-md border border-transparent focus:outline-none focus:ring-2 py-2 px-4 btn-primary"
                 >
                     {formState.id ? "Editar" : "Crear"}
                     {loading && (

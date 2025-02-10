@@ -135,3 +135,11 @@
     transition: all ease-in-out 200ms;
     scale: 0.7;
 }
+
+.border-accent2 {
+    border-color: var(--accent2-color);
+}
+
+.text-accent2 {
+    color: var(--accent2-color);
+}
