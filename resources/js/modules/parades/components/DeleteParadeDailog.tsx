@@ -27,17 +27,17 @@ export default function DeleteParadeDialog({
                 <div className="flex justify-end mt-4">
                     <button
                         disabled={loading}
-                        className="text-gray-500  py-2 px-4 rounded-md mr-2"
+                        className="btn-primary text-white  py-2 px-4 rounded-md mr-2"
                         onClick={onClose}
                     >
                         Cancelar
                     </button>
                     <button
                         disabled={loading}
-                        className=" py-2 px-4 rounded-md"
+                        className="btn-outline py-2 px-4 rounded-md"
                         onClick={() => deleteParade(parade.id!, parade.name)}
                     >
-                        Confirmar
+                        Borrar
                         {loading && (
                             <>
                                 &nbsp;

@@ -78,7 +78,7 @@ const BlockItem = ({ block, length, index }: BlockItemProps) => {
                             }}
                         >
                             <span className="inline-block py-4">
-                                <strong>Bloque {block.order}:</strong>{" "}
+                                {/* <strong>Bloque {block.order}:</strong>{" "} */}
                                 {block.name}
                             </span>
 

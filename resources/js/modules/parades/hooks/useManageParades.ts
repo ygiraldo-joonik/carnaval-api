@@ -40,7 +40,7 @@ const useManageParades = (props: ManageParadesViewProps) => {
 
     const handleDeleteModalClose = () => {
         setOpenDeleteParadeModal(false);
-        setTimeout(() => setParade(defaultParade), 500);
+        // setTimeout(() => setParade(defaultParade), 500);
     };
 
     const onEditParade = (selectedParade: Parade) => {
@@ -79,6 +79,7 @@ const useManageParades = (props: ManageParadesViewProps) => {
     const onDeleteSuccess = () => {
         handleDeleteModalClose();
         refreshParades();
+        handleUpserModalClose();
     };
 
     const { loading: loadingForm, upsertParade } =

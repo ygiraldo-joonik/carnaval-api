@@ -8,6 +8,7 @@ export type ParadeFormModalProps = {
     parade: Parade;
     loading: boolean;
     upsertParade: (parade: Parade) => void;
+    onDelete:(e:Parade)=> void;
 };
 
 export default function ParadeFormModal({
@@ -16,6 +17,7 @@ export default function ParadeFormModal({
     parade,
     loading,
     upsertParade,
+    onDelete
 }: ParadeFormModalProps) {
     return (
         <Modal show={show} onClose={onClose}>
@@ -23,6 +25,7 @@ export default function ParadeFormModal({
                 parade={parade}
                 loading={loading}
                 onSubmit={upsertParade}
+                onDelete={onDelete}
             />
         </Modal>
     );

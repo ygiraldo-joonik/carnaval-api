@@ -7,12 +7,14 @@ type ParadeFormProps = {
     parade: Parade;
     onSubmit: (data: Parade) => void;
     loading: boolean;
+    onDelete:(e:Parade)=> void;
 };
 
 export default function ParadeForm({
     parade,
     onSubmit,
     loading,
+    onDelete
 }: ParadeFormProps) {
     const [formState, setFormState] = useState<Parade>(defaultParade);
 
@@ -107,13 +109,14 @@ export default function ParadeForm({
                     />
                 </div>
 
-                <div>
+                <div className="grid align-end">
                     <label
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-gray-700 mb-2"
                         htmlFor="distance"
                     >
-                        Distancia (MTS)
+                        Longitud Recorrido
                     </label>
+                    <span className="block text-sm font-medium text-gray-400">Metros</span>
                     <input
                         type="number"
                         id="distance"
@@ -127,7 +130,7 @@ export default function ParadeForm({
 
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Duración
+                        Duración Recorrido
                     </label>
                     <DurationPicker
                         onChange={handleDurationChange}
@@ -138,27 +141,9 @@ export default function ParadeForm({
                 <div>
                     <label
                         className="block text-sm font-medium text-gray-700"
-                        htmlFor="street_width"
-                    >
-                        Ancho de la calle (MTS)
-                    </label>
-                    <input
-                        type="number"
-                        id="street_width"
-                        name="street_width"
-                        value={formState.street_width}
-                        onChange={handleChange}
-                        required
-                        className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    />
-                </div>
-
-                <div>
-                    <label
-                        className="block text-sm font-medium text-gray-700"
                         htmlFor="start_location"
                     >
-                        Lugar Inicial
+                        Inicio del Recorrido
                     </label>
                     <input
                         type="text"
@@ -176,7 +161,7 @@ export default function ParadeForm({
                         className="block text-sm font-medium text-gray-700"
                         htmlFor="end_location"
                     >
-                        Lugar Final
+                        Final del Recorrido
                     </label>
                     <input
                         type="text"
@@ -188,9 +173,28 @@ export default function ParadeForm({
                         className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     />
                 </div>
+
+                <div>
+                    <label
+                        className="block text-sm font-medium text-gray-700"
+                        htmlFor="street_width"
+                    >
+                        Ancho de la calle (m)
+                    </label>
+                    <input
+                        type="number"
+                        id="street_width"
+                        name="street_width"
+                        value={formState.street_width}
+                        onChange={handleChange}
+                        required
+                        className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    />
+                </div>
             </div>
 
-            <div className="mt-6 flex justify-end">
+            <div className="mt-6 flex justify-between">
+                <button type="button" className="rounded-md px-4 py-2 text-sm bg-accent2 text-white" onClick={()=>onDelete(parade)}>Eliminar</button>
                 <button
                     disabled={loading}
                     type="submit"

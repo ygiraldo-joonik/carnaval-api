@@ -1,7 +1,13 @@
+import IndicatorLabel from "@/modules/elements/components/IndicatorLabel";
 import TableIconButton from "@/modules/elements/components/TableIconButton";
 import { Parade } from "@/types/parade.d";
 import truncateText from "@/utils/transformers/truncateText";
 import { MdOutlineEdit, MdDeleteOutline, MdList } from "react-icons/md";
+import { MdOutlinePerson } from "react-icons/md";
+import { AiOutlineColumnWidth } from "react-icons/ai";
+import { LuTimer } from "react-icons/lu";
+import { fromMinutesToHours } from "@/utils/transformers/fromMinutesToHours";
+
 
 type ParadesTableProps = {
     parades: Parade[];
@@ -23,21 +29,21 @@ export default function ParadesTable(props: ParadesTableProps) {
                                 <th className="px-4 py-2 text-left font-medium text-gray-700">
                                     Nombre
                                 </th>
-                                <th className="px-4 py-2 text-left font-medium text-gray-700">
+                                {/* <th className="px-4 py-2 text-left font-medium text-gray-700">
                                     Descripción
-                                </th>
+                                </th> */}
                                 <th className="px-4 py-2 text-left font-medium text-gray-700">
                                     Fecha
                                 </th>
                                 <th className="px-4 py-2 text-left font-medium text-gray-700">
-                                    Distancia (m)
+                                    Recorrido (m)
                                 </th>
-                                <th className="px-4 py-2 text-left font-medium text-gray-700">
+                                {/* <th className="px-4 py-2 text-left font-medium text-gray-700">
                                     Lugar de inicio
-                                </th>
-                                <th className="px-4 py-2 text-left font-medium text-gray-700">
+                                </th> */}
+                                {/* <th className="px-4 py-2 text-left font-medium text-gray-700">
                                     Lugar de fin
-                                </th>
+                                </th> */}
                                 <th className="px-4 py-2 text-left font-medium text-gray-700"></th>
                             </tr>
                         </thead>
@@ -55,25 +61,46 @@ export default function ParadesTable(props: ParadesTableProps) {
                             {parades.map((parade) => (
                                 <tr className="border-t" key={parade.id}>
                                     <td className="px-4 py-4">{parade.name}</td>
-                                    <td className="px-4 py-4">
+                                    {/* <td className="px-4 py-4">
                                         {truncateText(
                                             parade.description ?? "",
                                             30
                                         )}
-                                    </td>
+                                    </td> */}
                                     <td className="px-4 py-4 ">
-                                        {parade.date}
+                                        {new Intl.DateTimeFormat("es-ES", {
+                                            month: "short",
+                                            day: "numeric",
+                                            year: "numeric",
+                                        }).format(new Date(parade.date))}
                                     </td>
-                                    <td className="px-4 py-4 text-center">
+                                    <td className="px-4 py-4 text-left">
                                         {parade.distance}
                                     </td>
-                                    <td className="px-4 py-4">
+                                    {/* <td className="px-4 py-4">
                                         {parade.start_location}
-                                    </td>
-                                    <td className="px-4 py-4">
+                                    </td> */}
+                                    {/* <td className="px-4 py-4">
                                         {parade.end_location}
-                                    </td>
+                                    </td> */}
                                     <td className="px-4 py-4 flex items-center gap-6">
+                                        <IndicatorLabel
+                                                value={parade.people_count}
+                                                Icon={MdOutlinePerson}
+                                        />
+                                        <IndicatorLabel
+                                            value={`${parade.elements_length}m`}
+                                            Icon={AiOutlineColumnWidth}
+                                        />
+
+                                        <IndicatorLabel
+                                            value={fromMinutesToHours(parade.total_duration)}
+                                            Icon={LuTimer}
+                                            background="accent2"
+                                            color="white"
+                                            fixedWidth={false}
+                                        />
+                                        <div className="flex-grow"></div>
                                         <TableIconButton
                                             title="Elementos"
                                             onClick={() =>

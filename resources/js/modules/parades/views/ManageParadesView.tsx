@@ -44,11 +44,12 @@ export default function ManageParadesView(props: ManageParadesViewProps) {
 
             {/* Edit Or Create Element Type Modal */}
             <ParadeFormModal
-                show={openParadeModal}
+                show={openParadeModal && !openDeleteParadeModal}
                 onClose={() => handleUpserModalClose()}
                 parade={parade}
                 loading={loadingForm}
                 upsertParade={upsertParade}
+                onDelete={onDeleteParade}
             />
 
             {/* Delete Element Type Modal */}
