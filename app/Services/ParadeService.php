@@ -12,10 +12,14 @@ class ParadeService
 {
     protected string $defaultEventName;
 
-    public function __construct()
+    protected CalculateParadeValuesService $calculateParadeValuesService;
+
+    public function __construct(CalculateParadeValuesService $calculateParadeValuesService)
     {
+        $this->calculateParadeValuesService = $calculateParadeValuesService;
         $this->defaultEventName = env('DEFAULT_EVENT_NAME', "Carnaval de Barranquilla 2025");
     }
+
 
     public function validateData(array $data)
     {
@@ -47,7 +51,11 @@ class ParadeService
 
         $data['event_id'] = $defaultEvent->id;
 
-        return Parade::create($data);
+        $parade =  Parade::create($data);
+
+        $this->calculateParadeValuesService->updateParadeComputedValues($parade->id);
+
+        return $parade;
     }
 
     // update parade
@@ -60,6 +68,8 @@ class ParadeService
         }
 
         $parade->update($data);
+
+        $this->calculateParadeValuesService->updateParadeComputedValues($parade->id);
 
         return $parade;
     }
