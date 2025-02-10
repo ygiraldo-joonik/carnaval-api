@@ -8,6 +8,12 @@ import { AiOutlineColumnWidth } from "react-icons/ai";
 import { LuTimer } from "react-icons/lu";
 import { fromMinutesToHours } from "@/utils/transformers/fromMinutesToHours";
 
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 type ParadesTableProps = {
     parades: Parade[];
@@ -68,11 +74,7 @@ export default function ParadesTable(props: ParadesTableProps) {
                                         )}
                                     </td> */}
                                     <td className="px-4 py-4 ">
-                                        {new Intl.DateTimeFormat("es-ES", {
-                                            month: "short",
-                                            day: "numeric",
-                                            year: "numeric",
-                                        }).format(new Date(parade.date))}
+                                        {dayjs(parade.date).tz('America/Bogota').format('D MMM YYYY')}
                                     </td>
                                     <td className="px-4 py-4 text-left">
                                         {parade.distance}
