@@ -44,6 +44,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/{id}', [ApiParadeController::class, 'update'])->name('parades.update');
         Route::delete('/{id}', [ApiParadeController::class, 'delete'])->name('parades.delete');
 
+        Route::get('/{id}/control', [ParadeController::class, 'control'])->name('parades.control');
         Route::get('/{id}', [ElementController::class, 'index'])->name('parades.elements');
     });
 

@@ -5,12 +5,13 @@
 :root {
     --primary-color: #45136A;
     --primary-ligth-color: #5f248d;
+    --primary-disabled-ligth-color: #8f62b2;
     --primary-radial: radial-gradient(#6B187D 6%, #2A0F5C);
 
     --accent-color: #FFD302;
     --accent2-color: #DF1D59;
 
-    --text-color-primary:#37474F;
+    --text-color-primary: #37474F;
 
 }
 
@@ -55,6 +56,10 @@
     background-color: var(--primary-color);
 }
 
+.bg-primary-disabled {
+    background-color: var(--primary-disabled-ligth-color);
+}
+
 .bg-primary-radial {
     background: var(--primary-radial);
 }
@@ -86,12 +91,30 @@
     max-height: calc(100vh - 260px);
 }
 
+.sticky-header-table-container.control {
+    /* overflow-y: auto; */
+    max-height: calc(100vh - 200px);
+}
 
-.sticky-header-table-container thead {
+.sticky-header-table-container.control tbody td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1
+}
+
+.sticky-header-table-container.control thead th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 2
+}
+
+
+.sticky-header-table-container thead th {
     position: sticky;
     top: 0;
-    z-index: 1;
 }
+
+
 
 .w-20 {
     width: 5rem
@@ -123,7 +146,7 @@
     display: -webkit-box;
     line-clamp: 1;
     -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;  
+    -webkit-box-orient: vertical;
     overflow: hidden;
 }
 

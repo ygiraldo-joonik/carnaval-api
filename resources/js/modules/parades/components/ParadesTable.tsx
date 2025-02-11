@@ -2,15 +2,15 @@ import IndicatorLabel from "@/modules/elements/components/IndicatorLabel";
 import TableIconButton from "@/modules/elements/components/TableIconButton";
 import { Parade } from "@/types/parade.d";
 import truncateText from "@/utils/transformers/truncateText";
-import { MdOutlineEdit, MdDeleteOutline, MdList } from "react-icons/md";
+import { MdOutlineEdit, MdList } from "react-icons/md";
 import { MdOutlinePerson } from "react-icons/md";
 import { AiOutlineColumnWidth } from "react-icons/ai";
 import { LuTimer } from "react-icons/lu";
 import { fromMinutesToHours } from "@/utils/transformers/fromMinutesToHours";
-
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
+import { IoAnalyticsSharp } from "react-icons/io5";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -20,10 +20,11 @@ type ParadesTableProps = {
     onDelete: (parade: Parade) => void;
     onEdit: (parade: Parade) => void;
     onManageElements: (id: number) => void;
+    onControlParade: (id: number) => void;
 };
 
 export default function ParadesTable(props: ParadesTableProps) {
-    const { parades, onDelete, onEdit, onManageElements } = props;
+    const { parades, onControlParade, onEdit, onManageElements } = props;
 
     return (
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
@@ -74,7 +75,9 @@ export default function ParadesTable(props: ParadesTableProps) {
                                         )}
                                     </td> */}
                                     <td className="px-4 py-4 ">
-                                        {dayjs(parade.date).tz('America/Bogota').format('D MMM YYYY')}
+                                        {dayjs(parade.date)
+                                            .tz("America/Bogota")
+                                            .format("D MMM YYYY")}
                                     </td>
                                     <td className="px-4 py-4 text-left">
                                         {parade.distance}
@@ -87,8 +90,8 @@ export default function ParadesTable(props: ParadesTableProps) {
                                     </td> */}
                                     <td className="px-4 py-4 flex items-center gap-6">
                                         <IndicatorLabel
-                                                value={parade.people_count}
-                                                Icon={MdOutlinePerson}
+                                            value={parade.people_count}
+                                            Icon={MdOutlinePerson}
                                         />
                                         <IndicatorLabel
                                             value={`${parade.elements_length}m`}
@@ -96,13 +99,22 @@ export default function ParadesTable(props: ParadesTableProps) {
                                         />
 
                                         <IndicatorLabel
-                                            value={fromMinutesToHours(parade.total_duration)}
+                                            value={fromMinutesToHours(
+                                                parade.total_duration
+                                            )}
                                             Icon={LuTimer}
                                             background="accent2"
                                             color="white"
                                             fixedWidth={false}
                                         />
                                         <div className="flex-grow"></div>
+                                        <TableIconButton
+                                            title="Control"
+                                            onClick={() =>
+                                                onControlParade(parade.id!)
+                                            }
+                                            Icon={IoAnalyticsSharp}
+                                        />
                                         <TableIconButton
                                             title="Elementos"
                                             onClick={() =>

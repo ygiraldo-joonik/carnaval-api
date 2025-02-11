@@ -11,7 +11,7 @@ export type Parade = {
     end_location: string;
     duration: number;
     street_width: number;
-    total_duration:number;
+    total_duration: number;
     people_count: number;
     elements_length: number;
 
@@ -51,3 +51,19 @@ export const defaultParade: Parade = {
 };
 
 export type Duration = { hours: number; minutes: number };
+
+export type ParadeControlDataSet = {
+    [key: number]: { [key: number]: number | null };
+};
+
+export type ParadeControlEntities = {
+    elements: { [key: number]: string };
+    users: { [key: number]: string };
+};
+
+export type ParadeControlDataType = {
+    distanceFromFirst: ParadeControlDataSet;
+    distanceFromPrevious: ParadeControlDataSet;
+    entities: ParadeControlEntities;
+    isThereData: boolean;
+};

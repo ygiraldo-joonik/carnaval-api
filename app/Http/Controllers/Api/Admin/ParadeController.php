@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Parade;
+use App\Services\CalculateParadeValuesService;
 use App\Services\ParadeService;
 use App\Services\UserParadeService;
 use App\Traits\ApiTrait;
@@ -18,13 +19,16 @@ class ParadeController extends Controller
 
     protected ParadeService $paradeService;
     protected UserParadeService $userParadeService;
+    protected CalculateParadeValuesService $calculateParadeValuesService;
 
 
-    public function __construct(ParadeService $paradeService, UserParadeService $userParadeService)
+    public function __construct(ParadeService $paradeService, UserParadeService $userParadeService, CalculateParadeValuesService $calculateParadeValuesService)
     {
         $this->paradeService = $paradeService;
         $this->userParadeService = $userParadeService;
+        $this->calculateParadeValuesService = $calculateParadeValuesService;
     }
+
 
     public function store(Request $request)
     {
@@ -80,5 +84,15 @@ class ParadeController extends Controller
         $this->paradeService->delete($id);
 
         return $this->onSuccess(200, 'Parade removed sucessfully');
+    }
+
+    public function distance($paradeId)
+    {
+        try {
+            $data = $this->calculateParadeValuesService->distance($paradeId);
+            return $this->onSuccess(200, 'Relative distance calculated sucessfully', $data);
+        } catch (\Throwable $th) {
+            return $this->onError(500, $th->getMessage() . ' ' . $th->getTraceAsString());
+        }
     }
 }
