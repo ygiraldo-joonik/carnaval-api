@@ -104,6 +104,20 @@ class ElementController extends Controller
         }
     }
 
+    public function bulkRegiserElementsPassed(int $paradeId, Request $request)
+    {
+        try {
+            $this->elementService->validateBulkRegisterElementsPassed($request);
+
+            $elements = $this->elementService->bulkRegisterElementsPassed($paradeId, $request->file('file'));
+
+            return $this->onSuccess(200, 'Elements passed user registered sucessfully', $elements);
+        } catch (\Throwable $th) {
+            error_log($th->getMessage(), $th->getTraceAsString());
+            return $this->onError(500, $th->getMessage());
+        }
+    }
+
     public function updateElementPosition(Request $request)
     {
         try {

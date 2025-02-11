@@ -6,9 +6,11 @@
     --primary-color: #45136A;
     --primary-ligth-color: #5f248d;
     --primary-disabled-ligth-color: #8f62b2;
+    --primary-extra-ligth-color: #c297e2;
     --primary-radial: radial-gradient(#6B187D 6%, #2A0F5C);
 
     --accent-color: #FFD302;
+    --accent-color-light: #ffec8d;
     --accent2-color: #DF1D59;
 
     --text-color-primary: #37474F;
@@ -78,6 +80,10 @@
     background-color: var(--accent-color);
 }
 
+.bg-accent-light {
+    background-color: var(--accent-color-light);
+}
+
 .bg-accent2 {
     background-color: var(--accent2-color);
 }
@@ -93,7 +99,7 @@
 
 .sticky-header-table-container.control {
     /* overflow-y: auto; */
-    max-height: calc(100vh - 200px);
+    max-height: calc(100vh - 270px);
 }
 
 .sticky-header-table-container.control tbody td:first-child {
@@ -165,4 +171,10 @@
 
 .text-accent2 {
     color: var(--accent2-color);
+}
+
+.file-primary::file-selector-button {
+    background-color: var(--primary-extra-ligth-color);
+
+    color: var(--primary-color);
 }

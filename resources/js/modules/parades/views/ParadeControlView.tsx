@@ -9,12 +9,15 @@ import { MdOutlinePerson } from "react-icons/md";
 import { AiOutlineColumnWidth } from "react-icons/ai";
 import { fromMinutesToHours } from "@/utils/transformers/fromMinutesToHours";
 import { LuTimer } from "react-icons/lu";
+import ImportParadeElements from "../components/ImportParadeElemetsPassed";
+import useImportParadeElements from "../hooks/useImportParadeElements";
 export type ParadeControlViewProps = {
     parade: Parade;
     distance: ParadeControlDataType;
 } & DefaultPageProps;
 
 export default function ManageParadesView(props: ParadeControlViewProps) {
+    const { loading, importElements } = useImportParadeElements(props.parade);
     return (
         <AuthenticatedLayout
             auth={props.auth}
@@ -62,6 +65,10 @@ export default function ManageParadesView(props: ParadeControlViewProps) {
         >
             <Head title="Control de desfile" />
             <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-6">
+                <ImportParadeElements
+                    loading={loading}
+                    onFileUpload={importElements}
+                />
                 <div className="text-gray-900 bg-white shadow-sm sm:rounded-lg">
                     {props.distance.isThereData ? (
                         <div className="sticky-header-table-container control overflow-x-auto relative sm:rounded-lg">

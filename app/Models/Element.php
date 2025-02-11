@@ -37,4 +37,6 @@ class Element extends Model
             ->withPivot('inferred')
             ->withTimestamps();
     }
+
+    
 }
