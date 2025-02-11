@@ -3,10 +3,19 @@
 namespace App\Services;
 
 use App\Models\Element;
+use App\Models\ElementPassedUser;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Validator;
+use SplFileObject;
 
 class ElementService
 {
+    const ELEMENT_ID_INDEX = 0;
+    const USER_ID_INDEX = 1;
+    const INFERRED_INDEX = 2;
+    const DATE_INDEX = 3;
 
     protected CalculateParadeValuesService $calculateParadeValuesService;
 
@@ -164,5 +173,104 @@ class ElementService
         $this->calculateParadeValuesService->updateParadeComputedValues($paradeId);
 
         return $element;
+    }
+
+    public function validateBulkRegisterElementsPassed(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|file|mimes:csv,txt',
+        ]);
+
+        return $validator->validate();
+    }
+
+    /**
+     * @param string $csvFile Path to the CSV file
+     * @return string Delimiter
+     */
+    public function detectDelimiter($csvFile)
+    {
+        $delimiters = [";" => 0, "," => 0, "\t" => 0, "|" => 0];
+
+        $handle = fopen($csvFile, "r");
+        $firstLine = fgets($handle);
+        fclose($handle);
+        foreach ($delimiters as $delimiter => &$count) {
+            $count = count(str_getcsv($firstLine, $delimiter));
+        }
+
+        return array_search(max($delimiters), $delimiters);
+    }
+
+    public function bulkRegisterElementsPassed(int $paradeId, UploadedFile $file)
+    {
+        $delimiter = $this->detectDelimiter($file->getRealPath());
+        $fileObject = new SplFileObject($file->getRealPath());
+        $fileObject->setFlags(SplFileObject::READ_CSV);
+        $fileObject->setCsvControl($delimiter);
+
+        $elementsPassedData = [];
+        $elementsId = [];
+        $usersId = [];
+
+        foreach ($fileObject as $index => $row) {
+            if ($index == 0) {
+                continue;
+            }
+
+            if (count($row) < 4) {
+                continue;
+            }
+
+            $elementsPassedData[] = [
+                'element_id' => $row[self::ELEMENT_ID_INDEX],
+                'user_id' => $row[self::USER_ID_INDEX],
+                'inferred' => $row[self::INFERRED_INDEX],
+                'created_at' => $row[self::DATE_INDEX],
+            ];
+
+            $elementsId[] = $row[self::ELEMENT_ID_INDEX];
+            $usersId[] = $row[self::USER_ID_INDEX];
+        }
+
+        // delete repeated from elements and users
+        $elementsId = array_unique($elementsId);
+        $usersId = array_unique($usersId);
+
+
+        // elements validating parade id
+        $elements = Element::whereIn('id', $elementsId)
+            ->whereHas('block', function ($query) use ($paradeId) {
+                $query->where('parade_id', $paradeId);
+            })->get();
+
+        $users = User::whereIn('id', $usersId)->get();
+
+        if (count($elementsId) != count($elements)) {
+            throw new \Exception('Invalid elements');
+        }
+
+        if (count($usersId) != count($users)) {
+            throw new \Exception('Invalid users');
+        }
+
+        $registeredElemetsPassed = [];
+
+        // create or update elements passed
+        foreach ($elementsPassedData as $elementPassedData) {
+            $elementPassed = ElementPassedUser::where('element_id', $elementPassedData['element_id'])
+                ->where('user_id', $elementPassedData['user_id'])
+                ->first();
+
+            if ($elementPassed) {
+                $elementPassed->update($elementPassedData);
+            } else {
+                $elementPassed = ElementPassedUser::create($elementPassedData);
+            }
+
+            $registeredElemetsPassed[] = $elementPassed;
+        }
+
+        return $registeredElemetsPassed;
     }
 }

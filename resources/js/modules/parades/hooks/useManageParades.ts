@@ -4,6 +4,7 @@ import { defaultParade, Parade } from "@/types/parade.d";
 import { router } from "@inertiajs/react";
 import useUpsertParade from "./useUpsertParade";
 import useDeleteParade from "./useDeleteParade";
+import useImportParadeElements from "./useImportParadeElements";
 
 const useManageParades = (props: ManageParadesViewProps) => {
     const [parades, setParades] = useState<Parade[]>(props.parades);

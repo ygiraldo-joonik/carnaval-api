@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Admin\BlockController as ApiBlockController;
 use App\Http\Controllers\Api\Admin\ElementController as ApiElementController;
 use App\Http\Controllers\Api\Admin\ElementTypeController as ApiElementTypeController;
 use App\Http\Controllers\Api\Admin\ParadeController as ApiParadeController;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +21,14 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::options('{any}', function (Request $request) {
+    return response()->json([], 200, [
+        'Access-Control-Allow-Origin' => '*',
+        'Access-Control-Allow-Methods' => 'POST, GET, OPTIONS, PUT, DELETE',
+        'Access-Control-Allow-Headers' => 'Content-Type, X-Requested-With',
+    ]);
+})->where('any', '.*');
 
 Route::get('/', function () {
     return response()->redirectTo('/login');
@@ -62,6 +71,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/position', [ApiElementController::class, 'updateElementPosition'])->name('elements.updatePosition');
         Route::put('/{id}', [ApiElementController::class, 'update'])->name('elements.update');
         Route::delete('/{id}', [ApiElementController::class, 'delete'])->name('elements.delete');
+
+        Route::post('/{parade_id}/import', [ApiElementController::class, 'bulkRegiserElementsPassed'])->name('elements.import');
     });
 });
 

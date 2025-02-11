@@ -23,6 +23,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::options('{any}', function (Request $request) {
+    return response()->json([], 200, [
+        'Access-Control-Allow-Origin' => '*',
+        'Access-Control-Allow-Methods' => 'POST, GET, OPTIONS, PUT, DELETE',
+        'Access-Control-Allow-Headers' => 'Content-Type, X-Requested-With',
+    ]);
+})->where('any', '.*');
+
 Route::get('/', function (Request $request) {
     return "Carnaval API";
 });
@@ -92,6 +100,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/order', [ElementController::class, 'updateOrder']);
         Route::put('/position', [ElementController::class, 'updateElementPosition']);
         Route::put('/passed', [ElementController::class, 'registerElementPassedUser']);
+        Route::post('{parade_id}/import', [ElementController::class, 'bulkRegiserElementsPassed']);
         Route::put('/{id}', [ElementController::class, 'update']);
         Route::delete('/{id}', [ElementController::class, 'delete']);
     });

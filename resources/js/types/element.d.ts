@@ -60,3 +60,12 @@ export const defaultElement: Element = {
     people_count: 1,
     length: 1,
 };
+
+export type ImportElement = {
+    id: number;
+    element_id: string;
+    user_id: string;
+    inferred: string;
+    created_at: string;
+    updated_at: string;
+};
