@@ -65,6 +65,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [ParadeController::class, 'list']);
         Route::get('/{id}', [ParadeController::class, 'find']);
         Route::get('/{id}/passed', [ParadeController::class, 'findAndMarkElementsPassed']);
+        Route::get('/{id}/distance', [ParadeController::class, 'distance']);
         Route::post('/', [ParadeController::class, 'store']);
         Route::put('/{id}', [ParadeController::class, 'update']);
         Route::delete('/{id}', [ParadeController::class, 'delete']);

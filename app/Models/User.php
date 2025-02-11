@@ -82,4 +82,11 @@ class User extends Authenticatable
             ->whereNotNull($tableNames['model_has_roles'] . '.accepted_at')
             ->whereNull($tableNames['model_has_roles'] . '.revoked_at');
     }
+
+    public function elementsPassed()
+    {
+        return $this->belongsToMany(Element::class, 'element_passed_user', 'user_id', 'element_id')
+            ->withPivot('inferred')
+            ->withTimestamps();
+    }
 }
