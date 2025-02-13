@@ -97,9 +97,9 @@
     max-height: calc(100vh - 260px);
 }
 
-.sticky-header-table-container.control {
+.sticky-header-table-container.control table {
     /* overflow-y: auto; */
-    max-height: calc(100vh - 270px);
+    max-height: calc(100vh - 275px);
 }
 
 .sticky-header-table-container.control tbody td:first-child {
@@ -119,6 +119,12 @@
     position: sticky;
     top: 0;
 }
+
+.sticky-header-table-container.control thead th {
+    position: sticky;
+    top: 0;
+}
+
 
 
 
