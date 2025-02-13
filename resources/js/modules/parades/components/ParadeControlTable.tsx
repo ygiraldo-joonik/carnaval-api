@@ -1,5 +1,6 @@
 import { ParadeControlDataSet, ParadeControlEntities } from "@/types/parade";
 import { formatSeconds } from "@/utils/transformers/fromMinutesToHours";
+import truncateText from "@/utils/transformers/truncateText";
 import { TbClockX, TbClockExclamation, TbClockCheck } from "react-icons/tb";
 
 type ParadeControlTableProps = {
@@ -20,13 +21,13 @@ const ParadeControlTable = ({
                         <tr>
                             <th
                                 rowSpan={2}
-                                className="px-4 py-2 text-left font-medium text-gray-700 bg-accent"
+                                className="px-4 text-left font-medium text-gray-700 bg-accent"
                             >
                                 <p className="min-w-[180px]">Elemento</p>
                             </th>
                             <th
                                 rowSpan={2}
-                                className="px-4 py-2 text-center font-medium text-gray-700 bg-accent"
+                                className="px-4 text-center font-medium text-gray-700 bg-accent"
                             >
                                 <p className="max-w-[100px]">
                                     Duración Estimada
@@ -34,7 +35,7 @@ const ParadeControlTable = ({
                             </th>
                             <th
                                 colSpan={Object.values(entities.users).length}
-                                className="px-4 py-2 text-center font-medium text-gray-700 bg-accent"
+                                className="px-4 text-center font-medium text-gray-700 bg-accent"
                             >
                                 Postes
                             </th>
@@ -44,7 +45,7 @@ const ParadeControlTable = ({
                                 (UserName, i) => (
                                     <th
                                         key={i}
-                                        className="px-4  py-2 text-center font-medium text-gray-700 bg-accent"
+                                        className="px-4 text-center font-medium text-gray-700 bg-accent"
                                     >
                                         {UserName}
                                     </th>
@@ -62,8 +63,16 @@ const ParadeControlTable = ({
                                             className="border-t"
                                             key={elementId}
                                         >
-                                            <td className="px-4 py-2 bg-white">
-                                                <p className="min-w-[180px]">
+                                            <td className="px-4 bg-white">
+                                                <small className="text-gray-500">
+                                                    {truncateText(
+                                                        entities.elements[
+                                                            +elementId
+                                                        ].block,
+                                                        30
+                                                    )}
+                                                </small>
+                                                <p className="min-w-[180px] -mt-1.5">
                                                     {
                                                         entities.elements[
                                                             +elementId
@@ -71,7 +80,7 @@ const ParadeControlTable = ({
                                                     }
                                                 </p>
                                             </td>
-                                            <td className="px-4 py-2 text-center bg-white">
+                                            <td className="px-4 text-center bg-white">
                                                 <p className="max-w-[100px]">
                                                     {formatSeconds(
                                                         acummulated
@@ -90,7 +99,7 @@ const ParadeControlTable = ({
                                                     return dataset[+elementId][
                                                         +userId
                                                     ] != null ? (
-                                                        <td className="px-4 py-2 text-center">
+                                                        <td className="px-4 text-center">
                                                             {formatSeconds(
                                                                 dataset[
                                                                     +elementId
@@ -125,10 +134,7 @@ const ParadeControlTable = ({
                                                             </small>
                                                         </td>
                                                     ) : (
-                                                        <td
-                                                            colSpan={3}
-                                                            className=" px-4 py-2 text-center"
-                                                        >
+                                                        <td className=" px-4 text-center">
                                                             -
                                                         </td>
                                                     );
