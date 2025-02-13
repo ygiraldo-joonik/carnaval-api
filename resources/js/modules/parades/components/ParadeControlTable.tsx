@@ -8,8 +8,9 @@ type ParadeControlTableProps = {
 };
 const ParadeControlTable = ({ entities, dataset }: ParadeControlTableProps) => {
     return (
+        <div className="overflow-hidden rounded-lg">
         <div className="sticky-header-table-container control overflow-x-auto relative">
-            <table className="min-w-full bg-white overflow-hidden rounded-lg">
+            <table className="min-w-full bg-white">
                 <thead>
                     <tr>
                         <th className="px-4 py-2 text-left font-medium text-gray-700 bg-accent"></th>
@@ -114,7 +115,7 @@ const ParadeControlTable = ({ entities, dataset }: ParadeControlTableProps) => {
                                 dataset[+elementId] !== undefined && (
                                     <tr className="border-t" key={elementId}>
                                         <td className="px-4 py-2 bg-white">
-                                            {entities.elements[+elementId]}
+                                            <p className="min-w-[180px]">{entities.elements[+elementId]}</p>
                                         </td>
                                         {Object.keys(entities.users).map(
                                             (userId) => {
@@ -813,6 +814,7 @@ const ParadeControlTable = ({ entities, dataset }: ParadeControlTableProps) => {
                         )}
                 </tbody>
             </table>
+        </div>
         </div>
     );
 };

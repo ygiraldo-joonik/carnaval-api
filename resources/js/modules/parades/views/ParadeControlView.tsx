@@ -64,7 +64,7 @@ export default function ManageParadesView(props: ParadeControlViewProps) {
             }
         >
             <Head title="Control de desfile" />
-            <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-6">
+            <div className="max-w-[97%] mx-auto sm:px-6 lg:px-8 mt-6">
                 <div className="text-gray-900 ">
                     {props.distance.isThereData ? (
                         <div className=" relative sm:rounded-lg">

@@ -97,9 +97,11 @@
     max-height: calc(100vh - 260px);
 }
 
-.sticky-header-table-container.control table {
+.sticky-header-table-container.control {
     /* overflow-y: auto; */
-    max-height: calc(100vh - 275px);
+    max-height: calc(100vh - 320px); /*273 */
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-disabled-ligth-color) #f1f1f1;
 }
 
 .sticky-header-table-container.control tbody td:first-child {
@@ -123,6 +125,10 @@
 .sticky-header-table-container.control thead th {
     position: sticky;
     top: 0;
+}
+
+.sticky-header-table-container.control thead tr:nth-child(2) th{
+    top: 40px;
 }
 
 
