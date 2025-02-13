@@ -64,25 +64,28 @@ export default function ManageParadesView(props: ParadeControlViewProps) {
             }
         >
             <Head title="Control de desfile" />
-            <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-6">
-                <ImportParadeElements
-                    loading={loading}
-                    onFileUpload={importElements}
-                />
-                <div className="text-gray-900 bg-white shadow-sm sm:rounded-lg">
+            <div className="max-w-[97%] mx-auto sm:px-6 lg:px-8 mt-6">
+                <div className="text-gray-900 ">
                     {props.distance.isThereData ? (
-                        <div className="sticky-header-table-container control overflow-x-auto relative sm:rounded-lg">
+                        <div className=" relative sm:rounded-lg">
                             <Tabs
+                                right={
+                                    <ImportParadeElements
+                                        loading={loading}
+                                        onFileUpload={importElements}
+                                    />
+                                }
                                 tabs={{
-                                    "Al primero": (
+                                    "Distancia al primero": (
                                         <ParadeControlTable
                                             dataset={
                                                 props.distance.distanceFromFirst
                                             }
+                                            acummulated
                                             entities={props.distance.entities}
                                         />
                                     ),
-                                    "Al anterior": (
+                                    "Distancia al anterior": (
                                         <ParadeControlTable
                                             dataset={
                                                 props.distance

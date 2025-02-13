@@ -1,6 +1,6 @@
 import { ApiResponse } from "@/types/api-response";
 import { ImportElement } from "@/types/element";
-import axios from "axios";
+import axios, { Axios, AxiosResponse } from "axios";
 import { MetaHTMLAttributes } from "react";
 
 const importParadeElementsService = async (id: number, file: File) => {
@@ -10,13 +10,14 @@ const importParadeElementsService = async (id: number, file: File) => {
 
         const response = await axios.post<
             FormData,
-            ApiResponse<ImportElement[]>
+            AxiosResponse<ApiResponse<ImportElement[]>>
         >(route("elements.import", { parade_id: id }), formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
         });
-        return response.data;
+
+        return response.data.data;
     } catch (error) {
         throw error;
     }

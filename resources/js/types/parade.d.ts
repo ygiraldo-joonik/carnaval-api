@@ -53,11 +53,24 @@ export const defaultParade: Parade = {
 export type Duration = { hours: number; minutes: number };
 
 export type ParadeControlDataSet = {
-    [key: number]: { [key: number]: number | null };
+    [key: number]: {
+        [key: number]: {
+            duration: number;
+            delay: number;
+            on_time: boolean;
+        } | null;
+    };
 };
 
 export type ParadeControlEntities = {
-    elements: { [key: number]: string };
+    elements: {
+        [key: number]: {
+            name: string;
+            block: string;
+            duration: number;
+            accumulated_duration: number;
+        };
+    };
     users: { [key: number]: string };
 };
 

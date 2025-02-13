@@ -82,6 +82,7 @@ class CalculateParadeValuesService
         $data = DB::select("
             SELECT 
                 e.name AS element,
+                e.duration,
                 u.name AS user,
                 epu.element_id AS element_id,
                 epu.user_id AS user_id,
@@ -92,10 +93,24 @@ class CalculateParadeValuesService
             LEFT JOIN element_passed_user epu ON e.id = epu.element_id AND inferred = FALSE
             RIGHT JOIN users u ON u.id = epu.user_id 
             WHERE parade_id = :parade_id
-            ORDER BY user_id, b.order, e.order
+            ORDER BY b.order, e.order
         ", ['parade_id' => $paradeId]);
 
-        return  $data;
+        $elements = DB::select("
+            SELECT 
+                e.name AS element,
+                e.id AS element_id,
+                e.duration,
+                b.name as block,
+                b.id as block_id
+            FROM elements e
+            INNER JOIN blocks b ON b.id = e.block_id
+            INNER JOIN parades p ON p.id = 3
+            WHERE parade_id = :parade_id
+            ORDER BY b.order, e.order
+        ", ['parade_id' => $paradeId]);
+
+        return compact('data', 'elements');
     }
 
     /*+ Calculate relative distance for each user
@@ -124,10 +139,9 @@ class CalculateParadeValuesService
         foreach ($calculationsData['elements'] as $index => $element) {
 
             if ($index == 0) {
-                continue;
-            }
-
-            $previousElement = $calculationsData['elements'][$index - 1];
+                $previousElement = $element;
+            } else
+                $previousElement = $calculationsData['elements'][$index - 1];
 
             $distanceFromFirst[$element["id"]] = [];
             $distanceFromPrevious[$element["id"]] = [];
@@ -136,20 +150,33 @@ class CalculateParadeValuesService
 
                 // distance from first
                 if (isset($user["elements"][$element["id"]]) && isset($user["elements"][$firstElement['id']])) {
-                    $distanceFromFirst[$element["id"]][$userId] =  $this->calcDifferenceInMinutes(
+
+
+                    $duration = $this->calcDifferenceInSeconds(
                         $user["elements"][$element["id"]],
                         $user["elements"][$firstElement['id']]
                     );
+
+                    $distanceFromFirst[$element["id"]][$userId] =  [
+                        'duration' => $duration,
+                        'delay' => $duration - $element['accumulated_duration'],
+                        'on_time' => $duration <= $element['accumulated_duration'] || $index == 0
+                    ];
                 } else {
                     $distanceFromFirst[$element["id"]][$userId]  =  null;
                 }
 
                 // distance from previous
                 if (isset($user["elements"][$element["id"]]) && isset($user["elements"][$previousElement['id']])) {
-                    $distanceFromPrevious[$element["id"]][$userId] =  $this->calcDifferenceInMinutes(
+                    $duration =  $this->calcDifferenceInSeconds(
                         $user["elements"][$element["id"]],
                         $user["elements"][$previousElement['id']]
                     );
+                    $distanceFromPrevious[$element["id"]][$userId] = [
+                        'duration' => $duration,
+                        'delay' => $duration - $element['duration'],
+                        'on_time' => $duration <= $element['duration'] || $index == 0
+                    ];
                 } else {
                     $distanceFromPrevious[$element["id"]][$userId]  =  null;
                 }
@@ -168,7 +195,8 @@ class CalculateParadeValuesService
             'elements' => [],
         ];
 
-        foreach ($calculationData as $row) {
+        // get users that has regitered elements in the parade
+        foreach ($calculationData['data'] as $row) {
             if (!isset($data['users'][$row->user_id]))
                 $data['users'][$row->user_id] = [
                     'name' => $row->user,
@@ -176,12 +204,27 @@ class CalculateParadeValuesService
                 ];
 
             $data['users'][$row->user_id]['elements'][$row->element_id] = $row->passed_at;
+        }
 
-            if (!isset($data['elements'][$row->element_id]))
-                $data['elements'][$row->element_id] = [
-                    'name' => $row->element,
-                    'id' => $row->element_id,
-                ];
+        // get parade
+        $accumulatedDuration = 0;
+
+        foreach ($calculationData['elements'] as $index => $row) {
+
+            if ($index == 0) {
+                $accumulatedDuration = 0;
+                $duration = 0;
+            } else {
+                $accumulatedDuration += $row->duration;
+                $duration = $row->duration;
+            }
+
+            $data['elements'][$row->element_id] = [
+                'id' => $row->element_id,
+                'name' => $row->element,
+                'duration' => $duration,
+                'accumulated_duration' => $accumulatedDuration
+            ];
         }
 
         $data['elements'] = array_values($data['elements']);
@@ -196,13 +239,31 @@ class CalculateParadeValuesService
             'elements' => [],
         ];
 
-        foreach ($calculationData as $row) {
+        foreach ($calculationData['data'] as $row) {
             if (!isset($data['users'][$row->user_id]))
                 $data['users'][$row->user_id] =  $row->user;
+        }
 
 
-            if (!isset($data['elements'][$row->element_id]))
-                $data['elements'][$row->element_id] = $row->element;
+        $accumulatedDuration = 0;
+        foreach ($calculationData['elements'] as $index =>  $row) {
+            if (!isset($data['elements'][$row->element_id])) {
+                if ($index == 0) {
+                    $accumulatedDuration = 0;
+                    $duration = 0;
+                } else {
+                    $duration = $row->duration;
+                    $accumulatedDuration += $row->duration;
+                }
+
+
+                $data['elements'][$row->element_id] = [
+                    "name" => $row->element,
+                    "block" => $row->block,
+                    "duration" => $duration,
+                    "accumulated_duration" => $accumulatedDuration
+                ];
+            }
         }
 
         return $data;
@@ -217,5 +278,15 @@ class CalculateParadeValuesService
         $diff = $date1->diff($date2);
 
         return $diff->d * 24 * 60 + $diff->h * 60 + $diff->i;
+    }
+
+    public function calcDifferenceInSeconds(string $date1, string $date2): int
+    {
+        $date1 = new \DateTime($date1);
+        $date2 = new \DateTime($date2);
+
+        $diff = $date1->diff($date2);
+
+        return ($diff->d * 24 * 60 * 60) + ($diff->h * 60 * 60) + ($diff->i * 60) + $diff->s;
     }
 }
