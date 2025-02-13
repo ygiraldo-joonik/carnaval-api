@@ -4,7 +4,9 @@ export function fromMinutesToHours(m: number) {
     return `${hours}:${min.toString().padStart(2, "0")}`;
 }
 
-export function formatSeconds(s: number) {
+export function formatSeconds(_seconds: number) {
+    const s = Math.abs(_seconds);
+
     const hours = Math.floor(s / 3600);
     const minutes = Math.floor((s % 3600) / 60);
     const seconds = Math.round(s % 60);

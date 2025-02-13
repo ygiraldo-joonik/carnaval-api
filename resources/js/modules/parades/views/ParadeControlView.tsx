@@ -81,6 +81,7 @@ export default function ManageParadesView(props: ParadeControlViewProps) {
                                             dataset={
                                                 props.distance.distanceFromFirst
                                             }
+                                            acummulated
                                             entities={props.distance.entities}
                                         />
                                     ),

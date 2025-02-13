@@ -101,7 +101,7 @@ class CalculateParadeValuesService
                 e.name AS element,
                 e.id AS element_id,
                 e.duration,
-                b.name,
+                b.name as block,
                 b.id as block_id
             FROM elements e
             INNER JOIN blocks b ON b.id = e.block_id
@@ -159,8 +159,8 @@ class CalculateParadeValuesService
 
                     $distanceFromFirst[$element["id"]][$userId] =  [
                         'duration' => $duration,
-                        'expected' => $element['accumulated_duration'],
-                        'delay' => $duration - $element['accumulated_duration']
+                        'delay' => $duration - $element['accumulated_duration'],
+                        'on_time' => $duration <= $element['accumulated_duration'] || $index == 0
                     ];
                 } else {
                     $distanceFromFirst[$element["id"]][$userId]  =  null;
@@ -174,8 +174,8 @@ class CalculateParadeValuesService
                     );
                     $distanceFromPrevious[$element["id"]][$userId] = [
                         'duration' => $duration,
-                        'expected' => $element['duration'],
-                        'delay' => $duration - $element['duration']
+                        'delay' => $duration - $element['duration'],
+                        'on_time' => $duration <= $element['duration'] || $index == 0
                     ];
                 } else {
                     $distanceFromPrevious[$element["id"]][$userId]  =  null;
@@ -245,9 +245,25 @@ class CalculateParadeValuesService
         }
 
 
-        foreach ($calculationData['elements'] as $row) {
-            if (!isset($data['elements'][$row->element_id]))
-                $data['elements'][$row->element_id] = $row->element;
+        $accumulatedDuration = 0;
+        foreach ($calculationData['elements'] as $index =>  $row) {
+            if (!isset($data['elements'][$row->element_id])) {
+                if ($index == 0) {
+                    $accumulatedDuration = 0;
+                    $duration = 0;
+                } else {
+                    $duration = $row->duration;
+                    $accumulatedDuration += $row->duration;
+                }
+
+
+                $data['elements'][$row->element_id] = [
+                    "name" => $row->element,
+                    "block" => $row->block,
+                    "duration" => $duration,
+                    "accumulated_duration" => $accumulatedDuration
+                ];
+            }
         }
 
         return $data;

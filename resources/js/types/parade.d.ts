@@ -56,14 +56,21 @@ export type ParadeControlDataSet = {
     [key: number]: {
         [key: number]: {
             duration: number;
-            expected: number;
             delay: number;
+            on_time: boolean;
         } | null;
     };
 };
 
 export type ParadeControlEntities = {
-    elements: { [key: number]: string };
+    elements: {
+        [key: number]: {
+            name: string;
+            block: string;
+            duration: number;
+            accumulated_duration: number;
+        };
+    };
     users: { [key: number]: string };
 };
 
