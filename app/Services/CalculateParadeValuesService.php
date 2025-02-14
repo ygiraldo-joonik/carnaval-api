@@ -98,6 +98,14 @@ class CalculateParadeValuesService
         $elementsWhere = "parade_id = :parade_id";
 
         if ($onlyElementsPassed) {
+
+            // if there is no data return empty arrays
+            if (count($data) == 0)
+                return [
+                    'data' => [],
+                    'elements' => []
+                ];
+
             $elementsId = array_unique(
                 array_map(function ($element) {
                     return $element->element_id;
@@ -134,7 +142,6 @@ class CalculateParadeValuesService
     public function distance($paradeId, bool $withCalculationData = false, bool $onlyElementsPassed = false)
     {
         $dataForCalculations = $this->getParadeDataForCalculations($paradeId, $onlyElementsPassed);
-
         $calculationsData = $this->getControlCalculationData($dataForCalculations);
 
         $isThereData = count($calculationsData['elements']) > 0 && count($calculationsData['users']) > 0;
@@ -212,9 +219,17 @@ class CalculateParadeValuesService
     */
     public function elementsPosition($paradeId): array
     {
-        $paradeControlData = $this->distance($paradeId, true, true);
 
-        // return $paradeControlData;
+        $parade = Parade::find($paradeId);
+
+        $paradeControlData = $this->distance($paradeId, true, true);
+        if ($paradeControlData['isThereData'] == false)
+            return [
+                'parade' => $parade,
+                'isThereData' => false,
+                'elements' => [],
+            ];
+
         $lastElemensPassedRegister = $this->getLastElemensPassedRegister($paradeControlData['dataForCalculations']['data']);
 
         $elementsEntities = $paradeControlData['entities']['elements'];
@@ -226,7 +241,11 @@ class CalculateParadeValuesService
             $paradeControlData['distanceFromPrevious']
         );
 
-        return $elementsData;
+        return [
+            'parade' => $parade,
+            'isThereData' => true,
+            'elements' => $elementsData,
+        ];
     }
 
     /**
