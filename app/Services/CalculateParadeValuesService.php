@@ -76,7 +76,7 @@ class CalculateParadeValuesService
     }
 
     // Todos se comparan con el primero
-    public function getParadeDataForCalculations($paradeId, string $orderType = "asc", bool $onlyElementsPassed = false): array
+    public function getParadeDataForCalculations($paradeId, bool $onlyElementsPassed = false): array
     {
         $data = DB::select("
             SELECT 
@@ -92,7 +92,7 @@ class CalculateParadeValuesService
             LEFT JOIN element_passed_user epu ON e.id = epu.element_id AND inferred = FALSE
             RIGHT JOIN users u ON u.id = epu.user_id 
             WHERE parade_id = :parade_id
-            ORDER BY passed_at $orderType
+            ORDER BY passed_at asc
         ", ['parade_id' => $paradeId]);
 
         $elementsWhere = "parade_id = :parade_id";
@@ -119,7 +119,7 @@ class CalculateParadeValuesService
             INNER JOIN blocks b ON b.id = e.block_id
             INNER JOIN parades p ON p.id = 3
             WHERE $elementsWhere
-            ORDER BY b.order $orderType, e.order $orderType
+            ORDER BY b.order asc, e.order asc
         ", ['parade_id' => $paradeId]);
 
         return compact('data', 'elements');
@@ -133,7 +133,7 @@ class CalculateParadeValuesService
     */
     public function distance($paradeId, bool $withCalculationData = false, bool $onlyElementsPassed = false)
     {
-        $dataForCalculations = $this->getParadeDataForCalculations($paradeId, $onlyElementsPassed ? "desc" : "asc", $onlyElementsPassed);
+        $dataForCalculations = $this->getParadeDataForCalculations($paradeId, $onlyElementsPassed);
 
         $calculationsData = $this->getControlCalculationData($dataForCalculations);
 
@@ -257,14 +257,19 @@ class CalculateParadeValuesService
         array $distanceFromFirst,
         array $distanceFromPrevious
     ): array {
+
+        $elementIndex = 0;
+
         $elementsData = array_map(function (
-            $elementId
+            $elementId,
         ) use (
             $elementsEntities,
             $lastElemensPassedRegister,
             $distanceFromFirst,
-            $distanceFromPrevious
+            $distanceFromPrevious,
+            &$elementIndex
         ) {
+            $elementIndex++;
             return [
                 'id' => $elementId,
                 'name' => $elementsEntities[$elementId]['name'],
@@ -272,12 +277,17 @@ class CalculateParadeValuesService
                 'duration' => $elementsEntities[$elementId]['duration'],
                 'accumulated_duration' => $elementsEntities[$elementId]['accumulated_duration'],
                 'passed_at' => $lastElemensPassedRegister[$elementId]->passed_at,
+                'order' => $elementIndex,
                 'user' => $lastElemensPassedRegister[$elementId]->user,
                 'user_id' => $lastElemensPassedRegister[$elementId]->user_id,
                 'distance_from_first' => $distanceFromFirst[$elementId][$lastElemensPassedRegister[$elementId]->user_id],
                 'distance_from_previous' => $distanceFromPrevious[$elementId][$lastElemensPassedRegister[$elementId]->user_id]
             ];
         }, array_keys($elementsEntities));
+
+        usort($elementsData, function ($a, $b) {
+            return $b["order"] <=> $a["order"]; // Ordena por edad de menor a mayor
+        });
 
         return $elementsData;
     }
