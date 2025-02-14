@@ -95,4 +95,14 @@ class ParadeController extends Controller
             return $this->onError(500, $th->getMessage() . ' ' . $th->getTraceAsString());
         }
     }
+
+    public function elementsPosition($paradeId)
+    {
+        try {
+            $data = $this->calculateParadeValuesService->elementsPosition($paradeId);
+            return $this->onSuccess(200, 'Relative elements position calculated sucessfully', $data);
+        } catch (\Throwable $th) {
+            return $this->onError(500, $th->getMessage() . ' ' . $th->getTraceAsString());
+        }
+    }
 }

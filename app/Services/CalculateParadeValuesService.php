@@ -76,9 +76,8 @@ class CalculateParadeValuesService
     }
 
     // Todos se comparan con el primero
-    public function getParadeDataForCalculations($paradeId): array
+    public function getParadeDataForCalculations($paradeId, string $orderType = "asc", bool $onlyElementsPassed = false): array
     {
-
         $data = DB::select("
             SELECT 
                 e.name AS element,
@@ -93,8 +92,21 @@ class CalculateParadeValuesService
             LEFT JOIN element_passed_user epu ON e.id = epu.element_id AND inferred = FALSE
             RIGHT JOIN users u ON u.id = epu.user_id 
             WHERE parade_id = :parade_id
-            ORDER BY b.order, e.order
+            ORDER BY passed_at $orderType
         ", ['parade_id' => $paradeId]);
+
+        $elementsWhere = "parade_id = :parade_id";
+
+        if ($onlyElementsPassed) {
+            $elementsId = array_unique(
+                array_map(function ($element) {
+                    return $element->element_id;
+                }, $data)
+            );
+
+            $elementsId = implode(",", $elementsId);
+            $elementsWhere .= " AND e.id IN ($elementsId)";
+        }
 
         $elements = DB::select("
             SELECT 
@@ -106,8 +118,8 @@ class CalculateParadeValuesService
             FROM elements e
             INNER JOIN blocks b ON b.id = e.block_id
             INNER JOIN parades p ON p.id = 3
-            WHERE parade_id = :parade_id
-            ORDER BY b.order, e.order
+            WHERE $elementsWhere
+            ORDER BY b.order $orderType, e.order $orderType
         ", ['parade_id' => $paradeId]);
 
         return compact('data', 'elements');
@@ -119,11 +131,11 @@ class CalculateParadeValuesService
         * @param int $paradeId
         * @return array
     */
-    public function distance($paradeId)
+    public function distance($paradeId, bool $withCalculationData = false, bool $onlyElementsPassed = false)
     {
-        $dataForCalculations = $this->getParadeDataForCalculations($paradeId);
+        $dataForCalculations = $this->getParadeDataForCalculations($paradeId, $onlyElementsPassed ? "desc" : "asc", $onlyElementsPassed);
 
-        $calculationsData = $this->getCalculationsData($dataForCalculations);
+        $calculationsData = $this->getControlCalculationData($dataForCalculations);
 
         $isThereData = count($calculationsData['elements']) > 0 && count($calculationsData['users']) > 0;
 
@@ -185,24 +197,107 @@ class CalculateParadeValuesService
 
         $entities = $this->getElementsAndUsersData($dataForCalculations);
 
+        if ($withCalculationData) {
+            return compact('distanceFromFirst', 'distanceFromPrevious', 'entities', 'isThereData', 'calculationsData', 'dataForCalculations');
+        }
+
         return compact('distanceFromFirst', 'distanceFromPrevious', 'entities', 'isThereData');
     }
 
-    public function getCalculationsData(array $calculationData): array
+    /*+ Calculate relative distance for each user
+        * 
+        
+        * @param int $paradeId
+        * @return array
+    */
+    public function elementsPosition($paradeId): array
+    {
+        $paradeControlData = $this->distance($paradeId, true, true);
+
+        // return $paradeControlData;
+        $lastElemensPassedRegister = $this->getLastElemensPassedRegister($paradeControlData['dataForCalculations']['data']);
+
+        $elementsEntities = $paradeControlData['entities']['elements'];
+
+        $elementsData = $this->relateElementsWithControlData(
+            $elementsEntities,
+            $lastElemensPassedRegister,
+            $paradeControlData['distanceFromFirst'],
+            $paradeControlData['distanceFromPrevious']
+        );
+
+        return $elementsData;
+    }
+
+    /**
+     * Get the las register of element passed by each element
+     *
+     * @param array $rows
+     * @return array
+     */
+    public function getLastElemensPassedRegister($rows)
+    {
+        $elementsLastPassedRow = [];
+        foreach ($rows as $row) {
+            if (!isset($elementsLastPassedRow[$row->element_id])) {
+                $elementsLastPassedRow[$row->element_id] = $row;
+            } else {
+                if ($row->passed_at > $elementsLastPassedRow[$row->element_id]->passed_at) {
+                    $elementsLastPassedRow[$row->element_id] = $row;
+                }
+            }
+        }
+
+        return $elementsLastPassedRow;
+    }
+
+    public function relateElementsWithControlData(
+        array $elementsEntities,
+        array $lastElemensPassedRegister,
+        array $distanceFromFirst,
+        array $distanceFromPrevious
+    ): array {
+        $elementsData = array_map(function (
+            $elementId
+        ) use (
+            $elementsEntities,
+            $lastElemensPassedRegister,
+            $distanceFromFirst,
+            $distanceFromPrevious
+        ) {
+            return [
+                'id' => $elementId,
+                'name' => $elementsEntities[$elementId]['name'],
+                'block' => $elementsEntities[$elementId]['block'],
+                'duration' => $elementsEntities[$elementId]['duration'],
+                'accumulated_duration' => $elementsEntities[$elementId]['accumulated_duration'],
+                'passed_at' => $lastElemensPassedRegister[$elementId]->passed_at,
+                'user' => $lastElemensPassedRegister[$elementId]->user,
+                'user_id' => $lastElemensPassedRegister[$elementId]->user_id,
+                'distance_from_first' => $distanceFromFirst[$elementId][$lastElemensPassedRegister[$elementId]->user_id],
+                'distance_from_previous' => $distanceFromPrevious[$elementId][$lastElemensPassedRegister[$elementId]->user_id]
+            ];
+        }, array_keys($elementsEntities));
+
+        return $elementsData;
+    }
+
+    public function getControlCalculationData(array $calculationData): array
     {
         $data = [
             'users' => [],
             'elements' => [],
         ];
 
+
         // get users that has regitered elements in the parade
         foreach ($calculationData['data'] as $row) {
-            if (!isset($data['users'][$row->user_id]))
+            if (!isset($data['users'][$row->user_id])) {
                 $data['users'][$row->user_id] = [
                     'name' => $row->user,
-                    'elements' => []
+                    'elements' => [],
                 ];
-
+            }
             $data['users'][$row->user_id]['elements'][$row->element_id] = $row->passed_at;
         }
 
@@ -219,11 +314,12 @@ class CalculateParadeValuesService
                 $duration = $row->duration;
             }
 
+
             $data['elements'][$row->element_id] = [
                 'id' => $row->element_id,
                 'name' => $row->element,
                 'duration' => $duration,
-                'accumulated_duration' => $accumulatedDuration
+                'accumulated_duration' => $accumulatedDuration,
             ];
         }
 
@@ -239,13 +335,20 @@ class CalculateParadeValuesService
             'elements' => [],
         ];
 
+        $usersOrder = 0;
         foreach ($calculationData['data'] as $row) {
-            if (!isset($data['users'][$row->user_id]))
-                $data['users'][$row->user_id] =  $row->user;
+            if (!isset($data['users'][$row->user_id])) {
+                $usersOrder++;
+                $data['users'][$row->user_id] =  [
+                    'order' => $usersOrder,
+                    'name' => $row->user,
+                ];
+            }
         }
 
 
         $accumulatedDuration = 0;
+        $elementsOrder = 0;
         foreach ($calculationData['elements'] as $index =>  $row) {
             if (!isset($data['elements'][$row->element_id])) {
                 if ($index == 0) {
@@ -256,12 +359,15 @@ class CalculateParadeValuesService
                     $accumulatedDuration += $row->duration;
                 }
 
+                $elementsOrder++;
+
 
                 $data['elements'][$row->element_id] = [
                     "name" => $row->element,
                     "block" => $row->block,
                     "duration" => $duration,
-                    "accumulated_duration" => $accumulatedDuration
+                    "accumulated_duration" => $accumulatedDuration,
+                    "order" => $elementsOrder
                 ];
             }
         }
