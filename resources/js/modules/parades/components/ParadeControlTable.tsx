@@ -13,6 +13,14 @@ const ParadeControlTable = ({
     dataset,
     acummulated = false,
 }: ParadeControlTableProps) => {
+    const orderedUsersIds = Object.keys(entities.users).sort((a, b) => {
+        return entities.users[+a].order - entities.users[+b].order;
+    });
+
+    const orderedElemetsIds = Object.keys(entities.elements).sort((a, b) => {
+        return entities.elements[+a].order - entities.elements[+b].order;
+    });
+
     return (
         <div className="overflow-hidden rounded-lg">
             <div className="sticky-header-table-container control overflow-x-auto relative">
@@ -41,108 +49,102 @@ const ParadeControlTable = ({
                             </th>
                         </tr>
                         <tr>
-                            {Object.values(entities.users).map(
-                                (UserName, i) => (
-                                    <th
-                                        key={i}
-                                        className="px-4 text-center font-medium text-gray-700 bg-accent"
-                                    >
-                                        {UserName}
-                                    </th>
-                                )
-                            )}
+                            {orderedUsersIds.map((userId, i) => (
+                                <th
+                                    key={i}
+                                    className="px-4 text-center font-medium text-gray-700 bg-accent"
+                                >
+                                    {entities.users[+userId].name}
+                                </th>
+                            ))}
                         </tr>
                     </thead>
                     <tbody>
-                        {Object.keys(entities.elements)
-                            .sort()
-                            .map(
-                                (elementId) =>
-                                    dataset[+elementId] !== undefined && (
-                                        <tr
-                                            className="border-t"
-                                            key={elementId}
-                                        >
-                                            <td className="px-4 bg-white">
-                                                <small className="text-gray-500">
-                                                    {truncateText(
-                                                        entities.elements[
-                                                            +elementId
-                                                        ].block,
-                                                        30
-                                                    )}
-                                                </small>
-                                                <p className="min-w-[180px] -mt-1.5">
-                                                    {
-                                                        entities.elements[
-                                                            +elementId
-                                                        ].name
-                                                    }
-                                                </p>
-                                            </td>
-                                            <td className="px-4 text-center bg-white">
-                                                <p className="max-w-[100px]">
-                                                    {formatSeconds(
-                                                        acummulated
-                                                            ? entities.elements[
-                                                                  +elementId
-                                                              ]
-                                                                  .accumulated_duration
-                                                            : entities.elements[
-                                                                  +elementId
-                                                              ].duration
-                                                    )}
-                                                </p>
-                                            </td>
-                                            {Object.keys(entities.users).map(
-                                                (userId) => {
-                                                    return dataset[+elementId][
-                                                        +userId
-                                                    ] != null ? (
-                                                        <td className="px-4 text-center">
+                        {orderedElemetsIds.map(
+                            (elementId) =>
+                                dataset[+elementId] !== undefined && (
+                                    <tr className="border-t" key={elementId}>
+                                        <td className="px-4 bg-white">
+                                            <small className="text-gray-500">
+                                                {truncateText(
+                                                    entities.elements[
+                                                        +elementId
+                                                    ].block,
+                                                    30
+                                                )}
+                                            </small>
+                                            <p className="min-w-[180px] -mt-1.5">
+                                                {
+                                                    entities.elements[
+                                                        +elementId
+                                                    ].name
+                                                }
+                                            </p>
+                                        </td>
+                                        <td className="px-4 text-center bg-white">
+                                            <p className="max-w-[100px]">
+                                                {formatSeconds(
+                                                    acummulated
+                                                        ? entities.elements[
+                                                              +elementId
+                                                          ].accumulated_duration
+                                                        : entities.elements[
+                                                              +elementId
+                                                          ].duration
+                                                )}
+                                            </p>
+                                        </td>
+                                        {Object.keys(entities.users).map(
+                                            (userId) => {
+                                                return dataset[+elementId][
+                                                    +userId
+                                                ] != null ? (
+                                                    <td
+                                                        className="px-4 text-center"
+                                                        key={userId}
+                                                    >
+                                                        {formatSeconds(
+                                                            dataset[+elementId][
+                                                                +userId
+                                                            ]!.duration
+                                                        )}{" "}
+                                                        /{" "}
+                                                        <small
+                                                            className={`${
+                                                                dataset[
+                                                                    +elementId
+                                                                ][+userId]!
+                                                                    .on_time
+                                                                    ? "text-green-600"
+                                                                    : "text-red-600"
+                                                            } inline-flex gap-2 items-center`}
+                                                        >
+                                                            {dataset[
+                                                                +elementId
+                                                            ][+userId]!
+                                                                .on_time ? (
+                                                                <TbClockCheck className="inline-block" />
+                                                            ) : (
+                                                                <TbClockX className="inline-block" />
+                                                            )}{" "}
                                                             {formatSeconds(
                                                                 dataset[
                                                                     +elementId
                                                                 ][+userId]!
-                                                                    .duration
-                                                            )}{" "}
-                                                            /{" "}
-                                                            <small
-                                                                className={`${
-                                                                    dataset[
-                                                                        +elementId
-                                                                    ][+userId]!
-                                                                        .on_time
-                                                                        ? "text-green-600"
-                                                                        : "text-red-600"
-                                                                } inline-flex gap-2 items-center`}
-                                                            >
-                                                                {dataset[
-                                                                    +elementId
-                                                                ][+userId]!
-                                                                    .on_time ? (
-                                                                    <TbClockCheck className="inline-block" />
-                                                                ) : (
-                                                                    <TbClockX className="inline-block" />
-                                                                )}{" "}
-                                                                {formatSeconds(
-                                                                    dataset[
-                                                                        +elementId
-                                                                    ][+userId]!
-                                                                        .delay
-                                                                )}
-                                                            </small>
-                                                        </td>
-                                                    ) : (
-                                                        <td className=" px-4 text-center">
-                                                            -
-                                                        </td>
-                                                    );
-                                                }
-                                            )}
-                                        </tr>
-                                    )
-                            )}
+                                                                    .delay
+                                                            )}
+                                                        </small>
+                                                    </td>
+                                                ) : (
+                                                    <td className=" px-4 text-center">
+                                                        -
+                                                    </td>
+                                                );
+                                            }
+                                        )}
+                                    </tr>
+                                )
+                        )}
                     </tbody>
                 </table>
             </div>

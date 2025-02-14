@@ -69,9 +69,15 @@ export type ParadeControlEntities = {
             block: string;
             duration: number;
             accumulated_duration: number;
+            order: number;
         };
     };
-    users: { [key: number]: string };
+    users: {
+        [key: number]: {
+            name: string;
+            order: number;
+        };
+    };
 };
 
 export type ParadeControlDataType = {
