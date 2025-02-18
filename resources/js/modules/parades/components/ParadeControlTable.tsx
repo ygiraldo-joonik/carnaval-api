@@ -2,6 +2,7 @@ import { ParadeControlDataSet, ParadeControlEntities } from "@/types/parade";
 import { formatSeconds } from "@/utils/transformers/fromMinutesToHours";
 import truncateText from "@/utils/transformers/truncateText";
 import { TbClockX, TbClockExclamation, TbClockCheck } from "react-icons/tb";
+import { Fragment } from "react/jsx-runtime";
 
 type ParadeControlTableProps = {
     dataset: ParadeControlDataSet;
@@ -43,7 +44,7 @@ const ParadeControlTable = ({
                             </th>
                             <th
                                 colSpan={Object.values(entities.users).length}
-                                className="px-4 text-center font-medium text-gray-700 bg-accent"
+                                className="px-4 font-semibold text-center font-medium text-gray-700 bg-accent"
                             >
                                 Postes
                             </th>
@@ -60,10 +61,10 @@ const ParadeControlTable = ({
                         </tr>
                     </thead>
                     <tbody>
-                        {orderedElemetsIds.map(
-                            (elementId) =>
-                                dataset[+elementId] !== undefined && (
-                                    <tr className="border-t" key={elementId}>
+                        {orderedElemetsIds.map((elementId) => (
+                            <Fragment key={elementId}>
+                                {dataset[+elementId] !== undefined && (
+                                    <tr className="border-t">
                                         <td className="px-4 bg-white">
                                             <small className="text-gray-500">
                                                 {truncateText(
@@ -95,56 +96,57 @@ const ParadeControlTable = ({
                                             </p>
                                         </td>
                                         {Object.keys(entities.users).map(
-                                            (userId) => {
-                                                return dataset[+elementId][
-                                                    +userId
-                                                ] != null ? (
-                                                    <td
-                                                        className="px-4 text-center"
-                                                        key={userId}
-                                                    >
-                                                        {formatSeconds(
-                                                            dataset[+elementId][
-                                                                +userId
-                                                            ]!.duration
-                                                        )}{" "}
-                                                        /{" "}
-                                                        <small
-                                                            className={`${
-                                                                dataset[
-                                                                    +elementId
-                                                                ][+userId]!
-                                                                    .on_time
-                                                                    ? "text-green-600"
-                                                                    : "text-red-600"
-                                                            } inline-flex gap-2 items-center`}
-                                                        >
-                                                            {dataset[
-                                                                +elementId
-                                                            ][+userId]!
-                                                                .on_time ? (
-                                                                <TbClockCheck className="inline-block" />
-                                                            ) : (
-                                                                <TbClockX className="inline-block" />
-                                                            )}{" "}
+                                            (userId) => (
+                                                <Fragment key={userId}>
+                                                    {dataset[+elementId][
+                                                        +userId
+                                                    ] != null ? (
+                                                        <td className="px-4 text-center">
                                                             {formatSeconds(
                                                                 dataset[
                                                                     +elementId
                                                                 ][+userId]!
-                                                                    .delay
-                                                            )}
-                                                        </small>
-                                                    </td>
-                                                ) : (
-                                                    <td className=" px-4 text-center">
-                                                        -
-                                                    </td>
-                                                );
-                                            }
+                                                                    .duration
+                                                            )}{" "}
+                                                            /{" "}
+                                                            <small
+                                                                className={`${
+                                                                    dataset[
+                                                                        +elementId
+                                                                    ][+userId]!
+                                                                        .on_time
+                                                                        ? "text-green-600"
+                                                                        : "text-red-600"
+                                                                } inline-flex gap-2 items-center`}
+                                                            >
+                                                                {dataset[
+                                                                    +elementId
+                                                                ][+userId]!
+                                                                    .on_time ? (
+                                                                    <TbClockCheck className="inline-block" />
+                                                                ) : (
+                                                                    <TbClockX className="inline-block" />
+                                                                )}{" "}
+                                                                {formatSeconds(
+                                                                    dataset[
+                                                                        +elementId
+                                                                    ][+userId]!
+                                                                        .delay
+                                                                )}
+                                                            </small>
+                                                        </td>
+                                                    ) : (
+                                                        <td className=" px-4 text-center">
+                                                            -
+                                                        </td>
+                                                    )}
+                                                </Fragment>
+                                            )
                                         )}
                                     </tr>
-                                )
-                        )}
+                                )}
+                            </Fragment>
+                        ))}
                     </tbody>
                 </table>
             </div>

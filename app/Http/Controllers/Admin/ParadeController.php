@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Services\CalculateParadeValuesService;
 use App\Services\ParadeService;
 use App\Services\UserParadeService;
@@ -33,6 +34,11 @@ class ParadeController extends Controller
         $parade = $this->userParadeService->find($paradeId);
         $distance = $this->calculateParadeValuesService->distance($paradeId);
 
-        return Inertia::render('Admin/Parades/Control', compact('parade', 'distance'));
+        setPermissionsTeamId(0);
+
+        $user = User::find(auth()->id());
+        $canImport = $user->hasRole('super-admin');
+
+        return Inertia::render('Admin/Parades/Control', compact('parade', 'distance', 'canImport'));
     }
 }
