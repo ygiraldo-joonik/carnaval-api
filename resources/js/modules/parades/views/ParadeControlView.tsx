@@ -14,9 +14,11 @@ import useImportParadeElements from "../hooks/useImportParadeElements";
 export type ParadeControlViewProps = {
     parade: Parade;
     distance: ParadeControlDataType;
+    canImport: boolean;
 } & DefaultPageProps;
 
 export default function ManageParadesView(props: ParadeControlViewProps) {
+    console.log(props);
     const { loading, importElements } = useImportParadeElements(props.parade);
     return (
         <AuthenticatedLayout
@@ -70,10 +72,12 @@ export default function ManageParadesView(props: ParadeControlViewProps) {
                         <div className=" relative sm:rounded-lg">
                             <Tabs
                                 right={
-                                    <ImportParadeElements
-                                        loading={loading}
-                                        onFileUpload={importElements}
-                                    />
+                                    props.canImport && (
+                                        <ImportParadeElements
+                                            loading={loading}
+                                            onFileUpload={importElements}
+                                        />
+                                    )
                                 }
                                 tabs={{
                                     "Distancia al primero": (
