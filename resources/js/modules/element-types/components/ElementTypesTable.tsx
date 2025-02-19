@@ -17,23 +17,23 @@ export default function ElementTypesTable(props: ElementTypesTableProps) {
             <div className=" text-gray-900 bg-white shadow-sm sm:rounded-lg">
                 <div className="sticky-header-table-container relative sm:rounded-lg">
                     <table className="min-w-full bg-white sm:rounded-lg ">
-                        <thead className="bg-accent">
+                        <thead>
                             <tr>
-                                <th className="px-4 py-2 text-left font-medium text-gray-700"></th>
-                                <th className="px-4  py-2 text-left font-medium text-gray-700">
+                                <th className="px-4 py-2 text-left font-medium text-gray-700 bg-accent"></th>
+                                <th className="px-4  py-2 text-left font-medium text-gray-700 bg-accent">
                                     Nombre
                                 </th>
 
-                                <th className="px-4 py-2 text-left font-medium text-gray-700">
+                                <th className="px-4 py-2 text-left font-medium text-gray-700 bg-accent">
                                     Descripción
                                 </th>
-                                <th className="px-4 py-2 text-left font-medium text-gray-700">
+                                <th className="px-4 py-2 text-left font-medium text-gray-700 bg-accent">
                                     Cant Personas
                                 </th>
-                                <th className="px-4 py-2 text-left font-medium text-gray-700">
+                                <th className="px-4 py-2 text-left font-medium text-gray-700 bg-accent">
                                     Longitud (mts)
                                 </th>
-                                <th className="px-4 py-2 text-left font-medium text-gray-700"></th>
+                                <th className="px-4 py-2 text-left font-medium text-gray-700 bg-accent"></th>
                             </tr>
                         </thead>
                         <tbody>
