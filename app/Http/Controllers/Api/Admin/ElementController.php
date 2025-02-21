@@ -104,6 +104,21 @@ class ElementController extends Controller
         }
     }
 
+    public function bulkCreateElements(int $blockId, Request $request)
+    {
+        try {
+            $this->elementService->validateBulkRegisterElementsPassed($request);
+
+
+            $elements = $this->elementService->bulkCreateElements(intval($blockId), $request->file('file'));
+
+            return $this->onSuccess(200, 'Elements created sucessfully', $elements);
+        } catch (\Throwable $th) {
+            // error_log($th->getMessage(), $th->getTraceAsString());
+            return $this->onError(500, $th->getMessage());
+        }
+    }
+
     public function bulkRegiserElementsPassed(int $paradeId, Request $request)
     {
         try {

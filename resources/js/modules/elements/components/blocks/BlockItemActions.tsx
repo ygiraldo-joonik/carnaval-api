@@ -8,6 +8,7 @@ import {
     MdDeleteOutline,
     MdOutlineEdit,
 } from "react-icons/md";
+import { GrDocumentUpload } from "react-icons/gr";
 import { useManageElementsContext } from "../../context/ManageElementsContext";
 import TableIconButton from "../TableIconButton";
 
@@ -29,11 +30,19 @@ const BlockItemActions = ({
         onEditBlock,
         onDeleteBlock,
         onUpdateBlockOrder,
+        onBulkCreateElements,
         loadingUpdateBlocksOrder,
     } = useManageElementsContext();
 
     return (
         <>
+            <TableIconButton
+                title="Subir csv"
+                onClick={() => onBulkCreateElements(block)}
+                Icon={GrDocumentUpload}
+                hidden={!open}
+            />
+
             <TableIconButton
                 title="Crear elemento"
                 onClick={() => onCreateElement(block)}

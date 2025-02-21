@@ -1,4 +1,4 @@
-import { Block, defaultBlock } from "@/types/element.d";
+import { Block, BlockFormData, defaultBlock } from "@/types/element.d";
 import { router } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import useUpsertBlock from "./useUpsertBlock";
@@ -6,6 +6,7 @@ import useDeleteBlock from "./useDeleteBlock";
 import { Parade } from "@/types/parade.d";
 import useUpdateBlocksOrder from "./useUpdateBlocksOrder";
 import { ReorderType } from "../../context/ManageElementsContext";
+import useBulkCreateElements from "../elements/useBulkCreateElements";
 
 export const defaultUseManageBlocks = {
     blocks: [],
@@ -14,16 +15,21 @@ export const defaultUseManageBlocks = {
     onUpsertElement: (block: Block) => {},
     openBlockModal: false,
     openDeleteBlockModal: false,
+    openBulkCreateElementsModal: false,
     filterBlocks: (search: string) => {},
     handleUpsertBlockModalClose: () => {},
     handleDeleteBlockModalClose: () => {},
+    handleBulkCreateElementsModalClose: () => {},
     onEditBlock: (selectedBlock: Block) => {},
     onDeleteBlock: (selectedBlock: Block) => {},
     onCreateBlock: () => {},
-    upsertBlock: (block: Block) => Promise.resolve(),
+    upsertBlock: (block: BlockFormData) => Promise.resolve(),
     deleteBlock: (id: number, name: string) => Promise.resolve(),
+    bulkCreateElements: (file: File) => Promise.resolve(),
     onUpdateBlockOrder: (block: Block, type: ReorderType) => {},
     onUpdateOrderSuccess: () => {},
+    onBulkCreateElements: (selectedBlock: Block) => {},
+    loadingBulkCreateElements: false,
     loadingBlockForm: false,
     loadingBlockDelete: false,
     loadingUpdateBlocksOrder: false,
@@ -37,6 +43,9 @@ const useManageBlocks = (parade: Parade) => {
     const [openBlockModal, setOpenBlockModal] = useState<boolean>(false);
 
     const [openDeleteBlockModal, setOpenDeleteBlockModal] =
+        useState<boolean>(false);
+
+    const [openBulkCreateElementsModal, setOpenBulkCreateElementsModal] =
         useState<boolean>(false);
 
     const [block, setBlock] = useState<Block>(defaultBlock);
@@ -93,6 +102,11 @@ const useManageBlocks = (parade: Parade) => {
         setTimeout(() => setBlock(defaultBlock), 500);
     };
 
+    const handleBulkCreateElementsModalClose = () => {
+        setOpenBulkCreateElementsModal(false);
+        setTimeout(() => setBlock(defaultBlock), 500);
+    };
+
     const onEditBlock = (selectedBlock: Block) => {
         setBlock(selectedBlock);
         setOpenBlockModal(true);
@@ -110,6 +124,11 @@ const useManageBlocks = (parade: Parade) => {
 
     const onUpsertElement = (selectedBlock: Block) => {
         setBlock(selectedBlock);
+    };
+
+    const onBulkCreateElements = (selectedBlock: Block) => {
+        setBlock(selectedBlock);
+        setOpenBulkCreateElementsModal(true);
     };
 
     const refreshBlocks = () =>
@@ -141,6 +160,11 @@ const useManageBlocks = (parade: Parade) => {
         refreshBlocks();
     };
 
+    const onBulkCreateElementsSuccess = () => {
+        handleBulkCreateElementsModalClose();
+        refreshBlocks();
+    };
+
     const { loading: loadingBlockForm, upsertBlock } = useUpsertBlock(
         parade,
         onUpsertSuccess
@@ -151,6 +175,9 @@ const useManageBlocks = (parade: Parade) => {
 
     const { loading: loadingBlockDelete, deleteBlock } =
         useDeleteBlock(onDeleteSuccess);
+
+    const { loading: loadingBulkCreateElements, bulkCreateElements } =
+        useBulkCreateElements(block, onBulkCreateElementsSuccess);
 
     const onUpdateBlockOrder = (block: Block, type: ReorderType) => {
         const paradeBlocks = parade.blocks || [];
@@ -184,18 +211,23 @@ const useManageBlocks = (parade: Parade) => {
         onUpsertElement,
         openBlockModal,
         openDeleteBlockModal,
+        openBulkCreateElementsModal,
         filterBlocks,
         handleUpsertBlockModalClose,
         handleDeleteBlockModalClose,
+        handleBulkCreateElementsModalClose,
         onEditBlock,
         onDeleteBlock,
         onCreateBlock,
-        upsertBlock,
+        onBulkCreateElements,
         onUpdateBlockOrder,
+        upsertBlock,
+        bulkCreateElements,
         deleteBlock,
         loadingBlockForm,
         loadingBlockDelete,
         loadingUpdateBlocksOrder,
+        loadingBulkCreateElements,
         onUpdateOrderSuccess,
         refreshBlocks,
         clearBlock,

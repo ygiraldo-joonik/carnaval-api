@@ -2,8 +2,11 @@
 
 namespace App\Services;
 
+use App\Models\Block;
 use App\Models\Element;
 use App\Models\ElementPassedUser;
+use App\Models\ElementType;
+use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -12,16 +15,24 @@ use SplFileObject;
 
 class ElementService
 {
-    const ELEMENT_ID_INDEX = 0;
-    const USER_ID_INDEX = 1;
-    const INFERRED_INDEX = 2;
-    const DATE_INDEX = 3;
+    const BULK_ELEMENTS_PASSED_ELEMENT_ID_INDEX = 0;
+    const BULK_ELEMENTS_PASSED_USER_ID_INDEX = 1;
+    const BULK_ELEMENTS_PASSED_INFERRED_INDEX = 2;
+    const BULK_ELEMENTS_PASSED_DATE_INDEX = 3;
+
+    const BULK_ELEMENTS_NAME_INDEX = 0;
+    const BULK_ELEMENTS_DESCRIPTION_INDEX = 1;
+    const BULK_ELEMENTS_ELEMENT_TYPE_INDEX = 2;
+    const BULK_ELEMENTS_LENGTH_INDEX = 3;
+    const BULK_ELEMENTS_PEOPLE_COUNT_INDEX = 4;
 
     protected CalculateParadeValuesService $calculateParadeValuesService;
+    protected string $defaultOrganizationName;
 
     public function __construct(CalculateParadeValuesService $calculateParadeValuesService)
     {
         $this->calculateParadeValuesService = $calculateParadeValuesService;
+        $this->defaultOrganizationName = env('DEFAULT_ORGANIZATION_NAME');
     }
 
     public function getAll($blockId)
@@ -223,14 +234,14 @@ class ElementService
             }
 
             $elementsPassedData[] = [
-                'element_id' => $row[self::ELEMENT_ID_INDEX],
-                'user_id' => $row[self::USER_ID_INDEX],
-                'inferred' => $row[self::INFERRED_INDEX],
-                'created_at' => $row[self::DATE_INDEX],
+                'element_id' => $row[self::BULK_ELEMENTS_PASSED_ELEMENT_ID_INDEX],
+                'user_id' => $row[self::BULK_ELEMENTS_PASSED_USER_ID_INDEX],
+                'inferred' => $row[self::BULK_ELEMENTS_PASSED_INFERRED_INDEX],
+                'created_at' => $row[self::BULK_ELEMENTS_PASSED_DATE_INDEX],
             ];
 
-            $elementsId[] = $row[self::ELEMENT_ID_INDEX];
-            $usersId[] = $row[self::USER_ID_INDEX];
+            $elementsId[] = $row[self::BULK_ELEMENTS_PASSED_ELEMENT_ID_INDEX];
+            $usersId[] = $row[self::BULK_ELEMENTS_PASSED_USER_ID_INDEX];
         }
 
         // delete repeated from elements and users
@@ -272,5 +283,96 @@ class ElementService
         }
 
         return $registeredElemetsPassed;
+    }
+
+    public function bulkCreateElements(int $blockId, UploadedFile $file)
+    {
+        $delimiter = $this->detectDelimiter($file->getRealPath());
+        $fileObject = new SplFileObject($file->getRealPath());
+        $fileObject->setFlags(SplFileObject::READ_CSV);
+        $fileObject->setCsvControl($delimiter);
+
+        $elementTypesIds = $this->getElementTypesIds($fileObject);
+
+
+        $block = Block::withCount('elements')->find($blockId);
+
+
+        $elements = [];
+        $createdElementsCount = 0;
+
+        foreach ($fileObject as $index => $row) {
+            if ($index == 0) {
+                continue;
+            }
+
+            if (count($row) < 5) {
+                continue;
+            }
+            $element = Element::where('name', $row[self::BULK_ELEMENTS_NAME_INDEX])
+                ->where('block_id', $blockId)
+                ->first();
+
+            if ($element)
+                $element->update([
+                    'description' => $row[self::BULK_ELEMENTS_DESCRIPTION_INDEX],
+                    'element_type_id' => $elementTypesIds[$row[self::BULK_ELEMENTS_ELEMENT_TYPE_INDEX]],
+                    'people_count' => $row[self::BULK_ELEMENTS_PEOPLE_COUNT_INDEX],
+                    'length' => $row[self::BULK_ELEMENTS_LENGTH_INDEX],
+                ]);
+            else {
+                $createdElementsCount++;
+                $element = Element::create([
+                    'name' => $row[self::BULK_ELEMENTS_NAME_INDEX],
+                    'description' => $row[self::BULK_ELEMENTS_DESCRIPTION_INDEX],
+                    'element_type_id' => $elementTypesIds[$row[self::BULK_ELEMENTS_ELEMENT_TYPE_INDEX]],
+                    'block_id' => $blockId,
+                    'people_count' => $row[self::BULK_ELEMENTS_PEOPLE_COUNT_INDEX],
+                    'length' => $row[self::BULK_ELEMENTS_LENGTH_INDEX],
+                    'order' =>  $block->elements_count + $createdElementsCount
+                ]);
+            }
+
+
+            $elements[] = $element;
+        }
+
+
+        $this->calculateParadeValuesService->updateParadeComputedValues($block->parade_id);
+
+        return $elements;
+    }
+
+    public function getElementTypesIds($rows)
+    {
+
+        $defaultOrganization = Organization::where('name', $this->defaultOrganizationName)->first();
+
+        $elementTypesMap = [];
+
+        foreach ($rows as $index => $row) {
+            if ($index == 0) {
+                continue;
+            }
+            if (!isset($elementTypesMap[$row[self::BULK_ELEMENTS_ELEMENT_TYPE_INDEX]])) {
+                $elementType = ElementType::where('name', $row[self::BULK_ELEMENTS_ELEMENT_TYPE_INDEX])->first();
+
+                if (!$elementType) {
+                    $elementType = ElementType::create([
+                        'name' => $row[self::BULK_ELEMENTS_ELEMENT_TYPE_INDEX],
+                        'description' => '-',
+                        'color' => '#ABB8C3',
+                        'organization_id' => $defaultOrganization->id,
+                        'people_count' => $row[self::BULK_ELEMENTS_PEOPLE_COUNT_INDEX],
+                        'length' => $row[self::BULK_ELEMENTS_LENGTH_INDEX],
+                    ]);
+                }
+
+                $elementTypesMap[$row[self::BULK_ELEMENTS_ELEMENT_TYPE_INDEX]] = $elementType->id;
+            }
+        }
+
+
+        return $elementTypesMap;
     }
 }

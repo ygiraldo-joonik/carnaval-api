@@ -72,7 +72,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/{id}', [ApiElementController::class, 'update'])->name('elements.update');
         Route::delete('/{id}', [ApiElementController::class, 'delete'])->name('elements.delete');
 
-        Route::post('/{parade_id}/import', [ApiElementController::class, 'bulkRegiserElementsPassed'])->name('elements.import');
+        Route::post('/{parade_id}/import-passed', [ApiElementController::class, 'bulkRegiserElementsPassed'])->name('elements.import-passed');
+        Route::post('/{block_id}/bulk-create', [ApiElementController::class, 'bulkCreateElements'])->name('elements.bulk-create');
     });
 });
 

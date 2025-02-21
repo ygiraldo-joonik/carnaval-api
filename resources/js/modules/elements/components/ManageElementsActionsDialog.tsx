@@ -1,5 +1,6 @@
 import { useManageElementsContext } from "../context/ManageElementsContext";
 import BlockFormModal from "./blocks/BlockFormModal";
+import BulkCreateElementsDialog from "./blocks/BulkCreateElementsDialog";
 import DeleteBlockDialog from "./blocks/DeleteBlockDialog";
 import DeleteElementDialog from "./elements/DeleteElementDialog";
 import ElementFormModal from "./elements/ElementFormModal";
@@ -20,6 +21,10 @@ const ManageElementsActionsDialog = () => {
         openUpdateElementPositionModal,
         handleUpdateElementPositionModalClose,
         onDeleteElement,
+        handleBulkCreateElementsModalClose,
+        bulkCreateElements,
+        loadingBulkCreateElements,
+        openBulkCreateElementsModal,
 
         elementTypes,
 
@@ -60,6 +65,14 @@ const ManageElementsActionsDialog = () => {
             <UpdateElementPositionFormModal
                 show={openUpdateElementPositionModal}
                 onClose={handleUpdateElementPositionModalClose}
+            />
+
+            <BulkCreateElementsDialog
+                bulkCreateElements={bulkCreateElements}
+                onClose={handleBulkCreateElementsModalClose}
+                block={block}
+                loading={loadingBulkCreateElements}
+                show={openBulkCreateElementsModal}
             />
 
             {/* Block Dialogs */}

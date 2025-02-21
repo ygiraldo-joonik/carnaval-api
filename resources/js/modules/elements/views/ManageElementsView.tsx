@@ -1,7 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { FaChevronDown } from "react-icons/fa6";
-import { HiOutlineLocationMarker,HiLocationMarker  } from "react-icons/hi";
+import { HiOutlineLocationMarker, HiLocationMarker } from "react-icons/hi";
 import { DefaultPageProps } from "@/types/page.d";
 import { Parade } from "@/types/parade.d";
 import BlocksSection from "../components/blocks/BlocksSection";
@@ -24,10 +24,13 @@ export type ManageElementsPageProps = ManageElementsViewProps &
     DefaultPageProps;
 
 export default function ManageElementsView(props: ManageElementsPageProps) {
+    console.log({ props });
     const { parade, filterBlocks, onCreateBlock } = useManageElementsContext();
 
     const handleToggleDescription = () => {
-        const description = document.querySelector(".description p") as HTMLElement;
+        const description = document.querySelector(
+            ".description p"
+        ) as HTMLElement;
         const chevron = document.querySelector(".chevron") as HTMLElement;
         if (description.classList.contains("line-clamp-1")) {
             description.classList.remove("line-clamp-1");
@@ -36,20 +39,26 @@ export default function ManageElementsView(props: ManageElementsPageProps) {
             description.classList.add("line-clamp-1");
             chevron.style.transform = "rotate(0deg)";
         }
-    }
+    };
     return (
         <AuthenticatedLayout
             auth={props.auth}
             header={
                 <div className="flex justify-between items-start">
-                    <div style={{ display:"grid", gap:30, gridTemplateColumns: "max-content 1fr",transition: "all 0.3s" }}>
+                    <div
+                        style={{
+                            display: "grid",
+                            gap: 30,
+                            gridTemplateColumns: "max-content 1fr",
+                            transition: "all 0.3s",
+                        }}
+                    >
                         <div
-                            onClick={handleToggleDescription} 
+                            onClick={handleToggleDescription}
                             className="rounded-full bg-white hover:bg-gray-200 text-black cursor-pointer flex items-center justify-center"
-                            style={{width: 30, height: 30}}>
-                            <FaChevronDown
-                                className="chevron"
-                            />
+                            style={{ width: 30, height: 30 }}
+                        >
+                            <FaChevronDown className="chevron" />
                         </div>
                         <section>
                             <h3 className="select-none font-semibold text-l text-primary leading-tight">
@@ -61,16 +70,23 @@ export default function ManageElementsView(props: ManageElementsPageProps) {
 
                             <div className="flex gap-4 items-center my-3 text-primary">
                                 <div className="flex items-center gap-1">
-                                    <HiOutlineLocationMarker className="mr-1"/> <strong>Inicio: </strong> {parade.start_location} &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <HiOutlineLocationMarker className="mr-1" />{" "}
+                                    <strong>Inicio: </strong>{" "}
+                                    {parade.start_location}{" "}
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
                                 </div>
                                 <div className="flex items-center gap-1">
-                                    <HiLocationMarker className="mr-1"/> <strong>Final: </strong> {parade.end_location}
+                                    <HiLocationMarker className="mr-1" />{" "}
+                                    <strong>Final: </strong>{" "}
+                                    {parade.end_location}
                                 </div>
                             </div>
-                            
+
                             <div className="text-primary description">
                                 <strong>Descripción</strong>
-                                <p className="line-clamp-1">{parade.description}</p>
+                                <p className="line-clamp-1">
+                                    {parade.description}
+                                </p>
                             </div>
                         </section>
                     </div>

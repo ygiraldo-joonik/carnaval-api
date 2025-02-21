@@ -3,11 +3,13 @@ import React, { useState } from "react";
 interface ImportParadeElementsProps {
     onFileUpload: (file: File) => void;
     loading: boolean;
+    fill?: boolean;
 }
 
 const ImportParadeElements: React.FC<ImportParadeElementsProps> = ({
     onFileUpload,
     loading,
+    fill = false,
 }) => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -27,7 +29,9 @@ const ImportParadeElements: React.FC<ImportParadeElementsProps> = ({
             <input
                 type="file"
                 onChange={handleFileChange}
-                className="block   text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file-primary  hover:file:bg-blue-100"
+                className={`${
+                    fill ? "w-full" : ""
+                } block text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file-primary  hover:file:bg-blue-100`}
             />
 
             <button

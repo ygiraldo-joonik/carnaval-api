@@ -3,7 +3,7 @@ import { ImportElement } from "@/types/element";
 import axios, { Axios, AxiosResponse } from "axios";
 import { MetaHTMLAttributes } from "react";
 
-const importParadeElementsService = async (id: number, file: File) => {
+const bulkCreateElementsService = async (id: number, file: File) => {
     try {
         const formData = new FormData();
         formData.append("file", file);
@@ -11,7 +11,7 @@ const importParadeElementsService = async (id: number, file: File) => {
         const response = await axios.post<
             FormData,
             AxiosResponse<ApiResponse<ImportElement[]>>
-        >(route("elements.import-passed", { parade_id: id }), formData, {
+        >(route("elements.bulk-create", { block_id: id }), formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
@@ -23,4 +23,4 @@ const importParadeElementsService = async (id: number, file: File) => {
     }
 };
 
-export default importParadeElementsService;
+export default bulkCreateElementsService;
