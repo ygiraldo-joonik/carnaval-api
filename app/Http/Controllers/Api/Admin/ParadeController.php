@@ -89,7 +89,7 @@ class ParadeController extends Controller
     public function distance($paradeId)
     {
         try {
-            $data = $this->calculateParadeValuesService->distance($paradeId);
+            $data = $this->calculateParadeValuesService->distance($paradeId, null);
             return $this->onSuccess(200, 'Relative distance calculated sucessfully', $data);
         } catch (\Throwable $th) {
             return $this->onError(500, $th->getMessage() . ' ' . $th->getTraceAsString());
@@ -100,6 +100,16 @@ class ParadeController extends Controller
     {
         try {
             $data = $this->calculateParadeValuesService->elementsPosition($paradeId);
+            return $this->onSuccess(200, 'Relative elements position calculated sucessfully', $data);
+        } catch (\Throwable $th) {
+            return $this->onError(500, $th->getMessage() . ' ' . $th->getTraceAsString());
+        }
+    }
+
+    public function elementsAnalisys($paradeId, $elementId = null)
+    {
+        try {
+            $data = $this->calculateParadeValuesService->elementsAnalisys($paradeId, $elementId);
             return $this->onSuccess(200, 'Relative elements position calculated sucessfully', $data);
         } catch (\Throwable $th) {
             return $this->onError(500, $th->getMessage() . ' ' . $th->getTraceAsString());

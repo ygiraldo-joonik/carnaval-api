@@ -1,21 +1,21 @@
 export function fromMinutesToHours(m: number) {
-    const hours = Math.floor(m / 60);
-    const min = Math.round(m % 60);
-    return `${hours}:${min.toString().padStart(2, "0")}`;
+    return formatTimeHMS(m * 60);
 }
 
 export function formatSeconds(_seconds: number) {
-    const s = Math.abs(_seconds);
+    return formatTimeHMS(_seconds);
+}
 
-    const hours = Math.floor(s / 3600);
-    const minutes = Math.floor((s % 3600) / 60);
-    const seconds = Math.round(s % 60);
+export function formatTimeHMS(_seconds: number) {
+    const seconds = Math.abs(_seconds);
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = Math.round(seconds % 60);
 
-    if (hours === 0) {
-        return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-    }
+    let result = "";
+    if (h > 0) result += `${h}h `;
+    if (m > 0 || h > 0) result += `${m}m `;
+    result += `${s}s`;
 
-    return `${hours}:${minutes.toString().padStart(2, "0")}:${seconds
-        .toString()
-        .padStart(2, "0")}`;
+    return result.trim();
 }
