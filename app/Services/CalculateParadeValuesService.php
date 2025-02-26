@@ -300,9 +300,11 @@ class CalculateParadeValuesService
         $lastElemensPassedRegister = $this->getLastElemensPassedRegister($paradeControlData['dataForCalculations']['data']);
 
         $elementsEntities = $paradeControlData['entities']['elements'];
+        $usersEntities = $paradeControlData['entities']['users'];
 
         $elementsData = $this->relateElementsWithControlDataForAnalisys(
             $elementsEntities,
+            $usersEntities,
             $lastElemensPassedRegister,
             $paradeControlData['distanceFromFirst'],
             $paradeControlData['distanceFromPrevious'],
@@ -313,16 +315,10 @@ class CalculateParadeValuesService
         if (!is_null($elementId))
             return $elementsData;
 
-        $users = [];
-
-        foreach ($paradeControlData['entities']['users'] as $userId => $user) {
-            $users[$userId] = $user['name'];
-        }
         return [
             'parade' => $parade,
             'isThereData' => true,
             'elements' => $elementsData,
-            'users' => $users,
         ];
     }
 
@@ -404,6 +400,7 @@ class CalculateParadeValuesService
      */
     public function relateElementsWithControlDataForAnalisys(
         array $elementsEntities,
+        array $usersEntities,
         array $lastElemensPassedRegister,
         array $distanceFromFirst,
         array $distanceFromPrevious,
@@ -417,6 +414,7 @@ class CalculateParadeValuesService
             $elementId,
         ) use (
             $elementsEntities,
+            $usersEntities,
             $lastElemensPassedRegister,
             $distanceFromFirst,
             $distanceFromPrevious,
@@ -428,6 +426,7 @@ class CalculateParadeValuesService
 
             $lastPole = [
                 'passed_at' => $lastElemensPassedRegister[$elementId]->passed_at,
+                'user' => $lastElemensPassedRegister[$elementId]->user,
                 'user_id' => $lastElemensPassedRegister[$elementId]->user_id,
                 'distance_from_first' => $distanceFromFirst[$elementId][$lastElemensPassedRegister[$elementId]->user_id],
                 'distance_from_previous' => $distanceFromPrevious[$elementId][$lastElemensPassedRegister[$elementId]->user_id],
@@ -441,6 +440,7 @@ class CalculateParadeValuesService
                         $poles[] = [
                             'passed_at' => $passedAt,
                             'user_id' => $userId,
+                            'user' => $usersEntities[$userId]['name'],
                             'distance_from_first' => $distanceFromFirst[$elementId][$userId],
                             'distance_from_previous' => $distanceFromPrevious[$elementId][$userId],
                         ];
@@ -454,9 +454,7 @@ class CalculateParadeValuesService
                 'accumulated_duration' => $elementsEntities[$elementId]['accumulated_duration'],
                 'order' => $elementIndex,
                 'in_block_order' => $elementsEntities[$elementId]['in_block_order'],
-                'passed_at' => $lastElemensPassedRegister[$elementId]->passed_at,
-                'user' => $lastElemensPassedRegister[$elementId]->user,
-                'user_id' => $lastElemensPassedRegister[$elementId]->user_id,
+
                 'last_pole' => $lastPole,
                 'poles' =>  $poles
 
