@@ -43,10 +43,10 @@ export default function MobileElementCard({ element }: { element: Element }) {
                     <span className="text-gray-800 text-sm">{`${element.length}m`}</span>
                 </div>
                 <div className="flex space-x-2">
-                    <button className="shadow-sm border border-slate-200 flex items-center justify-center bg-gray-100 p-2 rounded-lg min-w-[60px] h-[50px]">
+                    <button className="shadow-[0px_1px_5px_0px_rgba(0,0,0,0.12),0px_2px_2px_0px_rgba(0,0,0,0.14),0px_3px_1px_-2px_rgba(0,0,0,0.20)] flex items-center justify-center bg-gray-100 p-2 rounded-lg min-w-[60px] h-[50px]">
                         <MdArrowDownward className="w-5 h-5 text-gray-600" />
                     </button>
-                    <button className="shadow-sm border border-slate-200 flex items-center justify-center bg-gray-100 p-2 rounded-lg  min-w-[60px] h-[50px]">
+                    <button className="shadow-[0px_1px_5px_0px_rgba(0,0,0,0.12),0px_2px_2px_0px_rgba(0,0,0,0.14),0px_3px_1px_-2px_rgba(0,0,0,0.20)] flex items-center justify-center bg-gray-100 p-2 rounded-lg min-w-[60px] h-[50px]">
                         <MdArrowUpward className="w-5 h-5 text-gray-600" />
                     </button>
                 </div>
