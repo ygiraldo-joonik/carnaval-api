@@ -1,13 +1,8 @@
 import { ParadeElementPole } from "@/types/parade";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
+
 import "dayjs/locale/es";
 import { formatTimeHMS } from "@/utils/transformers/fromMinutesToHours";
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.locale("es");
+import dayjs from "../../../../utils/dayjs";
 
 type ElementPoleDetailProps = { pole: ParadeElementPole };
 const ElementPoleDetail = ({ pole }: ElementPoleDetailProps) => {

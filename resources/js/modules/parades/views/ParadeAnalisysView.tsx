@@ -30,7 +30,7 @@ export default function ParadeAnalisysView(props: ParadeAnalisysViewProps) {
         <AuthenticatedLayout
             auth={props.auth}
             header={
-                <div className="flex justify-between items-start  md:flex-row flex-col max-w-full truncate">
+                <div className="flex justify-between items-center  md:flex-row flex-col max-w-full truncate">
                     <div
                         style={{
                             display: "grid",

@@ -7,6 +7,7 @@ import useManageParades from "../hooks/useManageParades";
 import ParadesTable from "../components/ParadesTable";
 import ParadeFormModal from "../components/ParadeFormModal";
 import DeleteParadeDialog from "../components/DeleteParadeDailog";
+import ParadesList from "../components/ParadesList";
 
 export type ManageParadesViewProps = {
     parades: Parade[];
@@ -63,7 +64,7 @@ export default function ManageParadesView(props: ManageParadesViewProps) {
                 deleteParade={deleteParade}
             />
 
-            <div className="mt-6">
+            <div className="mt-6 relative">
                 <SearchHeader
                     onSearch={filterParades}
                     rightContent={
@@ -75,7 +76,7 @@ export default function ManageParadesView(props: ManageParadesViewProps) {
                         </button>
                     }
                 />
-                <ParadesTable
+                <ParadesList
                     parades={parades}
                     onEdit={(selectedParade) => onEditParade(selectedParade)}
                     onDelete={(selectedParade) =>
