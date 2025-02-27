@@ -11,7 +11,7 @@ import { AiOutlineColumnWidth } from "react-icons/ai";
 
 export default function MobileElementCard({ element }: { element: Element }) {
     return (
-        <div className="bg-white rounded-lg shadow-md p-4 mb-2">
+        <div className="bg-white rounded-lg shadow-md p-4">
             <div className="flex items-center justify-between">
                 <h2 className="text-lg font-bold text-gray-900">
                     COLECTIVO DE NIÑOS DE LA ALCALDÍA - ZOOLOGICO

@@ -20,7 +20,12 @@ const BlocksSection = () => {
             </div>
             <div className="block lg:hidden mobile-view-block-elements">
                 {blocks.map((block, index) => (
-                    <MobileBlock key={index} block={block} />
+                    <MobileBlock
+                        key={index}
+                        block={block}
+                        index={index}
+                        length={blocks.length}
+                    />
                 ))}
             </div>
         </div>
