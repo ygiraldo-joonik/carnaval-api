@@ -1,11 +1,14 @@
-import { ParadeControlDataSet, ParadeControlEntities } from "@/types/parade";
+import {
+    ParadeControlEntities,
+    ParadeControlUsersDataSet,
+} from "@/types/parade";
 import { formatSeconds } from "@/utils/transformers/fromMinutesToHours";
 import truncateText from "@/utils/transformers/truncateText";
 import { TbClockX, TbClockExclamation, TbClockCheck } from "react-icons/tb";
 import { Fragment } from "react/jsx-runtime";
 
 type ParadeControlTableProps = {
-    dataset: ParadeControlDataSet;
+    dataset: ParadeControlUsersDataSet;
     entities: ParadeControlEntities;
     acummulated?: boolean;
 };

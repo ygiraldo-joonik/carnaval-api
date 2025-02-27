@@ -181,6 +181,8 @@ class ElementService
 
         $element->delete();
 
+        $element->block->elements()->where('order', '>', $element->order)->decrement('order');
+
         $this->calculateParadeValuesService->updateParadeComputedValues($paradeId);
 
         return $element;

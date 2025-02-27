@@ -22,7 +22,7 @@ const TableIconButton = ({
     const sz = `h-${size} w-${size}`;
     const btn = (
         <button
-            title="Mover elemento hacia abajo"
+            title={title as string}
             className={`flex justify-between items-center p-1 rounded-lg ${
                 hidden && "opacity-0"
             }`}

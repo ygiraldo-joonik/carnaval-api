@@ -7,6 +7,8 @@
     --primary-ligth-color: #5f248d;
     --primary-disabled-ligth-color: #8f62b2;
     --primary-extra-ligth-color: #c297e2;
+    --primary-ligth-background-color: #E5E9FF;
+    --primary-ligth-border-color: #CFD2FF;
     --primary-radial: radial-gradient(#6B187D 6%, #2A0F5C);
 
     --accent-color: #FFD302;
@@ -58,6 +60,15 @@
     background-color: var(--primary-color);
 }
 
+
+.bg-primary-light {
+    background-color: var(--primary-ligth-background-color);
+}
+
+.primary-border-light {
+    border-color: var(--primary-ligth-border-color);
+}
+
 .bg-primary-disabled {
     background-color: var(--primary-disabled-ligth-color);
 }
@@ -90,6 +101,13 @@
 
 .mb-2 {
     margin-bottom: 0.5rem;
+}
+
+.with-controled-scroll {
+    max-height: calc(100vh - 182px);
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-disabled-ligth-color) #f1f1f1;
 }
 
 .sticky-header-table-container {
@@ -195,4 +213,22 @@
     background-color: var(--primary-extra-ligth-color);
 
     color: var(--primary-color);
+}
+
+@media (min-width: 768px) {
+    .md\:flex-row {
+        flex-direction: row;
+    }
+}
+
+@media (min-width: 640px) {
+    .sm\:w-\[50\%\] {
+        width: 50%;
+    }
+}
+
+@media (min-width: 640px) {
+    .sm\:visible {
+        visibility: visible;
+    }
 }

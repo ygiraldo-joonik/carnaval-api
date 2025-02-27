@@ -54,6 +54,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/{id}', [ApiParadeController::class, 'delete'])->name('parades.delete');
 
         Route::get('/{id}/control', [ParadeController::class, 'control'])->name('parades.control');
+        Route::get('/{id}/analisys', [ParadeController::class, 'analisys'])->name('parades.analisys');
+
+        Route::get('/{parade_id}/poles/{element_id}', [ApiParadeController::class, 'elementsAnalisys'])->name('elements.poles');
+
         Route::get('/{id}', [ElementController::class, 'index'])->name('parades.elements');
     });
 
