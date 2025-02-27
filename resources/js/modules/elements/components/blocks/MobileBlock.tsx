@@ -5,14 +5,23 @@ import { AiOutlineColumnWidth } from "react-icons/ai";
 import { Block } from "@/types/element";
 import IndicatorLabel from "../IndicatorLabel";
 import MobileElementCard from "./MobileElementItem";
+import { BlockItemActionsNotDisclosure } from "./BlockItemActions";
 
-function MobileBlock({ block }: { block: Block }) {
+function MobileBlock({
+    block,
+    index,
+    length,
+}: {
+    block: Block;
+    index: number;
+    length: number;
+}) {
     const [open, setOpen] = React.useState(false);
 
     return (
-        <div className="mx-4">
-            <div className="rounded-lg overflow-hidden mb-4">
-                <div className="bg-accent p-2 grid grid-cols-[1fr_max-content] items-center gap-4">
+        <div className="mx-4 mt-4">
+            <div className="rounded-lgmb-4 sticky top-0 mb-4">
+                <div className="bg-accent p-2 grid grid-cols-[1fr_max-content] items-center gap-4 rounded-t-md">
                     <div>
                         <p className="text-sm mb-1">{block.name}</p>
 
@@ -45,12 +54,22 @@ function MobileBlock({ block }: { block: Block }) {
                         />
                     </div>
                 </div>
-                <div className="bg-white p-2">actions</div>
+                <div className="bg-white flex justify-between p-4 shadow-md rounded-b-md">
+                    <BlockItemActionsNotDisclosure
+                        block={block}
+                        index={index}
+                        length={length}
+                        open={open}
+                    />
+                </div>
             </div>
-            {open &&
-                block.elements?.map((ele) => (
-                    <MobileElementCard key={ele.id} element={ele} />
-                ))}
+            {open && (
+                <div className="flex flex-col gap-4">
+                    {block.elements?.map((ele) => (
+                        <MobileElementCard key={ele.id} element={ele} />
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

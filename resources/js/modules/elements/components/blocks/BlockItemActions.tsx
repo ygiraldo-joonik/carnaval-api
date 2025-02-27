@@ -103,4 +103,62 @@ const BlockItemActions = ({
     );
 };
 
+export const BlockItemActionsNotDisclosure = ({
+    block,
+    length,
+    index,
+}: BlockItemActionsProps) => {
+    const {
+        onCreateElement,
+        onEditBlock,
+        onDeleteBlock,
+        onUpdateBlockOrder,
+        onBulkCreateElements,
+        loadingUpdateBlocksOrder,
+    } = useManageElementsContext();
+
+    return (
+        <>
+            <TableIconButton
+                title="Subir csv"
+                onClick={() => onBulkCreateElements(block)}
+                Icon={GrDocumentUpload}
+            />
+
+            <TableIconButton
+                title="Crear elemento"
+                onClick={() => onCreateElement(block)}
+                Icon={PiRowsPlusBottom}
+                size={6}
+            />
+
+            <TableIconButton
+                title="Eliminar bloque"
+                onClick={() => onDeleteBlock(block)}
+                Icon={MdDeleteOutline}
+            />
+
+            <TableIconButton
+                title="Editar bloque"
+                onClick={() => onEditBlock(block)}
+                Icon={MdOutlineEdit}
+            />
+
+            <TableIconButton
+                title="Mover bloque hacia abajo"
+                onClick={() => onUpdateBlockOrder(block, "down")}
+                Icon={MdArrowDownward}
+                disabled={index == length - 1 || loadingUpdateBlocksOrder}
+            />
+
+            <TableIconButton
+                title="Mover bloque hacia arriba"
+                onClick={() => onUpdateBlockOrder(block, "up")}
+                Icon={MdArrowUpward}
+                disabled={index == 0 || loadingUpdateBlocksOrder}
+            />
+        </>
+    );
+};
+
 export default BlockItemActions;
