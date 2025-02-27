@@ -1,17 +1,10 @@
 import { ParadeAnalisysElement } from "@/types/parade";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
-import "dayjs/locale/es";
+
 import { formatTimeHMS } from "@/utils/transformers/fromMinutesToHours";
 import ElementPoleDetail from "./ElementPoleDetail";
 import { Commet } from "react-loading-indicators";
 import { Fragment } from "react/jsx-runtime";
 import CloseIcon from "@/Components/Icons/CloseIcon";
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.locale("es");
 
 type ParadeElementCardProps = {
     isSelected?: boolean;
@@ -39,12 +32,17 @@ const ParadeElementCard = ({
         >
             {onClose != null && (
                 <div className="flex justify-end p-4">
-                    <button onClick={onClose}>
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onClose();
+                        }}
+                    >
                         <CloseIcon />
                     </button>
                 </div>
             )}
-            <div className="flex flex-col space-y-2 w-full">
+            <div className="flex flex-col space-y-2 w-full pb-4">
                 <div className="flex items-center space-x-4 p-4">
                     <div className="bg-orange-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
                         {element.in_block_order}

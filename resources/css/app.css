@@ -232,3 +232,22 @@
         visibility: visible;
     }
 }
+
+
+@media (min-width: 640px) {
+    .sm\:w-1\/2 {
+        width: 50%;
+    }
+}
+
+@media (min-width: 640px) {
+    .sm\:w-\[49\%\] {
+        width: 49%;
+    }
+}
+
+@media (min-width: 768px) {
+    .md\:w-\[32\%\] {
+        width: 32%;
+    }
+}
