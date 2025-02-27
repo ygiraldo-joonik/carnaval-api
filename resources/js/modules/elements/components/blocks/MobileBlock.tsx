@@ -21,7 +21,11 @@ function MobileBlock({
     return (
         <div className="mx-4 mt-4">
             <div className="rounded-lgmb-4 sticky top-0 mb-4">
-                <div className="bg-accent p-2 grid grid-cols-[1fr_max-content] items-center gap-4 rounded-t-md">
+                <div
+                    className={`transition-bg duration-200 ${
+                        open ? "bg-accent" : "bg-slate-300"
+                    } p-2 grid grid-cols-[1fr_max-content] items-center gap-4 rounded-t-md`}
+                >
                     <div>
                         <p className="text-sm mb-1">{block.name}</p>
 
@@ -43,11 +47,11 @@ function MobileBlock({
                         </div>
                     </div>
                     <div
-                        className="w-[100px] h-[60px] grid place-content-center hover:bg-yellow-200 rounded-full cursor-pointer"
+                        className="w-[100px] h-[60px] grid place-content-center hover:bg-white hover:bg-opacity-40 rounded-full cursor-pointer"
                         onClick={() => setOpen(!open)}
                     >
                         <FaChevronUp
-                            size={35}
+                            size={20}
                             className={`transition-transform duration-300 ${
                                 open ? "rotate-0" : "rotate-180"
                             }`}

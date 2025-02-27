@@ -13,7 +13,7 @@ export default function MobileElementCard({ element }: { element: Element }) {
     return (
         <div className="bg-white rounded-lg shadow-md p-4">
             <div className="flex items-center justify-between">
-                <h2 className="text-lg font-bold text-gray-900">
+                <h2 className="text-md font-bold text-gray-900">
                     COLECTIVO DE NIÑOS DE LA ALCALDÍA - ZOOLOGICO
                     {element.name}
                 </h2>

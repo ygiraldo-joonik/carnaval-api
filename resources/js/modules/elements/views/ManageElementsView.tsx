@@ -44,76 +44,126 @@ export default function ManageElementsView(props: ManageElementsPageProps) {
         <AuthenticatedLayout
             auth={props.auth}
             header={
-                <div className="hidden lg:!flex justify-between items-start">
-                    <div
-                        style={{
-                            display: "grid",
-                            gap: 30,
-                            gridTemplateColumns: "max-content 1fr",
-                            transition: "all 0.3s",
-                        }}
-                    >
+                <>
+                    <div className="hidden lg:!flex justify-between items-start">
                         <div
-                            onClick={handleToggleDescription}
-                            className="rounded-full bg-white hover:bg-gray-200 text-black cursor-pointer flex items-center justify-center"
-                            style={{ width: 30, height: 30 }}
+                            style={{
+                                display: "grid",
+                                gap: 30,
+                                gridTemplateColumns: "max-content 1fr",
+                                transition: "all 0.3s",
+                            }}
                         >
-                            <FaChevronDown className="chevron" />
+                            <div
+                                onClick={handleToggleDescription}
+                                className="rounded-full bg-white hover:bg-gray-200 text-black cursor-pointer flex items-center justify-center"
+                                style={{ width: 30, height: 30 }}
+                            >
+                                <FaChevronDown className="chevron" />
+                            </div>
+                            <section>
+                                <h3 className="select-none font-semibold text-l text-primary leading-tight">
+                                    Administrar elementos
+                                </h3>
+                                <h2 className="select-none font-semibold text-xl text-primary leading-tight">
+                                    {parade.name}
+                                </h2>
+
+                                <div className="flex gap-4 items-center my-3 text-primary">
+                                    <div className="flex items-center gap-1">
+                                        <HiOutlineLocationMarker className="mr-1" />{" "}
+                                        <strong>Inicio: </strong>{" "}
+                                        {parade.start_location}{" "}
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <HiLocationMarker className="mr-1" />{" "}
+                                        <strong>Final: </strong>{" "}
+                                        {parade.end_location}
+                                    </div>
+                                </div>
+
+                                <div className="text-primary description">
+                                    <strong>Descripción</strong>
+                                    <p className="line-clamp-1">
+                                        {parade.description}
+                                    </p>
+                                </div>
+                            </section>
                         </div>
-                        <section>
-                            <h3 className="select-none font-semibold text-l text-primary leading-tight">
-                                Administrar elementos
-                            </h3>
+                        <div className="flex gap-6">
+                            <IndicatorLabel
+                                value={parade.people_count}
+                                Icon={MdOutlinePerson}
+                            />
+                            <IndicatorLabel
+                                value={`${parade.elements_length}m`}
+                                Icon={AiOutlineColumnWidth}
+                            />
+
+                            <IndicatorLabel
+                                // value={`${parade.distance}m - ${calcParadeSpeed(
+                                //     parade,
+                                //     true
+                                // )}
+                                // km/h`}
+                                value={fromMinutesToHours(
+                                    parade.total_duration
+                                )}
+                                Icon={LuTimer}
+                                background="accent2"
+                                color="white"
+                                fixedWidth={false}
+                            />
+                        </div>
+                    </div>
+                    <div className="block lg:!hidden">
+                        <div className="flex flex-wrap items-center justify-between gap-2 content-end">
                             <h2 className="select-none font-semibold text-xl text-primary leading-tight">
                                 {parade.name}
                             </h2>
 
-                            <div className="flex gap-4 items-center my-3 text-primary">
-                                <div className="flex items-center gap-1">
-                                    <HiOutlineLocationMarker className="mr-1" />{" "}
-                                    <strong>Inicio: </strong>{" "}
-                                    {parade.start_location}{" "}
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                </div>
-                                <div className="flex items-center gap-1">
-                                    <HiLocationMarker className="mr-1" />{" "}
-                                    <strong>Final: </strong>{" "}
-                                    {parade.end_location}
-                                </div>
-                            </div>
+                            <div className="flex gap-6">
+                                <IndicatorLabel
+                                    value={parade.people_count}
+                                    Icon={MdOutlinePerson}
+                                    size="small"
+                                />
+                                <IndicatorLabel
+                                    value={`${parade.elements_length}m`}
+                                    Icon={AiOutlineColumnWidth}
+                                    size="small"
+                                />
 
-                            <div className="text-primary description">
-                                <strong>Descripción</strong>
-                                <p className="line-clamp-1">
-                                    {parade.description}
-                                </p>
+                                <IndicatorLabel
+                                    value={fromMinutesToHours(
+                                        parade.total_duration
+                                    )}
+                                    Icon={LuTimer}
+                                    background="accent2"
+                                    color="white"
+                                    fixedWidth={false}
+                                    size="small"
+                                />
                             </div>
-                        </section>
-                    </div>
-                    <div className="flex gap-6">
-                        <IndicatorLabel
-                            value={parade.people_count}
-                            Icon={MdOutlinePerson}
-                        />
-                        <IndicatorLabel
-                            value={`${parade.elements_length}m`}
-                            Icon={AiOutlineColumnWidth}
-                        />
+                        </div>
 
-                        <IndicatorLabel
-                            // value={`${parade.distance}m - ${calcParadeSpeed(
-                            //     parade,
-                            //     true
-                            // )}
-                            // km/h`}
-                            value={fromMinutesToHours(parade.total_duration)}
-                            Icon={LuTimer}
-                            background="accent2"
-                            color="white"
-                            fixedWidth={false}
-                        />
+                        <div className="flex gap-4 items-center my-3 text-primary">
+                            <div className="flex items-center gap-1">
+                                <HiOutlineLocationMarker className="mr-1" />{" "}
+                                <strong>Inicio: </strong>{" "}
+                                {parade.start_location} &nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                            <div className="flex items-center gap-1">
+                                <HiLocationMarker className="mr-1" />{" "}
+                                <strong>Final: </strong> {parade.end_location}
+                            </div>
+                        </div>
+                        <p className="line-clamp-1 text-primary">
+                            <strong>Descripción:</strong> {parade.description}
+                        </p>
                     </div>
-                </div>
+                </>
             }
         >
             <Head title={`Administrar elementos: ${parade.name}`} />
