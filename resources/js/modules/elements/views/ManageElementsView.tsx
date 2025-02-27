@@ -44,7 +44,7 @@ export default function ManageElementsView(props: ManageElementsPageProps) {
         <AuthenticatedLayout
             auth={props.auth}
             header={
-                <div className="flex justify-between items-start">
+                <div className="hidden lg:!flex justify-between items-start">
                     <div
                         style={{
                             display: "grid",
