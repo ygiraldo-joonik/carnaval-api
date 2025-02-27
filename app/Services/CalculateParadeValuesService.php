@@ -82,10 +82,10 @@ class CalculateParadeValuesService
         $dataWhere = "parade_id = :parade_id";
         $dataParams = ['parade_id' => $paradeId];
 
-        if (!is_null($elementId)) {
-            $dataWhere .= " AND e.id = :element_id";
-            $dataParams['element_id'] = $elementId;
-        }
+        // if (!is_null($elementId)) {
+        //     $dataWhere .= " AND e.id = :element_id";
+        //     $dataParams['element_id'] = $elementId;
+        // }
 
         $data = DB::select("
             SELECT 
@@ -107,10 +107,7 @@ class CalculateParadeValuesService
         $elementsWhere = "parade_id = :parade_id";
         $elementsParams = ['parade_id' => $paradeId];
 
-        if (!is_null($elementId)) {
-            $elementsWhere .= " AND e.id = :element_id";
-            $elementsParams['element_id'] = $elementId;
-        } else if ($onlyElementsPassed) {
+        if ($onlyElementsPassed) {
 
             // if there is no data return empty arrays
             if (count($data) == 0)
@@ -153,7 +150,7 @@ class CalculateParadeValuesService
         * @param int $paradeId
         * @return array
     */
-    public function distance($paradeId, $elementId, bool $withCalculationData = false, bool $onlyElementsPassed = false)
+    public function distance($paradeId, $elementId = null, bool $withCalculationData = false, bool $onlyElementsPassed = false)
     {
         $dataForCalculations = $this->getParadeDataForCalculations($paradeId, $elementId, $onlyElementsPassed);
         $calculationsData = $this->getControlCalculationData($dataForCalculations);
@@ -309,7 +306,7 @@ class CalculateParadeValuesService
             $paradeControlData['distanceFromFirst'],
             $paradeControlData['distanceFromPrevious'],
             $paradeControlData['elementsPassedAt'],
-            !is_null($elementId)
+            $elementId
         );
 
         if (!is_null($elementId))
@@ -405,23 +402,40 @@ class CalculateParadeValuesService
         array $distanceFromFirst,
         array $distanceFromPrevious,
         array $elementsPassedAt,
-        bool $firstPoles = false
+        int  $polesElementId = null
     ): array {
 
         $elementIndex = 0;
+        $elementsData = [];
 
-        $elementsData = array_map(function (
-            $elementId,
-        ) use (
-            $elementsEntities,
-            $usersEntities,
-            $lastElemensPassedRegister,
-            $distanceFromFirst,
-            $distanceFromPrevious,
-            &$elementIndex,
-            $elementsPassedAt,
-            $firstPoles
-        ) {
+        foreach (array_keys($elementsEntities) as $elementId) {
+
+            // if the request is for poles
+            if (!is_null($polesElementId)) {
+
+                // if the current element is the required, get the poles and return then
+                if ($elementId == $polesElementId) {
+                    $poles = [];
+
+                    foreach ($elementsPassedAt[$elementId] as $userId => $passedAt) {
+                        if (!is_null($passedAt))
+                            $poles[] = [
+                                'passed_at' => $passedAt,
+                                'user_id' => $userId,
+                                'user' => $usersEntities[$userId]['name'],
+                                'distance_from_first' => $distanceFromFirst[$elementId][$userId],
+                                'distance_from_previous' => $distanceFromPrevious[$elementId][$userId],
+                            ];
+                    }
+
+                    return $poles;
+                }
+                // otherwhise, continue
+                else {
+                    continue;
+                }
+            }
+
             $elementIndex++;
 
             $lastPole = [
@@ -432,21 +446,7 @@ class CalculateParadeValuesService
                 'distance_from_previous' => $distanceFromPrevious[$elementId][$lastElemensPassedRegister[$elementId]->user_id],
             ];
 
-            $poles = [];
-
-            if ($firstPoles)
-                foreach ($elementsPassedAt[$elementId] as $userId => $passedAt) {
-                    if (!is_null($passedAt))
-                        $poles[] = [
-                            'passed_at' => $passedAt,
-                            'user_id' => $userId,
-                            'user' => $usersEntities[$userId]['name'],
-                            'distance_from_first' => $distanceFromFirst[$elementId][$userId],
-                            'distance_from_previous' => $distanceFromPrevious[$elementId][$userId],
-                        ];
-                }
-
-            return [
+            $elementsData[] = [
                 'id' => $elementId,
                 'name' => $elementsEntities[$elementId]['name'],
                 'block' => $elementsEntities[$elementId]['block'],
@@ -456,19 +456,15 @@ class CalculateParadeValuesService
                 'in_block_order' => $elementsEntities[$elementId]['in_block_order'],
 
                 'last_pole' => $lastPole,
-                'poles' =>  $poles
 
             ];
-        }, array_keys($elementsEntities));
+        };
 
 
 
         usort($elementsData, function ($a, $b) {
             return $b["order"] <=> $a["order"]; // Ordena por edad de menor a mayor
         });
-
-        if ($firstPoles)
-            return $elementsData[0]['poles'];
 
         return $elementsData;
     }

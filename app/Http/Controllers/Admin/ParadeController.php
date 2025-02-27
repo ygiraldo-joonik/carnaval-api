@@ -41,4 +41,11 @@ class ParadeController extends Controller
 
         return Inertia::render('Admin/Parades/Control', compact('parade', 'distance', 'canImport'));
     }
+
+    public function analisys(int $paradeId)
+    {
+        $data = $this->calculateParadeValuesService->elementsAnalisys($paradeId);
+
+        return Inertia::render('Admin/Parades/Analisys', $data);
+    }
 }

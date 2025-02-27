@@ -17,7 +17,7 @@ export type ParadeControlViewProps = {
     canImport: boolean;
 } & DefaultPageProps;
 
-export default function ManageParadesView(props: ParadeControlViewProps) {
+export default function ParadeControlView(props: ParadeControlViewProps) {
     console.log(props);
     const { loading, importElements } = useImportParadeElements(props.parade);
     return (

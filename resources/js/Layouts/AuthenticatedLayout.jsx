@@ -107,7 +107,7 @@ export default function Authenticated({ auth, header, children }) {
                     </div>
                 </div>
 
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
+                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden text-white'}>
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink href={route('parades.index')} active={route().current('parades.index')}>
                             Desfiles

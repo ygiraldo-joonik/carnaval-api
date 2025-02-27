@@ -15,7 +15,7 @@ export function formatTimeHMS(_seconds: number) {
     let result = "";
     if (h > 0) result += `${h}h `;
     if (m > 0 || h > 0) result += `${m}m `;
-    result += `${s}s`;
+    if (h == 0) result += `${s}s`;
 
     return result.trim();
 }

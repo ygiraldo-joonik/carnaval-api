@@ -65,6 +65,9 @@ const useManageParades = (props: ManageParadesViewProps) => {
     const onControlParade = (id: number) =>
         router.get(route("parades.control", { id }));
 
+    const onAnalisysParade = (id: number) =>
+        router.get(route("parades.analisys", { id }));
+
     const refreshParades = () =>
         router.get(
             route(route().current()),
@@ -109,6 +112,7 @@ const useManageParades = (props: ManageParadesViewProps) => {
         onCreateParade,
         onManageParadeElements,
         onControlParade,
+        onAnalisysParade,
         onUpsertSuccess,
         onDeleteSuccess,
         loadingForm,

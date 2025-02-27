@@ -26,6 +26,7 @@ export default function ManageParadesView(props: ManageParadesViewProps) {
         onCreateParade,
         onManageParadeElements,
         onControlParade,
+        onAnalisysParade,
         loadingForm,
         upsertParade,
         loadingDelete,
@@ -82,6 +83,7 @@ export default function ManageParadesView(props: ManageParadesViewProps) {
                     }
                     onManageElements={(id) => onManageParadeElements(id)}
                     onControlParade={(id) => onControlParade(id)}
+                    onAnalisysParade={(id) => onAnalisysParade(id)}
                 />
             </div>
         </AuthenticatedLayout>

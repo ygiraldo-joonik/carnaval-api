@@ -1,4 +1,4 @@
-import { Block } from "./element";
+import { Block, Element } from "./element";
 
 export type Parade = {
     id?: number;
@@ -53,24 +53,26 @@ export const defaultParade: Parade = {
 export type Duration = { hours: number; minutes: number };
 
 export type ParadeControlDataSet = {
+    duration: number;
+    delay: number;
+    on_time: boolean;
+};
+
+export type ParadeControlUsersDataSet = {
     [key: number]: {
-        [key: number]: {
-            duration: number;
-            delay: number;
-            on_time: boolean;
-        } | null;
+        [key: number]: ParadeControlDataSet | null;
     };
+};
+
+export type ElementEntity = Pick<Element, "name", "duration", "order"> & {
+    block: string;
+    in_block_order: number;
+    accumulated_duration: number;
 };
 
 export type ParadeControlEntities = {
     elements: {
-        [key: number]: {
-            name: string;
-            block: string;
-            duration: number;
-            accumulated_duration: number;
-            order: number;
-        };
+        [key: number]: ElementEntity;
     };
     users: {
         [key: number]: {
@@ -81,8 +83,28 @@ export type ParadeControlEntities = {
 };
 
 export type ParadeControlDataType = {
-    distanceFromFirst: ParadeControlDataSet;
-    distanceFromPrevious: ParadeControlDataSet;
+    distanceFromFirst: ParadeControlUsersDataSet;
+    distanceFromPrevious: ParadeControlUsersDataSet;
     entities: ParadeControlEntities;
     isThereData: boolean;
+};
+
+export type ParadeAnalisysElement = {
+    id: number;
+    name: string;
+    block: string;
+    duration: number;
+    accumulated_duration: number;
+    order: number;
+    in_block_order: number;
+    last_pole: ParadeElementPole;
+    poles: ParadeElementPole[];
+};
+
+export type ParadeElementPole = {
+    passed_at: string;
+    user: string;
+    user_id: number;
+    distance_from_first: ParadeControlDataSet | null;
+    distance_from_previous: ParadeControlDataSet | null;
 };

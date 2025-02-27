@@ -1,9 +1,12 @@
 import IndicatorLabel from "@/modules/elements/components/IndicatorLabel";
 import TableIconButton from "@/modules/elements/components/TableIconButton";
 import { Parade } from "@/types/parade.d";
-import truncateText from "@/utils/transformers/truncateText";
-import { MdOutlineEdit, MdList } from "react-icons/md";
-import { MdOutlinePerson } from "react-icons/md";
+import {
+    MdOutlineEdit,
+    MdList,
+    MdOutlinePerson,
+    MdOutlineViewTimeline,
+} from "react-icons/md";
 import { AiOutlineColumnWidth } from "react-icons/ai";
 import { LuTimer } from "react-icons/lu";
 import { fromMinutesToHours } from "@/utils/transformers/fromMinutesToHours";
@@ -21,10 +24,17 @@ type ParadesTableProps = {
     onEdit: (parade: Parade) => void;
     onManageElements: (id: number) => void;
     onControlParade: (id: number) => void;
+    onAnalisysParade: (id: number) => void;
 };
 
 export default function ParadesTable(props: ParadesTableProps) {
-    const { parades, onControlParade, onEdit, onManageElements } = props;
+    const {
+        parades,
+        onControlParade,
+        onAnalisysParade,
+        onEdit,
+        onManageElements,
+    } = props;
 
     return (
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
@@ -109,11 +119,18 @@ export default function ParadesTable(props: ParadesTableProps) {
                                         />
                                         <div className="flex-grow"></div>
                                         <TableIconButton
+                                            title="Analisis"
+                                            onClick={() =>
+                                                onAnalisysParade(parade.id!)
+                                            }
+                                            Icon={IoAnalyticsSharp}
+                                        />
+                                        <TableIconButton
                                             title="Control"
                                             onClick={() =>
                                                 onControlParade(parade.id!)
                                             }
-                                            Icon={IoAnalyticsSharp}
+                                            Icon={MdOutlineViewTimeline}
                                         />
                                         <TableIconButton
                                             title="Elementos"
