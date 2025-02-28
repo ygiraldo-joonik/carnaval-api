@@ -1,38 +1,45 @@
 # Laravel Travel Tracking API & Admin Panel
 
 This project was developed using **Laravel** and consists of two main components:
+
 1. An **API** to support the mobile app.
 2. An **Admin Panel** to view metrics and data collected, which is protected and accessible only to admin users.
 
 ### API Features
+
 The API provides the following functionality:
-- **Authentication**: User login and registration.
-- **User Information**: Retrieve user details.
-- **Trips**: Fetch the user's trips, active trip, and start/end trips.
-- **Location Tracking**: Record the user's location during trips.
+
+-   **Authentication**: User login and registration.
+-   **User Information**: Retrieve user details.
+-   **Trips**: Fetch the user's trips, active trip, and start/end trips.
+-   **Location Tracking**: Record the user's location during trips.
 
 ### Admin Panel Features
+
 The Admin Panel is built with Laravel and includes features related to:
-- **Authentication**: Admin user login, password recovery, and updates powered by Laravel.
-- **Trip and Location Data**: Admins can view all trip and location data collected for each user.
-- **Distance Calculation**: The ability to calculate distances between users at each minute during their trips, based on the collected location data.
+
+-   **Authentication**: Admin user login, password recovery, and updates powered by Laravel.
+-   **Trip and Location Data**: Admins can view all trip and location data collected for each user.
+-   **Distance Calculation**: The ability to calculate distances between users at each minute during their trips, based on the collected location data.
 
 ### Project Status
+
 This project is functional but is still in the early stages. The API and Admin Panel serve as a proof of concept and are being developed further.
 
 ---
 
 ### Technologies Used
-- **Laravel** (Backend)
-- **API Authentication**
-- **Admin Panel with Laravel**
-- **Location Tracking & Distance Calculation**
+
+-   **Laravel** (Backend)
+-   **API Authentication**
+-   **Admin Panel with Laravel**
+-   **Location Tracking & Distance Calculation**
 
 ### Future Improvements
-- Enhancements to the Admin Panel UI/UX
-- Additional functionality for trip analytics and reporting
-- Integration of more advanced location tracking and geofencing features
 
+-   Enhancements to the Admin Panel UI/UX
+-   Additional functionality for trip analytics and reporting
+-   Integration of more advanced location tracking and geofencing features
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
@@ -47,13 +54,13 @@ This project is functional but is still in the early stages. The API and Admin P
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   [Simple, fast routing engine](https://laravel.com/docs/routing).
+-   [Powerful dependency injection container](https://laravel.com/docs/container).
+-   Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+-   Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+-   Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+-   [Robust background job processing](https://laravel.com/docs/queues).
+-   [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
@@ -71,19 +78,19 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 
 ### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+-   **[Vehikl](https://vehikl.com/)**
+-   **[Tighten Co.](https://tighten.co)**
+-   **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+-   **[64 Robots](https://64robots.com)**
+-   **[Cubet Techno Labs](https://cubettech.com)**
+-   **[Cyber-Duck](https://cyber-duck.co.uk)**
+-   **[Many](https://www.many.co.uk)**
+-   **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
+-   **[DevSquad](https://devsquad.com)**
+-   **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+-   **[OP.GG](https://op.gg)**
+-   **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
+-   **[Lendio](https://lendio.com)**
 
 ## Contributing
 
@@ -100,3 +107,16 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Running trouble with npm run dev
+
+On Windows you may need to deactivate cloud protection and add the network host
+
+-   vite.config.ts
+-   server: {
+-       host: '10.0.0.125',
+-       port: 5173,
+-       hmr: {
+-           host: '10.0.0.125',
+-       },
+-   }
