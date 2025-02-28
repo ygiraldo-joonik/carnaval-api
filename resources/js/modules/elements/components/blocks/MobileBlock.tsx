@@ -69,8 +69,14 @@ function MobileBlock({
             </div>
             {open && (
                 <div className="flex flex-col gap-4">
-                    {block.elements?.map((ele) => (
-                        <MobileElementCard key={ele.id} element={ele} />
+                    {block.elements?.map((ele, index) => (
+                        <MobileElementCard
+                            key={ele.id}
+                            element={ele}
+                            block={block}
+                            index={index}
+                            length={block.elements?.length ?? 0}
+                        />
                     ))}
                 </div>
             )}

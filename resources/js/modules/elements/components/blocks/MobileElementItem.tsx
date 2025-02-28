@@ -1,24 +1,65 @@
-import { Element } from "@/types/element";
+import { Block, Element } from "@/types/element";
 import truncateText from "@/utils/transformers/truncateText";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import {
     MdOutlinePersonOutline,
-    MdOutlineSocialDistance,
     MdArrowDownward,
     MdArrowUpward,
+    MdDriveFileMoveOutline,
+    MdOutlineEdit,
 } from "react-icons/md";
 import { AiOutlineColumnWidth } from "react-icons/ai";
+import MenuButton from "@/Components/MenuButton";
+import { useManageElementsContext } from "../../context/ManageElementsContext";
 
-export default function MobileElementCard({ element }: { element: Element }) {
+export default function MobileElementCard({
+    element,
+    block,
+    index,
+    length,
+}: {
+    element: Element;
+    block: Block;
+    index: number;
+    length: number;
+}) {
+    const {
+        onEditElement,
+        onDeleteElement,
+        onUpdateElementOrder,
+        onUpdateElementPosition,
+        loadingUpdateElementsOrder,
+    } = useManageElementsContext();
+    const actions = [
+        {
+            label: "Mover elemento",
+            icon: MdDriveFileMoveOutline,
+            onClick: () => onUpdateElementPosition(element, block),
+        },
+        {
+            label: "Editar elemento",
+            icon: MdOutlineEdit,
+            onClick: () => onEditElement(element),
+        },
+        {
+            label: "Mover elemento hacia arriba",
+            icon: MdArrowUpward,
+            onClick: () => onUpdateElementOrder(element, block, "up"),
+            disabled: index == 0 || loadingUpdateElementsOrder,
+        },
+        {
+            label: "Mover elemento hacia abajo",
+            icon: MdArrowDownward,
+            onClick: () => onUpdateElementOrder(element, block, "down"),
+            disabled: index == length - 1 || loadingUpdateElementsOrder,
+        },
+    ];
     return (
         <div className="bg-white rounded-lg shadow-md p-4">
             <div className="flex items-center justify-between">
                 <h2 className="text-md font-bold text-gray-900">
                     {element.name}
                 </h2>
-                <button className="text-gray-500 hover:text-gray-700 w-12 h-12 aspect-square flex items-center justify-center hover:bg-gray-200 rounded-full transition duration-200 ease-in-out">
-                    <BsThreeDotsVertical className="text-gray-900 w-6 h-6" />
-                </button>
+                <MenuButton items={actions} />
             </div>
             <div className=" mt-2 grid grid-cols-[max-content_1fr] gap-1 items-center">
                 <div className="flex items-center">
