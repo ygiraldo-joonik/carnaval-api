@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
+import CloseIcon from './Icons/CloseIcon';
 
 export default function Modal({ children, show = false, maxWidth = '2xl', closeable = true, onClose = () => { } }) {
     const close = () => {
@@ -46,8 +47,20 @@ export default function Modal({ children, show = false, maxWidth = '2xl', closea
                     leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
                     <Dialog.Panel
-                        className={`p-6 mb-6 bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-h-full overflow-y-auto sm:w-full sm:mx-auto ${maxWidthClass}`}
+                        className={`w-full p-6 mb-6 bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-h-full overflow-y-auto sm:w-full sm:mx-auto ${maxWidthClass}`}
                     >
+                        {closeable && (
+                            <div className="flex justify-end px-4">
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        onClose();
+                                    }}
+                                >
+                                    <CloseIcon />
+                                </button>
+                            </div>
+                        )}
                         {children}
                     </Dialog.Panel>
                 </Transition.Child>

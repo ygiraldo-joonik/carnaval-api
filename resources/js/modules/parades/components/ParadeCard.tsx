@@ -46,16 +46,11 @@ function ParadeCard({
             icon: IoAnalyticsSharp,
             onClick: () => onAnalisysParade(parade.id!),
         },
-
-        {
-            label: "Control",
-            icon: MdOutlineViewTimeline,
-            onClick: () => onAnalisysParade(parade.id!),
-        },
-
-        // MdOutlineViewTimeline
-        // IoAnalyticsSharp
-        // MdList
+        // {
+        //     label: "Control",
+        //     icon: MdOutlineViewTimeline,
+        //     onClick: () => onAnalisysParade(parade.id!),
+        // },
     ];
 
     return (

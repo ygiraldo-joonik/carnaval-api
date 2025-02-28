@@ -42,6 +42,7 @@ export default function ManageParadesView(props: ManageParadesViewProps) {
                     Desfiles
                 </h2>
             }
+            mobileTitle={<h1 className="font-bold text-lg">Desfiles</h1>}
         >
             <Head title="Administrar desfiles" />
 
@@ -64,7 +65,7 @@ export default function ManageParadesView(props: ManageParadesViewProps) {
                 deleteParade={deleteParade}
             />
 
-            <div className="mt-6 relative">
+            <div className=" relative">
                 <SearchHeader
                     onSearch={filterParades}
                     rightContent={
