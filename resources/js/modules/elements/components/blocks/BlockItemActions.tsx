@@ -82,22 +82,14 @@ const BlockItemActions = ({
             />
 
             <Disclosure.Button
-                className="flex justify-between items-center p-1 rounded-lg  ml-4"
+                className="flex justify-between items-center p-1 rounded-lg ml-4"
                 title={open ? "Cerrar" : "Abrir"}
             >
-                {open ? (
-                    <FaChevronUp
-                        className={`${
-                            open ? "rotate-180 transform" : ""
-                        } w-5 h-5 text-gray-500`}
-                    />
-                ) : (
-                    <FaChevronDown
-                        className={`${
-                            open ? "rotate-180 transform" : ""
-                        } w-5 h-5 text-gray-500`}
-                    />
-                )}
+                <FaChevronDown
+                    className={`transform transition-transform ${
+                        open ? "rotate-180" : ""
+                    } w-5 h-5 text-gray-500`}
+                />
             </Disclosure.Button>
         </>
     );
