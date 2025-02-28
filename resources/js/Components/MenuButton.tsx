@@ -21,7 +21,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({ items }) => {
                 <BsThreeDotsVertical className="w-6 h-6 text-gray-600" />
             </Menu.Button>
 
-            <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right rounded bg-white shadow-lg focus:outline-none z-10">
+            <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right rounded bg-yellow-100 shadow-lg focus:outline-none z-10">
                 {items.map((item, index) => (
                     <Menu.Item key={index} disabled={item?.disabled ?? false}>
                         {({ active, disabled }) => (
