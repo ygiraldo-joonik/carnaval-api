@@ -19,3 +19,11 @@ export function formatTimeHMS(_seconds: number) {
 
     return result.trim();
 }
+
+export function formatTo12Hour(timeString: string) {
+    let [_, time] = timeString.split(" ");
+    let [hour, minute] = time.split(":").map(Number);
+    const period = hour >= 12 ? "p.m." : "a.m.";
+    hour = hour % 12 || 12;
+    return `${hour}:${minute.toString().padStart(2, "0")} ${period}`;
+}

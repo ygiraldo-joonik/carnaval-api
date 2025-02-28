@@ -1,7 +1,10 @@
 import { ParadeElementPole } from "@/types/parade";
 
 import "dayjs/locale/es";
-import { formatTimeHMS } from "@/utils/transformers/fromMinutesToHours";
+import {
+    formatTimeHMS,
+    formatTo12Hour,
+} from "@/utils/transformers/fromMinutesToHours";
 import dayjs from "../../../../utils/dayjs";
 
 type ElementPoleDetailProps = { pole: ParadeElementPole };
@@ -70,7 +73,7 @@ const ElementPoleDetail = ({ pole }: ElementPoleDetailProps) => {
             <div className="flex justify-between text-gray-500 text-sm">
                 <span>{pole.user}</span>
                 <span className="capitalize">
-                    {dayjs(pole.passed_at).format("ddd/DD hh:mm A")}
+                    {formatTo12Hour(pole.passed_at)}
                 </span>
             </div>
         </div>

@@ -20,7 +20,7 @@ function MobileBlock({
 
     return (
         <div className="mx-4 mt-4">
-            <div className="rounded-lgmb-4 sticky top-0 mb-4">
+            <div className="rounded-lgmb-4 sticky top-0 mb-4 z-[1]">
                 <div
                     className={`transition-bg duration-200 ${
                         open ? "bg-accent" : "bg-slate-300"

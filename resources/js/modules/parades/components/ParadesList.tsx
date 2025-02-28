@@ -35,7 +35,7 @@ export default function ParadesList(props: ParadesListProps) {
     return (
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4 w-full">
             <div className="text-gray-900  shadow-sm sm:rounded-lg">
-                <div className="flex justify-between gap-y-4 flex-wrap">
+                <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(335px,1fr))]">
                     {/* {parades.length === 0 && (
                         <tr>
                             <td colSpan={7} className="px-4 py-4 text-center">

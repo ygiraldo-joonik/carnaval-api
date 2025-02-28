@@ -59,7 +59,7 @@ function ParadeCard({
     ];
 
     return (
-        <div className="flex flex-col justify-between bg-white border border-neutral-100 rounded-lg p-4 w-full sm:w-[49%] md:w-[32%] relative">
+        <div className="flex flex-col justify-between bg-white border border-neutral-100 rounded-lg p-4 w-full relative">
             <div className="flex justify-between items-center">
                 <div>
                     <h2 className="text-lg font-bold text-gray-900">
