@@ -9,6 +9,7 @@ import { fromMinutesToHours } from "@/utils/transformers/fromMinutesToHours";
 import { LuTimer } from "react-icons/lu";
 import ParadeElementCard from "../components/elements/ParadeElementCard";
 import useManageParadeAnalisys from "../hooks/useManageParadeAnalisys";
+import dayjs from "dayjs";
 
 export type ParadeAnalisysViewProps = {
     parade: Parade;
@@ -17,6 +18,7 @@ export type ParadeAnalisysViewProps = {
 
 export default function ParadeAnalisysView(props: ParadeAnalisysViewProps) {
     // useManageParadeAnalisys
+    const { parade } = props;
     const {
         selectedElement,
         setElement,
@@ -70,9 +72,17 @@ export default function ParadeAnalisysView(props: ParadeAnalisysViewProps) {
                     </div>
                 </div>
             }
+            mobileTitle={<h1 className="font-bold text-lg">Analisis</h1>}
+            mobileHeader={
+                <div>
+                    <h1 className="font-bold text-lg">{parade.name}</h1>
+                    <h2>{dayjs(parade.date).format("DD MMM, YYYY")}</h2>
+                </div>
+            }
+            mobileBackRoute="parades.index"
         >
-            <Head title="Analisys de desfile" />
-            <div className="max-w-[97%] mx-auto sm:px-6 lg:px-8 mt-6 relative flex gap-4">
+            <Head title="Analisis de desfile" />
+            <div className="max-w-[97%] mx-auto sm:px-6 lg:px-8 sm:mt-6 relative flex gap-4">
                 <div
                     className={`${
                         selectedElement != null ? "hidden" : "flex"

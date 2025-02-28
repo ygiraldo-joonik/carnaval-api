@@ -14,6 +14,8 @@ import { MdOutlinePerson } from "react-icons/md";
 import { AiOutlineColumnWidth } from "react-icons/ai";
 import { LuTimer } from "react-icons/lu";
 import { fromMinutesToHours } from "@/utils/transformers/fromMinutesToHours";
+import truncateText from "@/utils/transformers/truncateText";
+import dayjs from "dayjs";
 
 export type ManageElementsViewProps = {
     parade: Parade;
@@ -24,7 +26,6 @@ export type ManageElementsPageProps = ManageElementsViewProps &
     DefaultPageProps;
 
 export default function ManageElementsView(props: ManageElementsPageProps) {
-    console.log({ props });
     const { parade, filterBlocks, onCreateBlock } = useManageElementsContext();
 
     const handleToggleDescription = () => {
@@ -165,12 +166,22 @@ export default function ManageElementsView(props: ManageElementsPageProps) {
                     </div>
                 </>
             }
+            mobileTitle={<h1 className="font-bold text-lg">Elementos</h1>}
+            mobileHeader={
+                <div>
+                    <h1 className="font-bold text-lg">
+                        {truncateText(parade.name, 35)}
+                    </h1>
+                    <h2>{dayjs(parade.date).format("DD MMM, YYYY")}</h2>
+                </div>
+            }
+            mobileBackRoute="parades.index"
         >
             <Head title={`Administrar elementos: ${parade.name}`} />
 
             <ManageElementsActionsDialog />
 
-            <div className="py-6">
+            <div className="pb-6">
                 <SearchHeader
                     onSearch={filterBlocks}
                     rightContent={
