@@ -1,5 +1,4 @@
-import { Block, Element } from "@/types/element";
-import truncateText from "@/utils/transformers/truncateText";
+import clsx from "clsx";
 import {
     MdOutlinePersonOutline,
     MdArrowDownward,
@@ -8,6 +7,8 @@ import {
     MdOutlineEdit,
 } from "react-icons/md";
 import { AiOutlineColumnWidth } from "react-icons/ai";
+import { Block, Element } from "@/types/element";
+import truncateText from "@/utils/transformers/truncateText";
 import MenuButton from "@/Components/MenuButton";
 import { useManageElementsContext } from "../../context/ManageElementsContext";
 
@@ -24,7 +25,6 @@ export default function MobileElementCard({
 }) {
     const {
         onEditElement,
-        onDeleteElement,
         onUpdateElementOrder,
         onUpdateElementPosition,
         loadingUpdateElementsOrder,
@@ -40,18 +40,18 @@ export default function MobileElementCard({
             icon: MdOutlineEdit,
             onClick: () => onEditElement(element),
         },
-        {
-            label: "Mover elemento hacia arriba",
-            icon: MdArrowUpward,
-            onClick: () => onUpdateElementOrder(element, block, "up"),
-            disabled: index == 0 || loadingUpdateElementsOrder,
-        },
-        {
-            label: "Mover elemento hacia abajo",
-            icon: MdArrowDownward,
-            onClick: () => onUpdateElementOrder(element, block, "down"),
-            disabled: index == length - 1 || loadingUpdateElementsOrder,
-        },
+        // {
+        //     label: "Mover elemento hacia arriba",
+        //     icon: MdArrowUpward,
+        //     onClick: () => onUpdateElementOrder(element, block, "up"),
+        //     disabled: index == 0 || loadingUpdateElementsOrder,
+        // },
+        // {
+        //     label: "Mover elemento hacia abajo",
+        //     icon: MdArrowDownward,
+        //     onClick: () => onUpdateElementOrder(element, block, "down"),
+        //     disabled: index == length - 1 || loadingUpdateElementsOrder,
+        // },
     ];
     return (
         <div className="bg-white rounded-lg shadow-md p-4">
@@ -84,11 +84,37 @@ export default function MobileElementCard({
                     <span className="text-gray-800 text-sm">{`${element.length}m`}</span>
                 </div>
                 <div className="flex space-x-2">
-                    <button className="shadow-[0px_1px_5px_0px_rgba(0,0,0,0.12),0px_2px_2px_0px_rgba(0,0,0,0.14),0px_3px_1px_-2px_rgba(0,0,0,0.20)] flex items-center justify-center bg-gray-100 p-2 rounded-lg min-w-[60px] h-[50px]">
+                    <button
+                        disabled={
+                            index == length - 1 || loadingUpdateElementsOrder
+                        }
+                        className={clsx([
+                            "flex items-center justify-center p-2 rounded-lg min-w-[60px] h-[50px]",
+                            index == length - 1 || loadingUpdateElementsOrder
+                                ? "bg-slate-300 opacity-30 shadow-none"
+                                : "bg-gray-100 shadow-[0px_1px_5px_0px_rgba(0,0,0,0.12),0px_2px_2px_0px_rgba(0,0,0,0.14),0px_3px_1px_-2px_rgba(0,0,0,0.20)]",
+                        ])}
+                        onClick={() =>
+                            onUpdateElementOrder(element, block, "down")
+                        }
+                    >
                         <MdArrowDownward className="w-5 h-5 text-gray-600" />
                     </button>
-                    <button className="shadow-[0px_1px_5px_0px_rgba(0,0,0,0.12),0px_2px_2px_0px_rgba(0,0,0,0.14),0px_3px_1px_-2px_rgba(0,0,0,0.20)] flex items-center justify-center bg-gray-100 p-2 rounded-lg min-w-[60px] h-[50px]">
-                        <MdArrowUpward className="w-5 h-5 text-gray-600" />
+                    <button
+                        disabled={index == 0 || loadingUpdateElementsOrder}
+                        className={clsx([
+                            "flex items-center justify-center p-2 rounded-lg min-w-[60px] h-[50px]",
+                            index == 0 || loadingUpdateElementsOrder
+                                ? "bg-slate-300 opacity-30 shadow-none"
+                                : "bg-gray-100 shadow-[0px_1px_5px_0px_rgba(0,0,0,0.12),0px_2px_2px_0px_rgba(0,0,0,0.14),0px_3px_1px_-2px_rgba(0,0,0,0.20)]",
+                        ])}
+                    >
+                        <MdArrowUpward
+                            onClick={() =>
+                                onUpdateElementOrder(element, block, "up")
+                            }
+                            className="w-5 h-5 text-gray-600"
+                        />
                     </button>
                 </div>
             </div>
