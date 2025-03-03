@@ -56,7 +56,7 @@ export default function ParadeAnalisysView(props: ParadeAnalisysViewProps) {
                             Icon={MdOutlinePerson}
                         />
                         <IndicatorLabel
-                            value={`${props.parade.elements_length}m`}
+                            value={`${props.parade.total_duration}m`}
                             Icon={AiOutlineColumnWidth}
                         />
 
