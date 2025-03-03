@@ -112,7 +112,7 @@ function ParadeCard({
                             <LuClock2 />
                         </span>
                         <span className="text-sm">
-                            {fromMinutesToHours(parade.duration)}
+                            {fromMinutesToHours(parade.total_duration)}
                         </span>
                     </div>
                 </div>
